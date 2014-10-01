@@ -27,4 +27,4 @@ Reference:
  - FlashPunk
 	http://useflashpunk.net/basic/flashpunk-basics.html
  - DeltaTime
-	http://siondream.com/blog/games/fixing-your-timestep-in-libgdx-and-box2d/
+	http://www.koonsolo.com/news/dewitters-gameloop/
