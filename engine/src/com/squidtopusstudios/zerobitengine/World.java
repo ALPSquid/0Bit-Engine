@@ -1,10 +1,13 @@
 package com.squidtopusstudios.zerobitengine;
 
+import com.squidtopusstudios.zerobitengine.core.subsystems.EntityManager;
+import com.squidtopusstudios.zerobitengine.utils.IActiveClass;
+import com.squidtopusstudios.zerobitengine.utils.Logger;
+
 /**
  * Main World class. You should extend this to create your world.
  */
-public class World {
-
+public class World implements IActiveClass {
     /**
      * Override this;
      */
@@ -15,7 +18,8 @@ public class World {
     /**
      * Managed by the effective game loop. When overriding, make sure to call super.update();
      */
-    public void update() {
+    @Override
+    public void update(float deltaTime) {
 
     }
 
@@ -24,5 +28,21 @@ public class World {
      */
     public void reset() {
 
+    }
+
+    /**
+     * Override this;
+     */
+    @Override
+    public void dispose() {
+        Logger.getInstance().logInfo("Disposing");
+    }
+
+    /**
+     * Get instance of EntityManager
+     * @return EntityManager instance
+     */
+    public EntityManager entities() {
+        return EntityManager.getInstance();
     }
 }
