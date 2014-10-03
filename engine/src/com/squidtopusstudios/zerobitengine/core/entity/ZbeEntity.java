@@ -1,35 +1,60 @@
 package com.squidtopusstudios.zerobitengine.core.entity;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
-import com.squidtopusstudios.zerobitengine.core.Managers;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.squidtopusstudios.zerobitengine.core.ZeroBit;
+import com.squidtopusstudios.zerobitengine.core.entity.components.BoundsComponent;
 import com.squidtopusstudios.zerobitengine.core.entity.components.ResourceComponent;
+import com.squidtopusstudios.zerobitengine.core.entity.components.ZbeEntityComponent;
+import com.squidtopusstudios.zerobitengine.core.entity.systems.MetaSystem;
+import com.squidtopusstudios.zerobitengine.core.entity.systems.SpriteSystem;
 
 /**
- * Wrapper for adding Ashley Components and provides 'standard' Entity functionality
+ * Wrapper for adding Ashley Components and systems
  */
 public class ZbeEntity extends Entity {
 
+    public ZbeEntity(String name) {
+        add(new ZbeEntityComponent());
+        add(new ResourceComponent());
+        add(new BoundsComponent());
+        ZeroBit.managers.entityManager().getSystem(MetaSystem.class).setName(this, name);
+    }
+
     /**
-     * Converts Texture to TextureRegion and set the region component
+     * Set the Texture component
      * @param texture Texture to set
      */
-    public void setTexture(Texture texture) {
-        TextureRegion textureRegion = new TextureRegion();
-        textureRegion.setTexture(texture);
-        setTextureRegion(textureRegion);
+    public ZbeEntity setSprite(Texture texture) {
+        SystemMappers.spriteSystem().setTexture(this, texture);
+        return this;
     }
 
     /**
-     * Set TextureRegion component
+     * Set the TextureRegion component
      * @param textureRegion TextureRegion to set
      */
-    public void setTextureRegion(TextureRegion textureRegion) {
-        this.add(new ResourceComponent().setTextureRegion(textureRegion));
+    public ZbeEntity setSprite(TextureRegion textureRegion) {
+        SystemMappers.spriteSystem().setTextureRegion(this, textureRegion);
+        return this;
     }
 
-    public void dispose() {
+    public TextureRegion getSprite() {
+        return SystemMappers.spriteSystem().getSprite(this);
+    }
 
+    public String getName() {
+        return SystemMappers.metaSystem().getName(this);
+    }
+
+    public ZbeEntity setBounds(int width, int height) {
+        ComponentMappers.bounds.get(this).bounds.setSize(width, height);
+        return this;
+    }
+
+    public Rectangle getBounds() {
+        return ComponentMappers.bounds.get(this).bounds;
     }
 }

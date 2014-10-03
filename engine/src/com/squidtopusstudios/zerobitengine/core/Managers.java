@@ -3,6 +3,7 @@ package com.squidtopusstudios.zerobitengine.core;
 import com.squidtopusstudios.zerobitengine.core.subsystems.EntityManager;
 import com.squidtopusstudios.zerobitengine.core.subsystems.RenderManager;
 import com.squidtopusstudios.zerobitengine.core.subsystems.ResourceManager;
+import com.squidtopusstudios.zerobitengine.core.subsystems.ScreenManager;
 import com.squidtopusstudios.zerobitengine.utils.IActiveClass;
 
 /**
@@ -23,16 +24,16 @@ public class Managers implements IActiveClass {
     }
 
     /**
-     * Called on instance creation. Just to stop slow downs as ZeroBitGame calls getInstance() on creation
+     * Called on instance creation to stop slow downs during play as {@link com.squidtopusstudios.zerobitengine.ZeroBitGame} calls this.getInstance() on creation
      */
     private void initManagers() {
-        entityManager();
-        renderManager();
         resourceManager();
+        renderManager();
+        screenManager();
     }
 
     public EntityManager entityManager() {
-        return EntityManager.getInstance();
+        return EntityManager.getInstance(ZeroBit.getWorld());
     }
 
     public RenderManager renderManager() {
@@ -43,10 +44,17 @@ public class Managers implements IActiveClass {
         return ResourceManager.getInstance();
     }
 
+    public ScreenManager screenManager() {
+        return ScreenManager.getInstance();
+    }
+
     @Override
     public void update(float deltaTime) {
-        entityManager().update(deltaTime);
+        if (ZeroBit.worldSet()) {
+            entityManager().update(deltaTime);
+        }
         renderManager().update(deltaTime);
+        screenManager().update(deltaTime);
         resourceManager().update(deltaTime);
     }
 
@@ -54,6 +62,7 @@ public class Managers implements IActiveClass {
     public void dispose() {
         entityManager().dispose();
         renderManager().dispose();
+        screenManager().dispose();
         resourceManager().dispose();
     }
 }

@@ -1,27 +1,30 @@
 0Bit-Engine
 ===========
 
-LibGDX based game engine (currently a concept)
+LibGDX based game engine (currently a concept in progress)
 
-- Based on LibGDX including its back-end practices
+The 0Bit Engine is a concept engine based on the libGDX game framework. It aims to manage the back-end game systems in a way that allows the developer to focus purely on gameplay. This means it could also be comfortably used for rapid prototyping and game jams like Ludum Dare as well as for projects that require more control by extending the subsystems that are already in place. This will all be documented further in development.
+
+The engine is designed around the concept of subsystems which are accessed from a central resource. For example, there would be a manager that handles the loading, fetching and unloading of resources/assets and another manager that handles the creation, updating and disposing of enteties.
+
 - Should easily manage (using singletons):
 	- Screens
 	- Assets
 	- Rendering 
 	- Debugging overlays and renderers
-	- World (incorporate deltatime)
+	- World
 	- Input (including Controller support)
 	- GUIs
-	- Actors (static, dynamic) use Ashley?
+	- Entities using Ashley
 	- Particles
-	- Logging(?) (wrapper for the inbuilt LibGDX logging system)
+	- Logging (wrapper for the inbuilt LibGDX logging system)
 	- Physics (Box2D option)
-	- Collision Detection (simple: custom, advanced: Box2D)
+	- Collision Detection (simple: custom/LibGDX, advanced: Box2D)
 	
 	
-Reference:
+Reference/Inspiration:
  - LibGDX Wiki
-	https://github.com/libgdx/libgdx/wiki#
+	https://github.com/libgdx/libgdx/wiki
  - LibGDX Ashley
 	https://github.com/libgdx/ashley/wiki/Framework-overview
  - FlashPunk

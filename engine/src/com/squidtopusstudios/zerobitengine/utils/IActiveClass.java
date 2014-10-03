@@ -3,7 +3,7 @@ package com.squidtopusstudios.zerobitengine.utils;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
- * Base interface for Manager classes
+ * Base interface for active (need updating or need to dispose resources) classes
  */
 public interface IActiveClass extends Disposable {
 

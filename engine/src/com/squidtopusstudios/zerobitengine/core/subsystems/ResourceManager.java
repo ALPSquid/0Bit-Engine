@@ -1,10 +1,10 @@
 package com.squidtopusstudios.zerobitengine.core.subsystems;
 
 
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
+import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.utils.IManager;
 import com.squidtopusstudios.zerobitengine.utils.Logger;
 
@@ -20,6 +20,7 @@ public class ResourceManager implements IManager {
     private static ResourceManager resourceManagerInstance;
     private AssetManager assetManager = new AssetManager();
     private Map<String, String> registeredResources = new HashMap<String, String>();
+    private boolean autoLoad = false;
 
 
     private ResourceManager() {}
@@ -38,7 +39,7 @@ public class ResourceManager implements IManager {
      * @param fileHandle the filehandle from Gdx.files.X
      * @param type the type of the asset.
      */
-    public synchronized void registerResource(String ID, FileHandle fileHandle, Class<?> type) {
+    public synchronized void addResource(String ID, FileHandle fileHandle, Class<?> type) {
         load(ID, fileHandle.path(), type, null);
     }
 
@@ -48,8 +49,18 @@ public class ResourceManager implements IManager {
      * @param filePath the file name (interpretation depends on LibGDX.AssetLoader)
      * @param type the type of the asset.
      */
-    public synchronized <T> void registerResource(String ID, String filePath, Class<T> type) {
+    public synchronized <T> void addResource(String ID, String filePath, Class<T> type) {
         load(ID, filePath, type, null);
+    }
+
+    /**
+     * From LibGDX:
+     * Adds the given asset to the loading queue of the LibGDX.AssetManager.
+     * @param filePath the file name (interpretation depends on LibGDX.AssetLoader)
+     * @param type the type of the asset.
+     */
+    public synchronized <T> void addResource(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
+        load(ID, filePath, type, parameters);
     }
 
     /**
@@ -59,38 +70,68 @@ public class ResourceManager implements IManager {
      * @param type the type of the asset.
      * @param parameters parameters for the LibGDX.AssetLoader.
      */
-    public synchronized <T> void load(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
-        Logger.getInstance().logDebug("Loading " + type.toString() + ": " + filePath);
+    private synchronized <T> void load(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
+        ZeroBit.logger.logDebug("Loading " + type.getName() + ": " + filePath);
         registeredResources.put(ID, filePath);
         assetManager.load(filePath, type, parameters);
+        if (autoLoad) {
+            loadAll();
+        }
     }
 
     /**
-     * From LibGDX:
-     * Adds the given asset to the loading queue of the AssetManager.
-     * @param desc the AssetDescriptor
+     * Unloads the target resource from AssetManager
+     * @param ID ID of the target resource
      */
-    public synchronized void registerResource(String ID, AssetDescriptor desc) {
-        load(ID, desc.fileName, desc.type, desc.params);
+    public synchronized void removeResource(String ID) {
+        if (registeredResources.containsKey(ID)) {
+            assetManager.unload(registeredResources.get(ID));
+            registeredResources.remove(ID);
+        } else {
+            ZeroBit.logger.logError("Attempted to access unregistered resource: "+ID+", use registerResource()",
+                    new NullPointerException());
+        }
     }
 
-    public Class<?> getResource(String ID) {
+    /**
+     * Automatic type casting resource getter
+     * @param ID ID of the resource
+     * @param <T> Type of the resource
+     * @return The requested resource
+     */
+    public synchronized <T> T getResource(String ID) {
         if (registeredResources.containsKey(ID)) {
             return assetManager.get(registeredResources.get(ID));
         } else {
-            Logger.getInstance().logError("Resource not registered", new NullPointerException());
+            ZeroBit.logger.logError("Attempted to access unregistered resource: "+ID+", use registerResource()",
+                    new NullPointerException());
             return null;
         }
     }
 
+    /**
+     * Loads all queued resources - blocking
+     */
+    public void loadAll() {
+        assetManager.finishLoading();
+    }
+
+    /**
+     * Sets auto loading of resources on or off
+     * @param on whether autoLoad should be set to on
+     */
+    public void autoLoad(boolean on) {
+        autoLoad = on;
+    }
+
     @Override
     public void update(float deltaTime) {
-
+        assetManager.update();
     }
 
     @Override
     public void dispose() {
-        Logger.getInstance().logDebug("Disposing");
+        ZeroBit.logger.logDebug("Disposing");
         assetManager.dispose();
         registeredResources.clear();
     }

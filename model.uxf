@@ -7,14 +7,14 @@ fontsize=12
 Colour Codes:
 	Green: Automatic Process
 	White: Manual Process</help_text>
-  <zoom_level>11</zoom_level>
+  <zoom_level>9</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1639</x>
-      <y>319</y>
-      <w>264</w>
-      <h>132</h>
+      <x>1980</x>
+      <y>783</y>
+      <w>216</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZeroBit&gt;&gt;
 Package::core
@@ -29,10 +29,10 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1155</x>
-      <y>319</y>
-      <w>297</w>
-      <h>198</h>
+      <x>1584</x>
+      <y>783</y>
+      <w>243</w>
+      <h>162</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZeroBitGame&gt;&gt;
 Entry Point
@@ -41,7 +41,6 @@ Entry Point
 --
 Responsibilities
 - Main Entry point for the Game &amp; Engine
-- Manage subsystem managers
 - Manage game flow
 --
 Usage
@@ -53,14 +52,14 @@ fg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>407</y>
-      <w>264</w>
-      <h>187</h>
+      <x>1143</x>
+      <y>855</y>
+      <w>216</w>
+      <h>153</h>
     </coordinates>
     <panel_attributes>&lt;&lt;EntityManager&gt;&gt;
 Package::core.subsystems
-Pattern::Singleton
+Pattern::Singleton (per World)
 --
 - Engine: ashleyInstance
 - Map: registeredEntities
@@ -75,10 +74,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>869</x>
-      <y>407</y>
-      <w>385</w>
-      <h>319</h>
+      <x>1350</x>
+      <y>855</y>
+      <w>315</w>
+      <h>261</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Access through entities()&gt;&gt;</panel_attributes>
@@ -87,10 +86,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1177</x>
-      <y>154</y>
-      <w>220</w>
-      <h>44</h>
+      <x>1602</x>
+      <y>648</y>
+      <w>180</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>&lt;&lt;LibGDX.Game&gt;&gt;
 --</panel_attributes>
@@ -99,10 +98,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1254</x>
-      <y>187</y>
-      <w>88</w>
-      <h>154</h>
+      <x>1665</x>
+      <y>675</y>
+      <w>72</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -111,10 +110,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>847</x>
-      <y>0</y>
-      <w>286</w>
-      <h>198</h>
+      <x>2043</x>
+      <y>585</y>
+      <w>234</w>
+      <h>162</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Logger&gt;&gt;
 Package::utils
@@ -134,29 +133,30 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>473</x>
-      <y>55</y>
-      <w>330</w>
-      <h>143</h>
+      <x>1026</x>
+      <y>567</y>
+      <w>315</w>
+      <h>117</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZbeEntity&gt;&gt;
 Package::core.entity
 --
 Responsibilities
-- Manage Ashley components
-- Provide simple access to ashley components
+- Manage Ashley systems
+- Provide simple access to ashley systems
 --
 Usage
-- (?)  Entities should extend ZbeEntity</panel_attributes>
+- Create an entity by extending or using EntityManager
+- For extended functionality, add own Ashley Systems</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>572</x>
-      <y>187</y>
-      <w>143</w>
-      <h>242</h>
+      <x>1107</x>
+      <y>675</y>
+      <w>117</w>
+      <h>198</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;registered with&gt;&gt;</panel_attributes>
@@ -165,42 +165,42 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>55</y>
-      <w>319</w>
-      <h>143</h>
+      <x>189</x>
+      <y>234</y>
+      <w>261</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ResourceComponent&gt;&gt;
 Package::core.entity.components
 --
 Responsibilities
-- Resource component for Ashley entities
+- Resource component for SpriteSystem
+- Holds resource data
 --
 Usage
-- Automatically added to a new ZbeEntity
-- Call ZbeEntity.set[Resource]()</panel_attributes>
+- Automatically added to a SpriteSystem</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>308</x>
-      <y>44</y>
-      <w>187</w>
-      <h>44</h>
+      <x>882</x>
+      <y>126</y>
+      <w>171</w>
+      <h>468</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-&lt;&lt;component of&gt;&gt;
+&lt;&lt;system of&gt;&gt;
 bg=green</panel_attributes>
-    <additional_attributes>150.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>160.0;500.0;140.0;500.0;140.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>638</y>
-      <w>319</w>
-      <h>165</h>
+      <x>1143</x>
+      <y>1044</y>
+      <w>261</w>
+      <h>135</h>
     </coordinates>
     <panel_attributes>&lt;&lt;RenderManager&gt;&gt;
 Package::core.subsystems
@@ -209,7 +209,7 @@ Pattern::Singleton
 
 --
 Responsibilities
-- Manages rendering of registered components
+- Manages rendering of registered objects
 --
 Usage
 - </panel_attributes>
@@ -218,10 +218,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>231</x>
-      <y>506</y>
-      <w>220</w>
-      <h>99</h>
+      <x>828</x>
+      <y>936</y>
+      <w>180</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>&lt;&lt;IManager&gt;&gt;
 Package::utils
@@ -234,10 +234,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>407</y>
-      <w>198</w>
-      <h>143</h>
+      <x>999</x>
+      <y>855</y>
+      <w>162</w>
+      <h>117</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -246,10 +246,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>528</y>
-      <w>198</w>
-      <h>143</h>
+      <x>999</x>
+      <y>954</y>
+      <w>162</w>
+      <h>117</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -258,10 +258,10 @@ Methods
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>616</x>
-      <y>858</y>
-      <w>319</w>
-      <h>165</h>
+      <x>1143</x>
+      <y>1224</y>
+      <w>261</w>
+      <h>135</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ResourceManager&gt;&gt;
 Package::core.subsystems
@@ -279,10 +279,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>539</y>
-      <w>198</w>
-      <h>352</h>
+      <x>999</x>
+      <y>963</y>
+      <w>162</w>
+      <h>288</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -291,10 +291,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1232</x>
-      <y>693</y>
-      <w>341</w>
-      <h>154</h>
+      <x>1647</x>
+      <y>1089</y>
+      <w>279</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>&lt;&lt;World&gt;&gt;
 --
@@ -312,10 +312,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>231</x>
-      <y>715</y>
-      <w>220</w>
-      <h>110</h>
+      <x>828</x>
+      <y>1107</y>
+      <w>180</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;IActiveClass&gt;&gt;
 Package::utils
@@ -329,10 +329,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>286</x>
-      <y>594</y>
-      <w>121</w>
-      <h>143</h>
+      <x>873</x>
+      <y>1008</y>
+      <w>99</w>
+      <h>117</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -341,34 +341,22 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>319</x>
-      <y>814</y>
-      <w>1012</w>
-      <h>264</h>
+      <x>900</x>
+      <y>1188</y>
+      <w>846</w>
+      <h>378</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0;900.0;220.0;900.0;30.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;400.0;920.0;400.0;920.0;30.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1441</x>
-      <y>330</y>
-      <w>132</w>
-      <h>385</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-
-&lt;&lt;setWorld()&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;100.0;20.0;100.0;330.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1441</x>
-      <y>308</y>
-      <w>220</w>
-      <h>44</h>
+      <x>1818</x>
+      <y>774</y>
+      <w>180</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls setGame()&gt;&gt;
@@ -378,10 +366,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1430</x>
-      <y>242</y>
-      <w>264</w>
-      <h>99</h>
+      <x>1809</x>
+      <y>720</y>
+      <w>216</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
@@ -391,10 +379,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1353</x>
-      <y>506</y>
-      <w>121</w>
-      <h>209</h>
+      <x>1746</x>
+      <y>936</y>
+      <w>99</w>
+      <h>171</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
@@ -404,10 +392,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
-      <y>242</y>
-      <w>220</w>
-      <h>99</h>
+      <x>1287</x>
+      <y>720</y>
+      <w>180</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Managers&gt;&gt;
 Package::core
@@ -421,10 +409,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>363</x>
-      <y>242</y>
-      <w>451</w>
-      <h>286</h>
+      <x>936</x>
+      <y>720</y>
+      <w>369</w>
+      <h>234</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -433,53 +421,522 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>836</x>
-      <y>330</y>
-      <w>143</w>
-      <h>220</h>
+      <x>1323</x>
+      <y>792</y>
+      <w>117</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-&lt;&lt;Calls dispose()&gt;&gt;
+&lt;&lt;calls dispose()&gt;&gt;
 bg=green</panel_attributes>
     <additional_attributes>40.0;180.0;70.0;180.0;70.0;60.0;10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>858</x>
-      <y>330</y>
-      <w>165</w>
-      <h>429</h>
+      <x>1341</x>
+      <y>792</y>
+      <w>135</w>
+      <h>351</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-&lt;&lt;Calls dispose()&gt;&gt;
+&lt;&lt;calls dispose()&gt;&gt;
 bg=green</panel_attributes>
     <additional_attributes>70.0;370.0;90.0;370.0;90.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
-      <y>330</y>
-      <w>176</w>
-      <h>561</h>
+      <x>1359</x>
+      <y>792</y>
+      <w>144</w>
+      <h>459</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-&lt;&lt;Calls dispose()&gt;&gt;
+&lt;&lt;calls dispose()&gt;&gt;
 bg=green</panel_attributes>
     <additional_attributes>50.0;490.0;100.0;490.0;100.0;40.0;10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1001</x>
-      <y>297</y>
-      <w>176</w>
-      <h>121</h>
+      <x>1458</x>
+      <y>765</y>
+      <w>144</w>
+      <h>99</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
 bg=green</panel_attributes>
     <additional_attributes>10.0;10.0;80.0;10.0;80.0;90.0;140.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>9</y>
+      <w>270</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ComponentMappers&gt;&gt;
+Package::core.entity
+Pattern::Static
+--
+Responsibilities
+- Provide simple access to ComponentMappers</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>189</x>
+      <y>117</y>
+      <w>261</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ZbeComponent&gt;&gt;
+Package::core.entity.components
+--
+Responsibilities
+- Zbe Family component for Ashley entities
+--
+Usage
+- Automatically added to a new MetaSystem</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>882</x>
+      <y>243</y>
+      <w>162</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;system of&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>160.0;380.0;130.0;380.0;130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1746</x>
+      <y>1251</y>
+      <w>279</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;DefaultRenderer&gt;&gt;
+Package::core.graphics
+--
+--
+Responsibilities
+- Render registered entities
+--
+Usage
+- Can be extended for custom functionality</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1395</x>
+      <y>1143</y>
+      <w>369</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;Calls render() 
+Calls dispose()&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>390.0;150.0;140.0;150.0;140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1395</x>
+      <y>1161</y>
+      <w>369</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;Used as defualt renderer&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0;120.0;180.0;390.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1800</x>
+      <y>1431</y>
+      <w>180</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;IRenderer&gt;&gt;
+Package::core.graphics
+Pattern::Interface
+--
+Methods
+- create()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1845</x>
+      <y>1368</y>
+      <w>99</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;implements&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;70.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>873</x>
+      <y>1188</y>
+      <w>945</w>
+      <h>396</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;420.0;990.0;420.0;990.0;280.0;1030.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1449</x>
+      <y>693</y>
+      <w>594</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;IInstantiates instance&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;20.0;640.0;20.0;640.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1350</x>
+      <y>873</y>
+      <w>414</w>
+      <h>405</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;
+&lt;&lt;Calls getEntities()&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>440.0;430.0;210.0;430.0;210.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1143</x>
+      <y>1377</y>
+      <w>261</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ScreenManager&gt;&gt;
+Package::core.subsystems
+Pattern::Singleton
+--
+
+--
+Responsibilities
+- Manage ZbeScreens
+--
+Usage
+- ZeroBit.screenManager().function()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1377</x>
+      <y>792</y>
+      <w>144</w>
+      <h>612</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;calls dispose()&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>30.0;660.0;100.0;660.0;100.0;30.0;10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>999</x>
+      <y>972</y>
+      <w>162</w>
+      <h>432</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;implements&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;460.0;160.0;460.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>405</x>
+      <y>0</y>
+      <w>252</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ZbeSystem&gt;&gt;
+Package::core.entity.components
+--
+Responsibilities
+- Provides base functionality for components</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>234</y>
+      <w>261</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;SpriteSystem&gt;&gt;
+Package::core.entity.systems
+--
+Responsibilities
+- Resource system for Ashley entities
+- Handles static sprites as well as animations
+--
+Usage
+- Automatically added to a new ZbeEntity
+- Call ZbeEntity.setSprite()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>576</x>
+      <y>72</y>
+      <w>72</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>30.0;10.0;30.0;190.0;60.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>441</x>
+      <y>234</y>
+      <w>207</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;component of&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>117</x>
+      <y>81</y>
+      <w>117</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;registered with&gt;&gt;</panel_attributes>
+    <additional_attributes>60.0;10.0;60.0;50.0;80.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>81</x>
+      <y>81</y>
+      <w>126</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;registered with&gt;&gt;</panel_attributes>
+    <additional_attributes>60.0;10.0;60.0;180.0;120.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>117</y>
+      <w>261</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;MetaSystem&gt;&gt;
+Package::core.entity.systems
+--
+Responsibilities
+- Meta data for ZbeEntities
+--
+Usage
+- Automatically added to a new ZbeEntity</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>612</x>
+      <y>72</y>
+      <w>72</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>30.0;10.0;30.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>441</x>
+      <y>117</y>
+      <w>207</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;component of&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1512</x>
+      <y>1395</y>
+      <w>207</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ZbeScreen&gt;&gt;
+Package::core.screens
+--
+Responsibilities
+- Base class for screens
+--
+Usage
+- Extend and register with manager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1395</x>
+      <y>1386</y>
+      <w>135</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;registered with&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1395</x>
+      <y>1413</y>
+      <w>135</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;Calls dispose()&gt;&gt;
+bg=green</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1395</x>
+      <y>819</y>
+      <w>720</w>
+      <h>792</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;setScreen()&gt;&gt;</panel_attributes>
+    <additional_attributes>480.0;10.0;510.0;10.0;510.0;90.0;740.0;90.0;740.0;860.0;30.0;860.0;30.0;690.0;10.0;690.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>801</x>
+      <y>0</y>
+      <w>252</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;SystemMappers&gt;&gt;
+Package::core.entity
+Pattern::Static
+--
+Responsibilities
+- Provide simple access to Systems</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>855</x>
+      <y>72</y>
+      <w>99</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;accessed via&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;10.0;50.0;60.0;40.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>882</x>
+      <y>72</y>
+      <w>99</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;accessed via&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;10.0;50.0;190.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>189</x>
+      <y>360</y>
+      <w>261</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;BoundsComponent&gt;&gt;
+Package::core.entity.components
+--
+Responsibilities
+- Holds rectangle bounds data
+--
+Usage
+- Setters and Getters in ZbeEntity</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>72</x>
+      <y>81</y>
+      <w>135</w>
+      <h>306</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;registered with&gt;&gt;</panel_attributes>
+    <additional_attributes>60.0;10.0;60.0;320.0;130.0;320.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1692</x>
+      <y>882</y>
+      <w>405</w>
+      <h>747</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;calls setWorld()&gt;&gt;</panel_attributes>
+    <additional_attributes>430.0;10.0;430.0;810.0;10.0;810.0;10.0;680.0</additional_attributes>
   </element>
 </diagram>

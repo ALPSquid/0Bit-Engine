@@ -1,11 +1,12 @@
 package com.squidtopusstudios.zerobitengine;
 
+import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.subsystems.EntityManager;
 import com.squidtopusstudios.zerobitengine.utils.IActiveClass;
 import com.squidtopusstudios.zerobitengine.utils.Logger;
 
 /**
- * Main World class. You should extend this to create your world.
+ * Main {@link World} class. You should extend this to create your world.
  */
 public class World implements IActiveClass {
     /**
@@ -35,14 +36,14 @@ public class World implements IActiveClass {
      */
     @Override
     public void dispose() {
-        Logger.getInstance().logInfo("Disposing");
+        ZeroBit.logger.logDebug("Disposing");
     }
 
     /**
-     * Get instance of EntityManager
-     * @return EntityManager instance
+     * Get instance of {@link EntityManager} for this World instance.
+     * @return {@link EntityManager} instance
      */
     public EntityManager entities() {
-        return EntityManager.getInstance();
+        return EntityManager.getInstance(this);
     }
 }

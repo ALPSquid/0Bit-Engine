@@ -14,14 +14,6 @@ public class Logger {
     }
 
     /**
-     * Gdx log types just to keep all logging functionality in one place
-     */
-    public static int LOG_NONE = Application.LOG_NONE;
-    public static int LOG_DEBUG = Application.LOG_DEBUG;
-    public static int LOG_ERROR = Application.LOG_ERROR;
-    public static int LOG_INFO = Application.LOG_INFO;
-
-    /**
      * Simple class to allow easy access to a single caller class, method and line number at one time
      * LOG_NONE: mutes all logging.
      * LOG_DEBUG: logs all messages.
@@ -135,26 +127,22 @@ public class Logger {
      * These are stored in the callerDetails instance
      */
     private void getCallerDetails() {
-        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[4];
-        String className = stackTraceElement.getClassName();
-        String methodName = stackTraceElement.getMethodName();
-        int lineNumber = stackTraceElement.getLineNumber();
+        //StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[4];
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        String className = "";
+        String methodName = "";
+        int lineNumber = 0;
+        for (int i=4; i < stackTraceElements.length; i++) {
+            if (!stackTraceElements[i].getClassName().contains("Logger")) {
+                className = stackTraceElements[i].getClassName();
+                methodName = stackTraceElements[i].getMethodName();
+                lineNumber = stackTraceElements[i].getLineNumber();
+                break;
+            }
+        }
         callerDetails.clear();
         callerDetails.className = className;
         callerDetails.methodName = methodName;
         callerDetails.lineNumber = String.valueOf(lineNumber);
-    }
-
-    /**
-     * Wrapper for Gdx.app.setLogLevel simply to keep all logging functionality in one place
-     * @param logLevel Logging level (int) to set:
-     *                           LOG_NONE: mutes all logging.
-     *                           LOG_DEBUG: logs all messages.
-     *                           LOG_ERROR: logs only error messages.
-     *                           LOG_INFO: logs error and normal messages.
-     *
-     */
-    public static void setLogLevel(int logLevel) {
-        Gdx.app.setLogLevel(logLevel);
     }
 }

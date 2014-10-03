@@ -1,5 +1,8 @@
 package com.squidtopusstudios.zerobitengine.core;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.ZeroBitGame;
 import com.squidtopusstudios.zerobitengine.utils.Logger;
 
@@ -7,6 +10,10 @@ import com.squidtopusstudios.zerobitengine.utils.Logger;
  *  Static class for managing global resources and settings
  */
 public class ZeroBit {
+
+    public static String version = "0.0.1";
+    public static int width = 0;
+    public static int height = 0;
 
     public static class ResourceType {
         public static final Class<?> TEXTURE = com.badlogic.gdx.graphics.Texture.class;
@@ -22,22 +29,74 @@ public class ZeroBit {
 
     }
 
-    private static ZeroBitGame gameInstance;
+    /**
+     * Gdx log types just to keep all logging functionality in one place
+     */
+    public static int LOG_NONE = Application.LOG_NONE;
+    public static int LOG_DEBUG = Application.LOG_DEBUG;
+    public static int LOG_ERROR = Application.LOG_ERROR;
+    public static int LOG_INFO = Application.LOG_INFO;
 
-    public static void setGame(ZeroBitGame game) {
+    public static Logger logger = Logger.getInstance();
+    public static Managers managers;
+    private static ZeroBitGame gameInstance;
+    private static World worldInstance;
+
+    public synchronized static void setGame(ZeroBitGame game) {
         if (gameInstance == null) {
             gameInstance = game;
         } else {
-            Logger.getInstance().logError("Game instance already set, you should only be using 1!", new IllegalStateException());
+            ZeroBit.logger.logError("Game instance already set, you should only be using 1!", new IllegalStateException());
         }
         if (!gameInstance.isInitialised()) {
-            Logger.getInstance().logError("Game instance hasn't been initialised, " +
+            ZeroBit.logger.logError("Game instance hasn't been initialised, " +
                     "make sure to call super.create() in your ZeroBitGame class", new IllegalStateException());
         }
     }
 
-    public static void exit() {
-        Logger.getInstance().logInfo("Exiting Game");
+    public synchronized static void initManagers() {
+        managers = Managers.getInstance();
+    }
+
+    public synchronized static void exit() {
+        ZeroBit.logger.logDebug("Exiting Game");
         gameInstance.dispose();
+    }
+
+    /**
+     * Gets the main {@link ZeroBitGame}
+     * @return the active {@link ZeroBitGame}
+     */
+    public static ZeroBitGame getGame() {
+        return gameInstance;
+    }
+
+    public static boolean worldSet() {
+        return worldInstance != null;
+    }
+
+    public static void setWorld(World world) {
+        worldInstance = world;
+    }
+
+    /**
+     * Gets the active {@link World}
+     * @return the active {@link World}
+     */
+    public static World getWorld() {
+        return worldInstance;
+    }
+
+    /**
+     * Wrapper for Gdx.app.setLogLevel simply to keep all logging functionality in one place
+     * @param logLevel Logging level (int) to set:
+     *                           LOG_NONE: mutes all logging.
+     *                           LOG_DEBUG: logs all messages.
+     *                           LOG_ERROR: logs only error messages.
+     *                           LOG_INFO: logs error and normal messages.
+     *
+     */
+    public static void setLogLevel(int logLevel) {
+        Gdx.app.setLogLevel(logLevel);
     }
 }
