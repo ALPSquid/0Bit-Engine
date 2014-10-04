@@ -31,23 +31,25 @@ public class DefaultRenderer implements IRenderer{
         debugEntities = new ArrayList<ZbeEntity>();
     }
 
+    /**
+     * Gets all registered entities and renders their sprites. If no sprite is registered, it renders the bounds instead
+     */
     @Override
     public void update(float deltaTime) {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         debugRenderer.setProjectionMatrix(camera.combined);
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(ZeroBit.bg_colour.r, ZeroBit.bg_colour.g, ZeroBit.bg_colour.b, ZeroBit.bg_colour.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        /** Get all registered entities and render their sprites. If no sprite is registered, render a debug rect instead */
         for (ZbeEntity entity : ZeroBit.managers.entityManager().getEntities()) {
             if (entity.getSprite() == null) {
                 debugEntities.add(entity);
             } else {
-                batch.draw(entity.getSprite(), (camera.viewportWidth/2) - entity.getBounds().width/2, (camera.viewportHeight/2) - entity.getBounds().height/2,
-                        entity.getBounds().width, entity.getBounds().height);
+                batch.draw(entity.getSprite(), entity.getPosition().x, entity.getPosition().y,
+                        entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
             }
         }
         batch.end();
@@ -55,8 +57,14 @@ public class DefaultRenderer implements IRenderer{
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.setColor(Color.RED);
         for (ZbeEntity debugEntity : debugEntities) {
-            debugRenderer.rect((camera.viewportWidth/2) - debugEntity.getBounds().width/2, (camera.viewportHeight/2) - debugEntity.getBounds().height/2,
-                    debugEntity.getBounds().width, debugEntity.getBounds().height);
+            debugRenderer.rect(debugEntity.getBounds().x, debugEntity.getBounds().y,
+                    debugEntity.getBounds().width * ZeroBit.scale, debugEntity.getBounds().height * ZeroBit.scale);
+        }
+        if (ZeroBit.DEBUG) {
+            for (ZbeEntity entity : ZeroBit.managers.entityManager().getEntities()) {
+                debugRenderer.rect(entity.getBounds().x, entity.getBounds().y,
+                        entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
+            }
         }
         debugRenderer.end();
     }

@@ -2,6 +2,7 @@ package com.squidtopusstudios.zerobitengine.core;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.ZeroBitGame;
 import com.squidtopusstudios.zerobitengine.utils.Logger;
@@ -11,9 +12,12 @@ import com.squidtopusstudios.zerobitengine.utils.Logger;
  */
 public class ZeroBit {
 
-    public static String version = "0.0.1";
+    public static final String VERSION = "0.0.1";
+    public static boolean DEBUG = false;
     public static int width = 0;
     public static int height = 0;
+    public static Color bg_colour = new Color(0,0,0,1);
+    public static float scale = 1f;
 
     public static class ResourceType {
         public static final Class<?> TEXTURE = com.badlogic.gdx.graphics.Texture.class;
@@ -98,5 +102,26 @@ public class ZeroBit {
      */
     public static void setLogLevel(int logLevel) {
         Gdx.app.setLogLevel(logLevel);
+    }
+
+    /**
+     * Toggles the debug renderer and overlays.
+     * @param debug on = true
+     */
+    public static void setDebug(boolean debug) {
+        DEBUG = debug;
+    }
+
+    /**
+     * Set the default GL clear colour (background colour)
+     * Note: Before anyone complains,  I've had to use 'color' for years so I'm going
+     * to damn well use the correct spelling in my own engine ;)
+     * @param r red value (0-255)
+     * @param g green value (0-255)
+     * @param b blue value (0-255)
+     * @param a alpha value (0-1)
+     */
+    public static void setColour(int r, int g, int b, float a) {
+        bg_colour = new Color(r/255f, g/255f, b/255f, a);
     }
 }

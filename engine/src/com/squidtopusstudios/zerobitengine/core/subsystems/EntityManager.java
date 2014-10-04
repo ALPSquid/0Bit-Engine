@@ -8,9 +8,7 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
 import com.squidtopusstudios.zerobitengine.core.entity.components.ZbeEntityComponent;
-import com.squidtopusstudios.zerobitengine.core.entity.systems.MetaSystem;
-import com.squidtopusstudios.zerobitengine.core.entity.systems.SpriteSystem;
-import com.squidtopusstudios.zerobitengine.core.entity.systems.ZbeSystem;
+import com.squidtopusstudios.zerobitengine.core.entity.systems.*;
 import com.squidtopusstudios.zerobitengine.utils.IManager;
 import com.squidtopusstudios.zerobitengine.utils.Logger;
 
@@ -53,6 +51,8 @@ public class EntityManager implements IManager {
             ashleyInstance = new Engine();
             ashleyInstance.addSystem(new MetaSystem());
             ashleyInstance.addSystem(new SpriteSystem());
+            ashleyInstance.addSystem(new PhysicsSystem());
+            ashleyInstance.addSystem(new CollisionSystem());
             initialised = true;
         } else {
             ZeroBit.logger.logError("EntityManager instance already initialised, you don't need to call init() manually");
@@ -99,9 +99,18 @@ public class EntityManager implements IManager {
     }
 
     /**
+     * Add a system to the current Ashley engine instance.
+     * Use this to add your own systems and use getSystem() to get them.
+     * @param system System instance to add
+     */
+    public void addSystem(ZbeSystem system) {
+        ashleyInstance.addSystem(system);
+    }
+
+    /**
      * {@link ZbeSystem} wrapper for Ashley engine.getSystem()
      * @param systemType ZbeSystem.class to get
-     * @return Registered ZbeSystem
+     * @return Registered {@link ZbeSystem}
      */
     public <T extends ZbeSystem> T getSystem(Class<T> systemType) {
         return ashleyInstance.getSystem(systemType);

@@ -9,6 +9,8 @@ import com.squidtopusstudios.zerobitengine.utils.Logger;
  * Main {@link World} class. You should extend this to create your world.
  */
 public class World implements IActiveClass {
+    private float gravity = 9f;
+
     /**
      * Override this;
      */
@@ -45,5 +47,16 @@ public class World implements IActiveClass {
      */
     public EntityManager entities() {
         return EntityManager.getInstance(this);
+    }
+
+    /**
+     * @param gravity Set the value of gravity for this world
+     */
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+    }
+
+    public float getGravity() {
+        return gravity;
     }
 }

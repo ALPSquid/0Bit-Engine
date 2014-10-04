@@ -45,7 +45,10 @@ public class ZbeScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
+        if (hasWorld()) {
+            world.update(deltaTime);
+        }
 
     }
 
