@@ -1,7 +1,6 @@
 package com.squidtopusstudios.zerobitengine.core;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.ZeroBitGame;
@@ -31,6 +30,18 @@ public class ZeroBit {
         public static final Class<?> SKINS = com.badlogic.gdx.scenes.scene2d.ui.Skin.class;
         public static final Class<?> I18N_BUNDLE = com.badlogic.gdx.utils.I18NBundle.class;
 
+    }
+
+    /** Physics Types. Use ZbeEntity.setPhysicsType(TYPE type) **/
+    public static enum PHYSICS_TYPE {
+        NONE, PLATFORMER
+    }
+    public static class ENTITY_STATE {
+        public static final String IDLE = "IDLE";
+        public static final String MOVING = "MOVING";
+        public static final String JUMPING = "JUMPING";
+        public static final String HIT = "HIT";
+        public static final String DEAD = "DEAD";
     }
 
     /**
@@ -113,15 +124,10 @@ public class ZeroBit {
     }
 
     /**
-     * Set the default GL clear colour (background colour)
-     * Note: Before anyone complains,  I've had to use 'color' for years so I'm going
-     * to damn well use the correct spelling in my own engine ;)
-     * @param r red value (0-255)
-     * @param g green value (0-255)
-     * @param b blue value (0-255)
-     * @param a alpha value (0-1)
+     * Set the default GL clear colour (background colour).
+     * You can use Utils.Colour.fromRGBA() to convert RGBA values into GL float values
      */
-    public static void setColour(int r, int g, int b, float a) {
-        bg_colour = new Color(r/255f, g/255f, b/255f, a);
+    public static void setBgColour(Color colour) {
+        bg_colour = colour;
     }
 }

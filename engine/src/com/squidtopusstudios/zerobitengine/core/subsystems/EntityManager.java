@@ -3,17 +3,15 @@ package com.squidtopusstudios.zerobitengine.core.subsystems;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
-import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
 import com.squidtopusstudios.zerobitengine.core.entity.components.ZbeEntityComponent;
 import com.squidtopusstudios.zerobitengine.core.entity.systems.*;
 import com.squidtopusstudios.zerobitengine.utils.IManager;
-import com.squidtopusstudios.zerobitengine.utils.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Wrapper for LibGDX Ashley entity management system. An instance is registered to a {@link World}.
@@ -23,7 +21,10 @@ public class EntityManager implements IManager {
     private static Map<World, EntityManager> entityManagerInstances = new HashMap<World, EntityManager>();
     private Engine ashleyInstance;
     private Family zbeFamily;
+    /** ZbeEntity Maps arranged by type **/
+    private Map<String, List<ZbeEntity>> entities = new HashMap<String, List<ZbeEntity>>();
     private boolean initialised = false;
+
 
     private EntityManager() {}
 
@@ -49,10 +50,11 @@ public class EntityManager implements IManager {
         if (!initialised){
             zbeFamily = Family.getFor(ZbeEntityComponent.class);
             ashleyInstance = new Engine();
-            ashleyInstance.addSystem(new MetaSystem());
             ashleyInstance.addSystem(new SpriteSystem());
             ashleyInstance.addSystem(new PhysicsSystem());
+            ashleyInstance.addSystem(new MovementSystem());
             ashleyInstance.addSystem(new CollisionSystem());
+            ashleyInstance.addSystem(new LogicSystem());
             initialised = true;
         } else {
             ZeroBit.logger.logError("EntityManager instance already initialised, you don't need to call init() manually");
@@ -62,8 +64,8 @@ public class EntityManager implements IManager {
     /**
      * Creates a new Ashley entity and adds it to the engine. Use for entities that don't require custom functionality.
      */
-    public ZbeEntity createEntity(String name) {
-        ZbeEntity entity = new ZbeEntity(name);
+    public ZbeEntity createEntity(String type) {
+        ZbeEntity entity = new ZbeEntity(type);
         addEntity(entity);
         return entity;
     }
@@ -74,24 +76,38 @@ public class EntityManager implements IManager {
      * @param entity Entity to add to engine
      */
     public void addEntity(ZbeEntity entity) {
-        ZeroBit.logger.logDebug("Adding entity: '" + entity.getName() + "'");
+        ZeroBit.logger.logDebug("Adding entity: '" + entity.getType() + "'");
+        if (entities.get(entity.getType()) == null) {
+            entities.put(entity.getType(), new ArrayList<ZbeEntity>());
+        }
+        entities.get(entity.getType()).add(entity);
         ashleyInstance.addEntity(entity);
     }
 
     /**
-     * Wrapper for ashley.removeEntity()
-     * @param entity Entity to remove from engine
+     * Removes an entity from the World
+     * @param entity ZbeEntity to remove
      */
-    public void removeEntity(Entity entity) {
+    public void removeEntity(ZbeEntity entity) {
+        entities.get(entity.getType()).remove(entity);
         ashleyInstance.removeEntity(entity);
     }
 
     /**
-     * Returns array of all registered {@link ZbeEntity} instances
+     * Returns array of all alive {@link ZbeEntity} instances
      * @return {@link ZbeEntity} array
      */
     public ZbeEntity[] getEntities() {
         return ashleyInstance.getEntitiesFor(zbeFamily).toArray(ZbeEntity.class);
+    }
+
+    /**
+     * Returns List of all registered {@link ZbeEntity} by type
+     * @param type Type of entity to get
+     * @return List of {@link ZbeEntity}'s of type
+     */
+    public List<ZbeEntity> getEntitiesByType(String type) {
+        return entities.get(type);
     }
 
     public Family getZbeFamily() {
@@ -130,7 +146,7 @@ public class EntityManager implements IManager {
         ZeroBit.logger.logDebug("Disposing");
         ZbeEntity[] familyEntities = ashleyInstance.getEntitiesFor(zbeFamily).toArray(ZbeEntity.class);
         for (ZbeEntity entity : familyEntities) {
-            ZeroBit.logger.logDebug("Disposing Entity: " + entity.getName());
+            ZeroBit.logger.logDebug("Disposing Entity: " + entity.getType());
         }
         ashleyInstance.removeAllEntities();
     }

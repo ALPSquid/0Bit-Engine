@@ -1,5 +1,6 @@
 package com.squidtopusstudios.zerobitengine;
 
+import com.badlogic.gdx.InputMultiplexer;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.subsystems.EntityManager;
 import com.squidtopusstudios.zerobitengine.utils.IActiveClass;

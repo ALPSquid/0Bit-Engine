@@ -55,13 +55,14 @@ public class DefaultRenderer implements IRenderer{
         batch.end();
 
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.setColor(Color.RED);
         for (ZbeEntity debugEntity : debugEntities) {
+            debugRenderer.setColor(debugEntity.getDebugColour());
             debugRenderer.rect(debugEntity.getBounds().x, debugEntity.getBounds().y,
                     debugEntity.getBounds().width * ZeroBit.scale, debugEntity.getBounds().height * ZeroBit.scale);
         }
         if (ZeroBit.DEBUG) {
             for (ZbeEntity entity : ZeroBit.managers.entityManager().getEntities()) {
+                debugRenderer.setColor(entity.getDebugColour());
                 debugRenderer.rect(entity.getBounds().x, entity.getBounds().y,
                         entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
             }
