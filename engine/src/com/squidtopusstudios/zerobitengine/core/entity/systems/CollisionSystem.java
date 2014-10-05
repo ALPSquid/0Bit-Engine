@@ -9,7 +9,7 @@ import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
  */
 public class CollisionSystem extends ZbeSystem {
 
-    private Rectangle predictionBounds = new Rectangle();
+    private Rectangle predictionBounds;
 
     @Override
     public void processEntity(ZbeEntity entity, float deltaTime) {
