@@ -55,7 +55,7 @@ Falling. You can use your own as well.
 	- Option to extend the default renderer class and implement your own functionality.
 	- Inbuilt debug renderer that renderers all entity's bounds with configurable colours. This can be toggled on off with a user defined key.
 - **Debug Overlay**
-	- Built in overlay for monitoring values. By default the app version, FPS, CPU Usage (TODO) and Memory Usage are shown and you can track your own easily.
+	- Built in overlay for monitoring values. By default the app version, FPS and Memory Usage are shown and you can track your own easily.
 	- Togglable with SHIFT+user_defined_debug_key
 - **Input System**
 	- Automatic regisration of a global (Screen independant) input processor for use on everything but stages (they need registering manually, docs coming later). This allows the polling of pressed keys and provides access to GDX.input.isKeyJustPressed. Also allows registering multiple key maps which can be polled, e.g. ZeroBit.input().isKeyPressed("move_left") which could be A or left arrow key.
