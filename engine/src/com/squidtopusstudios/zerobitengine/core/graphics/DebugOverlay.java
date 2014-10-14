@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
+
+import java.lang.management.ManagementFactory;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -54,6 +56,7 @@ public class DebugOverlay implements IRenderer{
 
     protected void updateValues() {
         debugValues.put("FPS", String.valueOf(Gdx.graphics.getFramesPerSecond()));
+        //debugValues.put("CPU", String.valueOf(ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime()));
         debugValues.put("Java Heap", String.valueOf(Math.round(Gdx.app.getJavaHeap() * 0.000001))+"MB");
         debugValues.put("Native Heap", String.valueOf(Math.round(Gdx.app.getNativeHeap() * 0.000001))+"MB");
         if (ZeroBit.isWorldSet()) {

@@ -49,7 +49,6 @@ public class CollisionSystem extends ZbeSystem {
         return collides(entity, entityType, entity.getX(), entity.getY());
     }
 
-
     @Override
     public void processEntity(ZbeEntity entity, float deltaTime) {
     }
