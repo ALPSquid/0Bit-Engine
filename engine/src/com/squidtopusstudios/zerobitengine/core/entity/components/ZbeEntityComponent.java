@@ -7,6 +7,5 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
  * Single component to provide metadata and identify all engine created Ashley Entities
  */
 public class ZbeEntityComponent extends Component {
-    public String type;
-    public String state = ZeroBit.ENTITY_STATE.IDLE;
+    public String type = "null";
 }

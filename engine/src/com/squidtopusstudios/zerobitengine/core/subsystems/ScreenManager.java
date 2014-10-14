@@ -34,6 +34,7 @@ public class ScreenManager implements IManager {
      */
     public void setScreen(String screen) {
         if (registeredScreens.containsKey(screen)) {
+            ZeroBit.logger.logDebug("Setting screen: " + screen);
             prevScreen = currentScreen;
             currentScreen = screen;
             ZeroBit.getGame().setScreen(registeredScreens.get(screen));
@@ -53,7 +54,7 @@ public class ScreenManager implements IManager {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update() {
 
     }
 

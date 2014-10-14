@@ -1,29 +1,21 @@
 package com.squidtopusstudios.zerobitengine.core.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
-import com.squidtopusstudios.zerobitengine.utils.ZbeInputHandler;
 
 /**
  * Base 0Bit Screen. Extend this in your own screens
  */
 public class ZbeScreen implements Screen {
     public InputMultiplexer input;
-    private ZbeInputHandler inputHandler;
     protected World world;
 
     /**
      * Called on screen registration. Create any objects here
      */
     public void create() {
-        input = new InputMultiplexer();
-        inputHandler = new ZbeInputHandler();
-        input.addProcessor(inputHandler);
-        Gdx.input.setInputProcessor(input);
     }
 
     public boolean hasWorld() {
@@ -55,7 +47,7 @@ public class ZbeScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         if (hasWorld()) {
-            world.update(deltaTime);
+            world.update();
         }
     }
 

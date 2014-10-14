@@ -1,10 +1,9 @@
 package com.squidtopusstudios.zerobitengine.core.subsystems;
 
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
+import com.squidtopusstudios.zerobitengine.core.graphics.DebugOverlay;
 import com.squidtopusstudios.zerobitengine.core.graphics.DefaultRenderer;
-import com.squidtopusstudios.zerobitengine.core.graphics.IRenderer;
 import com.squidtopusstudios.zerobitengine.utils.IManager;
-import com.squidtopusstudios.zerobitengine.utils.Logger;
 
 /**
  * Manages rendering (surprise surprise)
@@ -12,7 +11,8 @@ import com.squidtopusstudios.zerobitengine.utils.Logger;
 public class RenderManager implements IManager {
 
     private static RenderManager renderManagerInstance;
-    private IRenderer renderer;
+    private DefaultRenderer renderer;
+    private DebugOverlay debugOverlay;
 
 
     private RenderManager() {}
@@ -22,6 +22,8 @@ public class RenderManager implements IManager {
             renderManagerInstance = new RenderManager();
             renderManagerInstance.setRenderer(new DefaultRenderer());
             renderManagerInstance.renderer.create();
+            renderManagerInstance.debugOverlay = new DebugOverlay();
+            renderManagerInstance.debugOverlay.create();
         }
         return renderManagerInstance;
     }
@@ -31,17 +33,37 @@ public class RenderManager implements IManager {
      * a custom renderer).
      * @param renderer Current game renderer
      */
-    public void setRenderer(IRenderer renderer) {
+    public <T extends DefaultRenderer> void setRenderer(T renderer) {
         this.renderer = renderer;
     }
 
+    public DefaultRenderer getRenderer() {
+        return renderer;
+    }
+
+    public DebugOverlay getDebugOverlay() {
+        return debugOverlay;
+    }
+
     @Override
-    public void update(float deltaTime) {
-        renderer.update(deltaTime);
+    public void update() {
+        if (ZeroBit.isWorldSet()) {
+            renderer.update();
+        }
+        if (ZeroBit.showDebugOverlay) {
+            debugOverlay.update();
+        }
+    }
+
+    public void resize(int width, int height) {
+        renderer.resize(width, height);
+        debugOverlay.resize(width, height);
     }
 
     @Override
     public void dispose() {
         ZeroBit.logger.logDebug("Disposing");
+        renderer.dispose();
+        debugOverlay.dispose();
     }
 }

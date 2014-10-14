@@ -1,0 +1,31 @@
+
+Physics/Movement System
+This part of the engine needs some serious planning
+
+    MovmentSystem
+	- Movement (which works best for gravity and stacking velocities. Look at some examples):
+	    A) Altering velocity and have MovementSystem call moveBy
+	    B) Calling moveBy directly
+	- Jumping
+	    - Jump time? Gravity offset?
+	
+    ZbeGame Loop
+	- Learn and implement a Fixed TimeStep delta time based game loop (FlashPunk as 2 options)
+
+
+--- Implementation --- 
+
+Base Game:
+	Enable/disable fixed timestep on startup. 
+	30 ticks per second game loop
+
+Movement or Rendering System
+	Check if FixedTimestep is enabled, if yes, movement is x units per frame otherwise movement is x units per second (times by deltatime)
+
+MovementSystem
+	Track position, velocity, acceleration
+	Problem: to overcome gravity to a decent height, I have to set the jump velocity to something ludicrous/s which has the effect of the player teleporting
+
+	Jumping: Increase velocity by jumpPower. Decrease velocity by gravity every tick
+	Gravity should be based on the tick rate
+	

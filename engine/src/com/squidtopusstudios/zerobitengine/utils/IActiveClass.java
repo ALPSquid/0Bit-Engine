@@ -10,5 +10,5 @@ public interface IActiveClass extends Disposable {
     /**
      * Update registered objects
      */
-    public void update(float deltaTime);
+    public void update();
 }

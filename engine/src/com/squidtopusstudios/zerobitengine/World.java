@@ -1,16 +1,15 @@
 package com.squidtopusstudios.zerobitengine;
 
-import com.badlogic.gdx.InputMultiplexer;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.subsystems.EntityManager;
 import com.squidtopusstudios.zerobitengine.utils.IActiveClass;
-import com.squidtopusstudios.zerobitengine.utils.Logger;
 
 /**
  * Main {@link World} class. You should extend this to create your world.
  */
 public class World implements IActiveClass {
     private float gravity = 9f;
+    private int pixelsPerUnit = 1;
 
     /**
      * Override this;
@@ -23,7 +22,7 @@ public class World implements IActiveClass {
      * Managed by the effective game loop. When overriding, make sure to call super.update();
      */
     @Override
-    public void update(float deltaTime) {
+    public void update() {
 
     }
 
@@ -59,5 +58,17 @@ public class World implements IActiveClass {
 
     public float getGravity() {
         return gravity;
+    }
+
+    /**
+     * Set how many pixels 1 world unit should be. Default is 1:1
+     * @param pixelsPerUnit the number of pixels per world unit
+     */
+    public void setPixelsPerUnit(int pixelsPerUnit) {
+        this.pixelsPerUnit = pixelsPerUnit;
+    }
+
+    public int getPixelsPerUnit() {
+        return pixelsPerUnit;
     }
 }

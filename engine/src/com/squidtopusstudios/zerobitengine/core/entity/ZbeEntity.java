@@ -24,8 +24,9 @@ import java.util.List;
 public class ZbeEntity extends Entity {
 
     private Color debugColour = Color.RED;
+    public boolean onGround = false;
 
-    public ZbeEntity(String type) {
+    public ZbeEntity() {
         add(new ZbeEntityComponent());
         add(new ResourceComponent());
         add(new BoundsComponent());
@@ -33,7 +34,7 @@ public class ZbeEntity extends Entity {
         add(new PhysicsComponent());
         add(new CollisionComponent());
         add(new LogicComponent());
-        getComponent(ZbeEntityComponent.class).type = type;
+        add(new StateComponent());
     }
 
     /**
@@ -46,6 +47,12 @@ public class ZbeEntity extends Entity {
     public <T extends Component> T getComponent(Class<T> component) {
         return ComponentMapper.getFor(component).get(this);
     }
+
+    /**
+     * The entity's update loop, put your entity's logic here
+     * @param deltaTime elapsed time between the last frame and this frame
+     */
+    public void update(float deltaTime) {}
 
     /**
      * Set the Texture component
@@ -73,6 +80,37 @@ public class ZbeEntity extends Entity {
      */
     public TextureRegion getSprite() {
         return ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).getSprite(this);
+    }
+
+    /**
+     * Set custom dimensions for the entity's sprite. Useful for using bounds smaller/larger than the set sprite.
+     * Default is the entity's bounds dimensions.
+     * @param width desired sprite width in pixels
+     * @param height desired sprite height in pixels
+     * @return current ZbeEntity instance
+     */
+    public ZbeEntity setSpriteDimensions(int width, int height) {
+        getComponent(ResourceComponent.class).spriteDimensions.width = width;
+        getComponent(ResourceComponent.class).spriteDimensions.height = height;
+        return this;
+    }
+
+    /**
+     * Get the custom dimensions of the entity's sprite.
+     * @return entity's SpriteDimensions
+     */
+    public ResourceComponent.SpriteDimensions getSpriteDimenstions() {
+        return getComponent(ResourceComponent.class).spriteDimensions;
+    }
+
+    /**
+     * Set the entity type/group (used for collision detection)
+     * @param type Entity type/group
+     * @return the instance of {@link com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity}
+     */
+    public ZbeEntity setType(String type) {
+        getComponent(ZbeEntityComponent.class).type = type;
+        return this;
     }
 
     /**
@@ -107,7 +145,7 @@ public class ZbeEntity extends Entity {
     }
 
     /**
-     * Set the Vector2 position of the entity
+     * Set the Vector2 position of the entity in world units
      * @return current ZbeEntity instance
      */
     public ZbeEntity setPosition(float x, float y) {
@@ -131,7 +169,7 @@ public class ZbeEntity extends Entity {
     }
 
     /**
-     * If false (default) collisions won't be detected
+     * If false(default) collisions won't be detected
      */
     public ZbeEntity enableCollisions(boolean collidable) {
         getComponent(PhysicsComponent.class).collidable = collidable;
@@ -178,6 +216,9 @@ public class ZbeEntity extends Entity {
         return collides(entity, entityType, entity.getX(), entity.getY());
     }
 
+    /**
+     * @return true if the entity is currently colliding with something
+     */
     public boolean isColliding() {
         return isCollidingLeft() || isCollidingRight() || isCollidingTop() || isCollidingBottom();
     }
@@ -208,15 +249,6 @@ public class ZbeEntity extends Entity {
         return getComponent(CollisionComponent.class).solidTypes;
     }
 
-    /*/**
-     * Returns a map of managed entity types this entity is colliding with by type
-     * Set the managed entity types with {@link ZbeEntity}.manageCollisionsWith(String entityType)
-     * @return Map of managed entities this entity is colliding with ordered by type
-     */
-    /*public Map<String, List<ZbeEntity>> getCollidedEntities() {
-        return getComponent(CollisionComponent.class).collidedEntities;
-    }*/
-
     /**
      * Set the physics type of the entity. By default it's set to NONE
      */
@@ -229,16 +261,58 @@ public class ZbeEntity extends Entity {
         return getComponent(PhysicsComponent.class).physicsType;
     }
 
-    private Vector2 getVelocity() {
+    public Vector2 getVelocity() {
         return getComponent(PhysicsComponent.class).velocity;
     }
 
-    private void setVelocity(float x, float y) {
+    public void setVelocity(float x, float y) {
+        if (x > getMaxVelocity().x) {
+            x = getMaxVelocity().x;
+        }
+        if (y > getMaxVelocity().y) {
+            y = getMaxVelocity().y;
+        }
         getVelocity().set(x, y);
     }
 
-    public void moveBy(float x, float y) {
-        ZeroBit.managers.entityManager().getSystem(MovementSystem.class).moveBy(this, x, y);
+    public void setXVelocity(float x) {
+        setVelocity(x, getVelocity().y);
+    }
+
+    public void setYVelocity(float y) {
+        setVelocity(getVelocity().x, y);
+    }
+
+    public void increaseVelocity(float xIncrease, float yIncrease) {
+        getVelocity().set(getVelocity().x + xIncrease, getVelocity().y + yIncrease);
+    }
+
+    public void setMaxVelocity(float x, float y) {
+        getMaxVelocity().set(x, y);
+    }
+
+    private Vector2 getMaxVelocity() {
+        return getComponent(PhysicsComponent.class).maxVelocity;
+    }
+
+    /**
+     * Moves the entity by x, y , checking for solidType collisions as it does so
+     * @param x number of units to move along the x axis
+     * @param y number of units to move along the y axis
+     * Interpolation is set to true by default, meaning x and y are considered to be the amount of movement in 1 second
+     */
+    private void moveBy(float x, float y) {
+        ZeroBit.managers.entityManager().getSystem(MovementSystem.class).moveBy(this, x, y, !ZeroBit.isFixedTimeStep());
+    }
+    /**
+     * Moves the entity by x, y , checking for solidType collisions as it does so
+     * @param x number of units to move along the x axis
+     * @param y number of units to move along the y axis
+     * @param interpolate whether to interpolate the movement.
+     *                    If true, x and y are considered to be the amount of movement in 1 second
+     */
+    private void moveBy(float x, float y, boolean interpolate) {
+        ZeroBit.managers.entityManager().getSystem(MovementSystem.class).moveBy(this, x, y, interpolate);
     }
 
 
@@ -255,21 +329,12 @@ public class ZbeEntity extends Entity {
     }
 
     public ZbeEntity setState(String state) {
-        getComponent(ZbeEntityComponent.class).state = state;
+        getComponent(StateComponent.class).state = state;
         return this;
     }
 
-    public String getState(String state) {
-        return getComponent(ZbeEntityComponent.class).state;
+    public String getState() {
+        return getComponent(StateComponent.class).state;
     }
 
-    /**
-     * Set the logic system for this entity. Put all your entities logic in that class
-     * @param logic your ZbeEntityLogic class
-     * @return this entity instance
-     */
-    public ZbeEntity setLogic(ZbeEntityLogic logic) {
-        getComponent(LogicComponent.class).logic = logic;
-        return this;
-    }
 }

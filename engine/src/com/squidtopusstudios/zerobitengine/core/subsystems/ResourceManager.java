@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.utils.IManager;
-import com.squidtopusstudios.zerobitengine.utils.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -125,7 +124,7 @@ public class ResourceManager implements IManager {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update() {
         assetManager.update();
     }
 

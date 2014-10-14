@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_0bit-engine" default="compile.module.0bit-engine">
+  <dirname property="module.0bit-engine.basedir" file="${ant.file.module_0bit-engine}"/>
+  
+  <property name="module.jdk.home.0bit-engine" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.0bit-engine" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.0bit-engine" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.0bit-engine" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="0bit-engine.output.dir" value="${module.0bit-engine.basedir}/../0Bit Test/build/classes/production/0Bit-Engine"/>
+  <property name="0bit-engine.testoutput.dir" value="${module.0bit-engine.basedir}/../0Bit Test/build/classes/test/0Bit-Engine"/>
+  
+  <path id="0bit-engine.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="0bit-engine.module.production.classpath">
+    <path refid="${module.jdk.classpath.0bit-engine}"/>
+  </path>
+  
+  <path id="0bit-engine.runtime.production.module.classpath">
+    <pathelement location="${0bit-engine.output.dir}"/>
+  </path>
+  
+  <path id="0bit-engine.module.classpath">
+    <path refid="${module.jdk.classpath.0bit-engine}"/>
+    <pathelement location="${0bit-engine.output.dir}"/>
+  </path>
+  
+  <path id="0bit-engine.runtime.module.classpath">
+    <pathelement location="${0bit-engine.testoutput.dir}"/>
+    <pathelement location="${0bit-engine.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.0bit-engine">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.0bit-engine">
+    <patternset refid="excluded.from.module.0bit-engine"/>
+  </patternset>
+  
+  
+  <target name="compile.module.0bit-engine" depends="compile.module.0bit-engine.production,compile.module.0bit-engine.tests" description="Compile module 0Bit-Engine"/>
+  
+  <target name="compile.module.0bit-engine.production" depends="register.custom.compilers" description="Compile module 0Bit-Engine; production classes"/>
+  
+  <target name="compile.module.0bit-engine.tests" depends="register.custom.compilers,compile.module.0bit-engine.production" description="compile module 0Bit-Engine; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.0bit-engine" description="cleanup module">
+    <delete dir="${0bit-engine.output.dir}"/>
+    <delete dir="${0bit-engine.testoutput.dir}"/>
+  </target>
+</project>

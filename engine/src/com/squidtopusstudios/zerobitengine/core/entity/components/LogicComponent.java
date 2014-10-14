@@ -7,5 +7,5 @@ import com.squidtopusstudios.zerobitengine.utils.ZbeEntityLogic;
  * Logic component for Ashley Entities.
  */
 public class LogicComponent extends Component {
-    public ZbeEntityLogic logic;
+
 }

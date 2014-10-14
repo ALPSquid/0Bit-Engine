@@ -1,9 +1,8 @@
 package com.squidtopusstudios.zerobitengine.core.subsystems;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
@@ -41,7 +40,7 @@ public class EntityManager implements IManager {
             }
             return entityManagerInstances.get(world);
         } else {
-            ZeroBit.logger.logError("");
+            ZeroBit.logger.logError("No World set");
             return null;
         }
     }
@@ -55,6 +54,7 @@ public class EntityManager implements IManager {
             ashleyInstance.addSystem(new MovementSystem());
             ashleyInstance.addSystem(new CollisionSystem());
             ashleyInstance.addSystem(new LogicSystem());
+            ashleyInstance.addSystem(new StateSystem());
             initialised = true;
         } else {
             ZeroBit.logger.logError("EntityManager instance already initialised, you don't need to call init() manually");
@@ -65,7 +65,8 @@ public class EntityManager implements IManager {
      * Creates a new Ashley entity and adds it to the engine. Use for entities that don't require custom functionality.
      */
     public ZbeEntity createEntity(String type) {
-        ZbeEntity entity = new ZbeEntity(type);
+        ZbeEntity entity = new ZbeEntity();
+        entity.setType(type);
         addEntity(entity);
         return entity;
     }
@@ -134,11 +135,10 @@ public class EntityManager implements IManager {
 
     /**
      * Wrapper for ashley.update()
-     * @param deltaTime Gdx delta time
      */
     @Override
-    public void update(float deltaTime) {
-        ashleyInstance.update(deltaTime);
+    public void update() {
+        ashleyInstance.update(Gdx.graphics.getDeltaTime());
     }
 
     @Override

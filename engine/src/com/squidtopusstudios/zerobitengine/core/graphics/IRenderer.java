@@ -11,4 +11,6 @@ public interface IRenderer extends IActiveClass {
      * Called on game start
      */
     public void create();
+
+    public void resize(int width, int height);
 }

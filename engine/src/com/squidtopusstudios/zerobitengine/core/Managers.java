@@ -13,6 +13,7 @@ public class Managers implements IActiveClass {
 
     private static Managers managersInstance;
 
+
     private Managers() {}
 
     public static Managers getInstance() {
@@ -49,18 +50,24 @@ public class Managers implements IActiveClass {
     }
 
     @Override
-    public void update(float deltaTime) {
-        if (ZeroBit.worldSet()) {
-            entityManager().update(deltaTime);
+    public void update() {
+        if (ZeroBit.isWorldSet()) {
+            entityManager().update();
         }
-        renderManager().update(deltaTime);
-        screenManager().update(deltaTime);
-        resourceManager().update(deltaTime);
+        screenManager().update();
+        resourceManager().update();
+        renderManager().update();
+    }
+
+    public void resize(int width, int height) {
+        renderManager().resize(width, height);
     }
 
     @Override
     public void dispose() {
-        entityManager().dispose();
+        if (entityManager() != null) {
+            entityManager().dispose();
+        }
         renderManager().dispose();
         screenManager().dispose();
         resourceManager().dispose();
