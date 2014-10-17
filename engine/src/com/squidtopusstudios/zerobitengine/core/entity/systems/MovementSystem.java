@@ -1,12 +1,9 @@
 package com.squidtopusstudios.zerobitengine.core.entity.systems;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
 import com.squidtopusstudios.zerobitengine.core.entity.components.CollisionComponent;
-import com.squidtopusstudios.zerobitengine.core.entity.components.PhysicsComponent;
 
 /**
  * handles movement for Ashley Entities
@@ -37,8 +34,8 @@ public class MovementSystem extends ZbeSystem {
         y *= ZeroBit.getWorld().getPixelsPerUnit();
 
         if (interpolate) {
-            x *= Gdx.graphics.getDeltaTime();
-            y *= Gdx.graphics.getDeltaTime();
+            x *= ZeroBit.getDelta();
+            y *= ZeroBit.getDelta();
         }
         if (entity.collisionsEnabled()) {
             entity.getComponent(CollisionComponent.class).collidedRight = false;

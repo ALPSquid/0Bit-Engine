@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,8 +13,9 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
 import com.squidtopusstudios.zerobitengine.core.entity.systems.CollisionSystem;
 import com.squidtopusstudios.zerobitengine.core.entity.systems.MovementSystem;
+import com.squidtopusstudios.zerobitengine.core.entity.systems.SpriteAnimationSystem;
 import com.squidtopusstudios.zerobitengine.core.entity.systems.SpriteSystem;
-import com.squidtopusstudios.zerobitengine.utils.ZbeEntityLogic;
+import com.squidtopusstudios.zerobitengine.core.graphics.ZbeAnimation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,7 @@ public class ZbeEntity extends Entity {
     public ZbeEntity() {
         add(new ZbeEntityComponent());
         add(new ResourceComponent());
+        add(new SpriteAnimationComponent());
         add(new BoundsComponent());
         add(new SimplePositionComponent());
         add(new PhysicsComponent());
@@ -80,6 +83,114 @@ public class ZbeEntity extends Entity {
      */
     public TextureRegion getSprite() {
         return ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).getSprite(this);
+    }
+
+    /**
+     * Flip the currently assigned texture along the x and/or y axis
+     * @param x whether to flip horizontally
+     * @param y whether to flip vertically
+     */
+    public void flipSprite(boolean x, boolean y) {
+        ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).flipSprite(this, x, y);
+    }
+    /**
+     * Flips the currently assigned texture horizontally
+     */
+    public void flipSprite() {
+        flipSprite(true, false);
+    }
+
+    public ZbeEntity setDefaultFrameDuration(float frameDuration) {
+        getComponent(SpriteAnimationComponent.class).frameDuration = frameDuration;
+        return this;
+    }
+
+    /**
+     * Creates and registers an array of frames from a sprite sheet. Retrieve with getAnimFrames(name);
+     * Designed to be used with createAnimation() for sprite sheets with multiple animations.
+     * @param framesName name for the frames
+     * @param spriteSheet animation sprite sheet. Assumes all frames are of equal size. //TODO explicit sizing
+     * @param columns number of columns in the sprite sheet
+     * @param rows number of rows in the sprite sheet
+     * @return the created array of frames
+     */
+    public TextureRegion[] createAnimationFrames(String framesName, Texture spriteSheet, int columns, int rows) {
+        return ZeroBit.managers.entityManager().getSystem(SpriteAnimationSystem.class)
+                .createAnimationFrames(this, framesName, spriteSheet, columns, rows);
+    }
+
+    /**
+     * * Creates and registers a new animation from the provided frames. The animation can be retrieved by name using getAnimation(name);
+     * @param animName name to register the animation under
+     * @param frames frames to create an animation from
+     * @return the created animation
+     */
+    public ZbeAnimation createAnimation(String animName, TextureRegion... frames) {
+        return ZeroBit.managers.entityManager().getSystem(SpriteAnimationSystem.class)
+                .createAnimation(this, animName, frames);
+    }
+
+    /**
+     * Creates and registers a new animation from a sprite sheet for the particular animation. The animation can be retrieved by name using getAnimation(name);
+     * Note that animation frames are automatically created and registered with the name 'animName_frames'
+     * @param animName name to register the animation under. The animation frames are registered with the name 'animName_frames'
+     * @param spriteSheet animation sprite sheet. Assumes all frames are of equal size. //TODO explicit sizing
+     * @param columns number of columns in the sprite sheet
+     * @param rows number of rows in the sprite sheet
+     * @return the created animation
+     */
+    public ZbeAnimation createAnimation(String animName, Texture spriteSheet, int columns, int rows) {
+        return ZeroBit.managers.entityManager().getSystem(SpriteAnimationSystem.class)
+                .createAnimation(this, animName, spriteSheet, columns, rows);
+    }
+
+    /**
+     * Gets a previously registered animation
+     * @param animName name of the registered Animation
+     * @return the Animation instance
+     */
+    public ZbeAnimation getAnimation(String animName) {
+        return getComponent(SpriteAnimationComponent.class).getAnimation(animName);
+    }
+
+    /**
+     * Gets a previously registered set of animation frames
+     * @param framesName name of the registered frames
+     * @return the array of frames
+     */
+    public TextureRegion[] getAnimationFrames(String framesName) {
+        return getComponent(SpriteAnimationComponent.class).getAnimationFrames(framesName);
+    }
+
+    /**
+     * Gets a part of a previously registered set of animation frames as defined by startFrame and endFrame
+     * @param framesName name of the registered frames
+     * @param startFrame start frame inclusive (from 0)
+     * @param endFrame end frame inclusive (from 0)
+     * @return the array of frames
+     */
+    public TextureRegion[] getAnimationFrames(String framesName, int startFrame, int endFrame) {
+        if (startFrame == endFrame) {
+            return new TextureRegion[]{getComponent(SpriteAnimationComponent.class).getAnimationFrames(framesName)[startFrame]};
+        }
+        endFrame++;
+        return Arrays.copyOfRange(getComponent(SpriteAnimationComponent.class).getAnimationFrames(framesName), startFrame, endFrame);
+    }
+
+    /**
+     * Set the animation to play
+     * @param name name of the registered animation to set
+     */
+    public ZbeEntity setAnimation(String name) {
+        ZeroBit.managers.entityManager().getSystem(SpriteAnimationSystem.class).setAnimation(this, name);
+        return this;
+    }
+
+    /**
+     * @return the currently set animation
+     */
+    public ZbeAnimation getCurrentAnimation() {
+        return getComponent(SpriteAnimationComponent.class).currentAnimation;
     }
 
     /**
@@ -179,21 +290,6 @@ public class ZbeEntity extends Entity {
     public boolean collisionsEnabled() {
         return getComponent(PhysicsComponent.class).collidable;
     }
-
-    /*/**
-     * Set which entity types you want the engine to automatically detect. These can be obtained through ZbeEntity.getCollidedEntities().
-     * Use ZeroBit.MANAGED_ENTITIES.ALL or ZeroBit.MANAGED_ENTITIES.NONE for umbrella management or set your own types.
-     * Alternatively manage collisions yourself using ZbeEntity.collides(String entityType).
-     * @param entityTypes Entity Type to check collisions with
-     */
-    /*public ZbeEntity manageCollisionsWith(String... entityTypes) {
-        getComponent(CollisionComponent.class).managedEntityTypes = Arrays.asList(entityTypes);
-        return this;
-    }
-
-    public List<String> getManagedCollisionEntities() {
-        return getComponent(CollisionComponent.class).managedEntityTypes;
-    }*/
 
     /**
      * Check if source entity is colliding with any entity of type entityType

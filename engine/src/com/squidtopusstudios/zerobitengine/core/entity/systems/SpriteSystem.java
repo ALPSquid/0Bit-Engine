@@ -7,21 +7,12 @@ import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
 import com.squidtopusstudios.zerobitengine.core.entity.components.ResourceComponent;
 
+import javax.xml.soap.Text;
+
 /**
  * Animation and static sprite system for Ashley Entities
  */
 public class SpriteSystem extends ZbeSystem {
-
-
-    @Override
-    public void processEntity(ZbeEntity entity, float deltaTime) {
-        if (entity.getVelocity().x < 0 && !ComponentMappers.resource.get(entity).textureRegion.isFlipX()) {
-            ComponentMappers.resource.get(entity).textureRegion.flip(true, false);
-        }
-        else if (entity.getVelocity().x > 0 && ComponentMappers.resource.get(entity).textureRegion.isFlipX()) {
-            ComponentMappers.resource.get(entity).textureRegion.flip(true, false);
-        }
-    }
 
     /**
      * Set current entity TextureRegion
@@ -50,5 +41,23 @@ public class SpriteSystem extends ZbeSystem {
 
     public TextureRegion getSprite(Entity entity) {
         return ComponentMappers.resource.get(entity).textureRegion;
+    }
+
+    /**
+     * Flip the currently assigned texture along the x and/or y axis
+     * @param entity {@link ZbeEntity} instance to flip
+     * @param x whether to flip horizontally
+     * @param y whether to flip vertically
+     */
+    public void flipSprite(ZbeEntity entity, boolean x, boolean y) {
+        ComponentMappers.resource.get(entity).textureRegion.flip(true, false);
+    }
+
+    /**
+     * Flips the currently assigned texture horizontally
+     * @param entity {@link ZbeEntity} instance to flip
+     */
+    public void flipSprite(ZbeEntity entity) {
+        flipSprite(entity, true, false);
     }
 }

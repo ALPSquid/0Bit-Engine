@@ -50,6 +50,7 @@ public class EntityManager implements IManager {
             zbeFamily = Family.getFor(ZbeEntityComponent.class);
             ashleyInstance = new Engine();
             ashleyInstance.addSystem(new SpriteSystem());
+            ashleyInstance.addSystem(new SpriteAnimationSystem());
             ashleyInstance.addSystem(new PhysicsSystem());
             ashleyInstance.addSystem(new MovementSystem());
             ashleyInstance.addSystem(new CollisionSystem());
@@ -138,7 +139,7 @@ public class EntityManager implements IManager {
      */
     @Override
     public void update() {
-        ashleyInstance.update(Gdx.graphics.getDeltaTime());
+        ashleyInstance.update(ZeroBit.getDelta());
     }
 
     @Override

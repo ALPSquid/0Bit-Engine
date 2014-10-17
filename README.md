@@ -20,6 +20,7 @@ The engine is designed around the concept of subsystems which are accessed from 
 - Logging (wrapper for the inbuilt LibGDX logging system)
 - Physics (Box2D option?)
 - Collision Detection (simple: custom/LibGDX, advanced: Box2D(?))
+- Lua Scripting
 
 
 Currently Implemented
@@ -32,8 +33,11 @@ Currently Implemented
 	- Has automatically managed top, bottom, left & right collision flags for simple directional collision handling.
 	- Has default inbuilt states like Moving and Idle as well as optional physics specific states like Jumping and
 Falling. You can use your own as well.
-	- Sprites (textures) can be set although animation isn't yet handled automatically. Sprites can have their dimensions changed within the engine, rather than having to scale your 'physical' assets.
+	- Sprites (textures) can be set and can have their dimensions changed within the engine, rather than having to scale your 'physical' assets.
 	- Entity's are automatically disposed on world disposal
+- **Animation System**
+	- Animations can be created and set on a per entity basis with a single line of code.
+	- Allows the creation of named animations from any number of sprite sheets including accessing specific frames in one method call
 - **State System**
 	- Automatically changes an entity's state to Moving/Idle as well as to Jumping or Falling (if the inbuilt physics type is set to platformer). Of course, you can use your own and will be able manage them all manually if you prefer.
 - **Movement system** 

@@ -19,7 +19,7 @@ public class ZbeSystem extends IteratingSystem implements Disposable {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        processEntity(((ZbeEntity)entity), deltaTime);
+        processEntity(((ZbeEntity)entity), ZeroBit.getDelta());
     }
     public void processEntity(ZbeEntity entity, float deltaTime) {
 

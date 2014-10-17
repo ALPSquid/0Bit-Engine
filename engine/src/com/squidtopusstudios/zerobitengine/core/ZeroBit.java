@@ -224,4 +224,8 @@ public class ZeroBit {
     public static boolean isFixedTimeStep() {
         return fixedTimeStep;
     }
+
+    public static float getDelta() {
+        return (Gdx.graphics.getDeltaTime() > 1f) ? 1f : Gdx.graphics.getDeltaTime();
+    }
 }

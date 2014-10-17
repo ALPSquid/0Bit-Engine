@@ -10,7 +10,7 @@ public class Utils {
     public static class Colour {
         /**
          * Note: Before anyone complains,  I've had to use 'color' for years so I'm going
-         * to damn well use the correct spelling in my own engine ;)
+         * to damn well use the correct spelling in my own engine ;) ... I'll probably change it back...
          * @param r red value (0-255)
          * @param g green value (0-255)
          * @param b blue value (0-255)
