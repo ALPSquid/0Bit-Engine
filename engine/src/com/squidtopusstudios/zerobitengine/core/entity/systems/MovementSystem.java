@@ -60,7 +60,7 @@ public class MovementSystem extends ZbeSystem {
             }
             for (String solidType : entity.getSolidTypes()) {
                 // move Y
-                if (entity.getPhysicsType().equals(ZeroBit.PHYSICS_TYPE.PLATFORMER)) {
+                if (entity.getPhysicsType().equals(ZeroBit.PhysicsType.PLATFORMER)) {
                     // fix rounding errors with a gravity bias
                     if (y == 0) {
                         y = -0.01f;
@@ -73,7 +73,7 @@ public class MovementSystem extends ZbeSystem {
                         y = solidEntity.getY() - (entity.getY() + entity.getHeight());
                         entity.getComponent(CollisionComponent.class).collidedTop = true;
 
-                        if (entity.getPhysicsType().equals(ZeroBit.PHYSICS_TYPE.PLATFORMER)) {
+                        if (entity.getPhysicsType().equals(ZeroBit.PhysicsType.PLATFORMER)) {
                             entity.setYVelocity(0);
                         }
                     } else if (y < 0) {
@@ -81,7 +81,7 @@ public class MovementSystem extends ZbeSystem {
                         y = (solidEntity.getY() + solidEntity.getHeight()) - entity.getY();
                         entity.getComponent(CollisionComponent.class).collidedBottom = true;
 
-                        if (entity.getPhysicsType().equals(ZeroBit.PHYSICS_TYPE.PLATFORMER)) {
+                        if (entity.getPhysicsType().equals(ZeroBit.PhysicsType.PLATFORMER)) {
                             entity.onGround = true;
                             entity.setYVelocity(0);
                         }
@@ -89,7 +89,7 @@ public class MovementSystem extends ZbeSystem {
                     break;
                 }
             }
-            if (entity.getPhysicsType().equals(ZeroBit.PHYSICS_TYPE.PLATFORMER) && !entity.isCollidingBottom()) {
+            if (entity.getPhysicsType().equals(ZeroBit.PhysicsType.PLATFORMER) && !entity.isCollidingBottom()) {
                 entity.onGround = false;
             }
         }

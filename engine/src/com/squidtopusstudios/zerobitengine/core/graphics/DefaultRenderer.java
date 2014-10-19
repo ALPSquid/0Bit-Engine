@@ -2,10 +2,10 @@ package com.squidtopusstudios.zerobitengine.core.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
@@ -23,6 +23,8 @@ public class DefaultRenderer implements IRenderer{
     protected SpriteBatch batch;
     protected ShapeRenderer debugRenderer;
     protected ArrayList<ZbeEntity> debugEntities;
+    private float spriteX;
+    private float spriteY;
 
 
     @Override
@@ -56,9 +58,46 @@ public class DefaultRenderer implements IRenderer{
             if (entity.getSprite() == null) {
                 debugEntities.add(entity);
             } else {
-                batch.draw(entity.getSprite(), entity.getPosition().x - (entity.getSpriteDimenstions().width - entity.getBounds().width)/2,
-                        entity.getPosition().y - (entity.getSpriteDimenstions().height - entity.getBounds().height)/2,
-                        entity.getSpriteDimenstions().width * ZeroBit.scale, entity.getSpriteDimenstions().height * ZeroBit.scale);
+                // Add offset in pixels relative to the original sprite dimensions.
+                // For example, if the sprite is originally 16x16 but has been scaled in the game to 160x160
+                // with a y offset of 1, we need to move the sprite up by 10 pixels as 1 visual sprite pixel = 10 real pixels
+                spriteX = entity.getPosition().x + (entity.getSpriteOffset().x * (entity.getSpriteDimensions().width / entity.getSprite().getRegionWidth()));
+                spriteY = entity.getPosition().y + (entity.getSpriteOffset().y * (entity.getSpriteDimensions().height / entity.getSprite().getRegionHeight()));
+                switch (entity.getSpriteAlign()) {
+                    case BOTTOM:
+                        spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
+                        break;
+                    case BOTTOM_LEFT:
+                        // default
+                        break;
+                    case BOTTOM_RIGHT:
+                        spriteX += entity.getWidth() - entity.getSpriteDimensions().width;
+                        break;
+                    case CENTER:
+                        spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
+                        spriteY -= (entity.getSpriteDimensions().height - entity.getHeight()) / 2;
+                        break;
+                    case LEFT:
+                        spriteY -= (entity.getSpriteDimensions().height - entity.getHeight()) / 2;
+                        break;
+                    case RIGHT:
+                        spriteX += entity.getWidth() - entity.getSpriteDimensions().width;
+                        spriteY -= (entity.getSpriteDimensions().height - entity.getHeight()) / 2;
+                        break;
+                    case TOP:
+                        spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
+                        spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
+                        break;
+                    case TOP_LEFT:
+                        spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
+                        break;
+                    case TOP_RIGHT:
+                        spriteX += entity.getWidth() - entity.getSpriteDimensions().width;
+                        spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
+                        break;
+                }
+                batch.draw(entity.getSprite(), spriteX, spriteY,
+                        entity.getSpriteDimensions().width * ZeroBit.scale, entity.getSpriteDimensions().height * ZeroBit.scale);
             }
         }
         batch.end();

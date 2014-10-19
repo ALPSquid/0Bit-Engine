@@ -58,6 +58,7 @@ Falling. You can use your own as well.
 	- Viewport is by default set to the target width and height defined on game creation and uses a 'FitViewport' with automatic gutter (black bar) rendering with support for custom gutter textures. You'll be able to change these things easily.
 	- Option to extend the default renderer class and implement your own functionality.
 	- Inbuilt debug renderer that renderers all entity's bounds with configurable colours. This can be toggled on off with a user defined key.
+	- Automatic camera following allowing you to specifiy and entity you want the camera to follow. You can also set the x & y min and max limits
 - **Debug Overlay**
 	- Built in overlay for monitoring values. By default the app version, FPS and Memory Usage are shown and you can track your own easily.
 	- Togglable with SHIFT+user_defined_debug_key

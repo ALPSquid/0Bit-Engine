@@ -11,7 +11,7 @@ public class PhysicsSystem extends ZbeSystem {
 
     @Override
     public void processEntity(ZbeEntity entity, float deltaTime) {
-        if (entity.getPhysicsType().equals(ZeroBit.PHYSICS_TYPE.PLATFORMER)) {
+        if (entity.getPhysicsType().equals(ZeroBit.PhysicsType.PLATFORMER)) {
             //entity.moveBy(0, -ZeroBit.getWorld().getGravity());
             //entity.increaseVelocity(0, -ZeroBit.getWorld().getGravity());
             if (!entity.onGround && entity.getVelocity().y > -ZeroBit.getWorld().getGravity()) {

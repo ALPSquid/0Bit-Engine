@@ -9,7 +9,7 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
  * Physics properties for Ashley Entity
  */
 public class PhysicsComponent extends Component {
-    public ZeroBit.PHYSICS_TYPE physicsType = ZeroBit.PHYSICS_TYPE.NONE;
+    public ZeroBit.PhysicsType physicsType = ZeroBit.PhysicsType.NONE;
     public boolean collidable = false;
     public Vector2 velocity = new Vector2(0,0);
     public Vector2 maxVelocity = new Vector2(100,100);

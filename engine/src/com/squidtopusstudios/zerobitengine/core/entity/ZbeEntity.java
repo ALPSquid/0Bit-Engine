@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -83,6 +82,42 @@ public class ZbeEntity extends Entity {
      */
     public TextureRegion getSprite() {
         return ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).getSprite(this);
+    }
+
+    /**
+     * Set the alignment of the sprite within the entity bounds. Default {@link ZeroBit}.Align.CENTER.
+     * @param align alignment value, {@link ZeroBit}.Align
+     * @return current ZbeEntity instance
+     */
+    public ZbeEntity setSpriteAlign(ZeroBit.Align align) {
+        getComponent(ResourceComponent.class).align = align;
+        return this;
+    }
+
+    /**
+     * Get the current sprite alignment
+     * @return the currently set sprite {@link ZeroBit}.Align property
+     */
+    public ZeroBit.Align getSpriteAlign() {
+        return getComponent(ResourceComponent.class).align;
+    }
+
+    /**
+     * Set the sprite offset in pixels of the source image
+     * @param x x offset in pixels of the source image
+     * @param y y offset in pixels of the source image
+     * @return current ZbeEntity instance
+     */
+    public ZbeEntity setSpriteOffset(float x, float y) {
+        getComponent(ResourceComponent.class).spriteOffset.set(x, y);
+        return this;
+    }
+
+    /**
+     * @return the sprite offset
+     */
+    public Vector2 getSpriteOffset() {
+        return getComponent(ResourceComponent.class).spriteOffset;
     }
 
     /**
@@ -210,7 +245,7 @@ public class ZbeEntity extends Entity {
      * Get the custom dimensions of the entity's sprite.
      * @return entity's SpriteDimensions
      */
-    public ResourceComponent.SpriteDimensions getSpriteDimenstions() {
+    public ResourceComponent.SpriteDimensions getSpriteDimensions() {
         return getComponent(ResourceComponent.class).spriteDimensions;
     }
 
@@ -348,12 +383,12 @@ public class ZbeEntity extends Entity {
     /**
      * Set the physics type of the entity. By default it's set to NONE
      */
-    public ZbeEntity setPhysicsType(ZeroBit.PHYSICS_TYPE type) {
+    public ZbeEntity setPhysicsType(ZeroBit.PhysicsType type) {
         getComponent(PhysicsComponent.class).physicsType = type;
         return this;
     }
 
-    public ZeroBit.PHYSICS_TYPE getPhysicsType() {
+    public ZeroBit.PhysicsType getPhysicsType() {
         return getComponent(PhysicsComponent.class).physicsType;
     }
 

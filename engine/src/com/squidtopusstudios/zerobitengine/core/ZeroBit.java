@@ -46,14 +46,21 @@ public class ZeroBit {
      *      NONE: No physics
      *      PLATFORMER: Applies world.gravity
      * **/
-    public static enum PHYSICS_TYPE {
+    public static enum PhysicsType {
         NONE, PLATFORMER
+    }
+
+    /**
+     * Align types
+     */
+    public static enum Align {
+        BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER, TOP, TOP_RIGHT, TOP_LEFT, LEFT, RIGHT
     }
 
     /**
      * Built in entity states. Feel free to use extra ones.
      */
-    public static class ENTITY_STATE {
+    public static class EntityState {
         public static final String IDLE = "IDLE";
         public static final String MOVING = "MOVING";
         public static final String JUMPING = "JUMPING";

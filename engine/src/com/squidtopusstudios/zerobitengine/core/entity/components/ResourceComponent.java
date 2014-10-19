@@ -2,6 +2,8 @@ package com.squidtopusstudios.zerobitengine.core.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 
 /**
  * Resource component for Ashley entities
@@ -13,5 +15,7 @@ public class ResourceComponent extends Component {
     }
     public SpriteDimensions spriteDimensions = new SpriteDimensions();
     public TextureRegion textureRegion;
+    public ZeroBit.Align align = ZeroBit.Align.CENTER;
+    public Vector2 spriteOffset = new Vector2(0, 0);
 
 }

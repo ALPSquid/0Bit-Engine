@@ -11,18 +11,18 @@ public class StateSystem extends ZbeSystem {
     @Override
     public void processEntity(ZbeEntity entity, float deltaTime) {
         if (!entity.getVelocity().isZero()) {
-            entity.setState(ZeroBit.ENTITY_STATE.MOVING);
+            entity.setState(ZeroBit.EntityState.MOVING);
         }
         else {
-            entity.setState(ZeroBit.ENTITY_STATE.IDLE);
+            entity.setState(ZeroBit.EntityState.IDLE);
         }
 
-        if (entity.getPhysicsType().equals(ZeroBit.PHYSICS_TYPE.PLATFORMER)) {
+        if (entity.getPhysicsType().equals(ZeroBit.PhysicsType.PLATFORMER)) {
             if (entity.getVelocity().y > 0 && !entity.onGround && !entity.isCollidingTop()) {
-                entity.setState(ZeroBit.ENTITY_STATE.JUMPING);
+                entity.setState(ZeroBit.EntityState.JUMPING);
             }
             else if (entity.getVelocity().y < 0 && !entity.onGround && !entity.isCollidingTop()) {
-                entity.setState(ZeroBit.ENTITY_STATE.FALLING);
+                entity.setState(ZeroBit.EntityState.FALLING);
             }
         }
     }
