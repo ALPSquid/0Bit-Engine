@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class DefaultRenderer implements IRenderer{
 
-    public OrthographicCamera camera;
+    public ZbeOrthographicCamera camera;
     public Viewport viewport;
     protected SpriteBatch batch;
     protected ShapeRenderer debugRenderer;
@@ -27,7 +27,7 @@ public class DefaultRenderer implements IRenderer{
 
     @Override
     public void create() {
-        camera = new OrthographicCamera();
+        camera = new ZbeOrthographicCamera();
         camera.setToOrtho(false, ZeroBit.targetWidth, ZeroBit.targetHeight);
         camera.update();
         viewport = new FitViewport(ZeroBit.targetWidth, ZeroBit.targetHeight, camera);
@@ -41,7 +41,7 @@ public class DefaultRenderer implements IRenderer{
      */
     @Override
     public void update() {
-        //camera.update();
+        camera.update();
         batch.setProjectionMatrix(camera.projection);
         batch.setTransformMatrix(camera.view);
         debugRenderer.setProjectionMatrix(camera.projection);
