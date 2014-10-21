@@ -26,7 +26,7 @@ The engine is designed around the concept of subsystems which are accessed from 
 Currently Implemented
 -----------
 - **Base Game, World and Screen systems**
-	-Allows creation of a a game with any number of Worlds and Screens (currently not Stage based unless you use libGDX directly).
+	- Allows creation of a a game with any number of Worlds and Screens (currently not Stage based unless you use libGDX directly).
 	- Can optionally set the World units in pixels per unit for movement.
 - **Creation of World specific entities**
 	- Currently have a lot of (optional) built-in configuration and an automatic update() loop ready to use.
