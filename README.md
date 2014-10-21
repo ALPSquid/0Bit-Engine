@@ -5,7 +5,7 @@ LibGDX based game engine (currently a concept in progress). Note that this start
 
 The 0Bit Engine is a concept engine based on the libGDX game framework. It aims to manage the back-end game systems in a way that allows the developer to focus purely on gameplay. This means it could also be comfortably used for rapid prototyping and game jams like Ludum Dare as well as for projects that require more control by extending the subsystems that are already in place. This will all be documented further in development.
 
-The engine is designed around the concept of subsystems which are accessed from a central resource. For example, there would be a manager that handles the loading, fetching and unloading of resources/assets and another manager that handles the creation, updating and disposing of enteties.
+The engine is designed around the concept of subsystems which are accessed from a central resource. For example, there would be a manager that handles the loading, fetching and unloading of resources/assets and another manager that handles the creation, updating and disposing of entities.
 
 **Should easily manage:**
 - Screens
