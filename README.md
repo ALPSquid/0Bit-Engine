@@ -45,7 +45,7 @@ Falling. You can use your own as well.
 	- Handles collisions during movement automatically.
 	- Currently handles variable timesteps (primitively using simple Euler delta time integration) or fixed timesteps. In the future ta fixed timestep will be handled by setting a flag on game creation which will run a deWITTER style game loop.
 - **Simple collision system**
-	- Checks for collisions with a defined entity group. Also used by the movement system to handle collisions with user defined solid types like walls.
+	- Checks for collisions with a defined entity group. Also used by the movement system to handle collisions with user defined solid types like walls. This will most likely be optimised in the future using Quad Trees.
 - **Physics System (optional)**
 	- Allows entity's to use inbuilt physics systems to save you the hassle. 
 	- Currently has 1 inbuilt physics type: Platformer which will apply world gravity and automatically manage the falling state and onGround flag of any object that uses this physics type.

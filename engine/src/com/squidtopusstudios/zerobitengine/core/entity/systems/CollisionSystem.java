@@ -1,5 +1,6 @@
 package com.squidtopusstudios.zerobitengine.core.entity.systems;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
