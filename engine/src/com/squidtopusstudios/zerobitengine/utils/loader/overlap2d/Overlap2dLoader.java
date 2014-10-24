@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Json;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D;
 import com.uwsoft.editor.renderer.data.MainItemVO;
 import com.uwsoft.editor.renderer.data.MeshVO;
 import com.uwsoft.editor.renderer.data.ProjectInfoVO;
@@ -62,9 +63,8 @@ public class Overlap2dLoader {
             // Create an entity, needs null checks and further properties
             TextureRegion tr = atlas.findRegion(item.imageName);
             // Create the entity from the item properties
-            ZbeEntity entity = new ZbeEntity()
-                    .setType(item.itemIdentifier)
-                    .setPosition(item.x, item.y)
+            ZbeEntity entity = new ZbeEntity(item.itemIdentifier);
+            entity.setPosition(item.x, item.y)
                     .setBounds(tr.getRegionWidth()*item.scaleX, tr.getRegionHeight()*item.scaleY)
                     .setSprite(tr);
             try {

@@ -3,6 +3,8 @@ package com.squidtopusstudios.zerobitengine.core;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.squidtopusstudios.zerobitengine.World;
+import com.squidtopusstudios.zerobitengine.WorldB2D;
+import com.squidtopusstudios.zerobitengine.WorldBase;
 import com.squidtopusstudios.zerobitengine.ZeroBitGame;
 import com.squidtopusstudios.zerobitengine.utils.Logger;
 import com.squidtopusstudios.zerobitengine.utils.ZbeInputProcessor;
@@ -50,6 +52,14 @@ public class ZeroBit {
         NONE, PLATFORMER
     }
 
+    /** World Types.
+     *      DEFAULT: Rectangle bounds, simple collisions
+     *      BOX2D: Box2D physics and world
+     * **/
+    public static enum WorldType {
+        DEFAULT, BOX2D
+    }
+
     /**
      * Align types
      */
@@ -80,7 +90,7 @@ public class ZeroBit {
     public static Logger logger = Logger.getInstance();
     public static Managers managers;
     private static ZeroBitGame gameInstance;
-    private static World worldInstance;
+    private static WorldBase worldInstance;
 
     public synchronized static void setGame(String appVersion, ZeroBitGame game, int targetWidth, int targetHeight, boolean fixedTimeStep) {
         if (gameInstance == null) {
@@ -120,16 +130,29 @@ public class ZeroBit {
         return worldInstance != null;
     }
 
-    public static void setWorld(World world) {
+    public static void setWorld(WorldBase world) {
         worldInstance = world;
+        managers.renderManager().getRenderer().updateB2dMatrix();
     }
 
     /**
-     * Gets the active {@link World}
-     * @return the active {@link World}
+     * Gets the active {@link WorldBase}
+     * @return the active {@link WorldBase}
      */
-    public static World getWorld() {
+    public static WorldBase getWorld() {
         return worldInstance;
+    }
+
+    /***
+    * Gets the active {@link WorldB2D} if it's set
+    * @return the active {@link WorldB2D}
+    */
+    public static WorldB2D getWorldB2D() {
+        if (worldInstance.getWorldType().equals(WorldType.BOX2D)) {
+            return (WorldB2D)worldInstance;
+        }
+        ZeroBit.logger.logError("Current World is not a Box2D World");
+        return null;
     }
 
     /**

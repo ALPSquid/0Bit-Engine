@@ -5,6 +5,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Disposable;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
 
 /**
  * Extended base functionality of Ashley System
@@ -19,9 +20,9 @@ public class ZbeSystem extends IteratingSystem implements Disposable {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        processEntity(((ZbeEntity)entity), ZeroBit.getDelta());
+        processEntity(((ZbeEntityBase)entity), ZeroBit.getDelta());
     }
-    public void processEntity(ZbeEntity entity, float deltaTime) {
+    public void processEntity(ZbeEntityBase entity, float deltaTime) {
 
     }
 

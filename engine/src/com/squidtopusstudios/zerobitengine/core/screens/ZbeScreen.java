@@ -3,6 +3,7 @@ package com.squidtopusstudios.zerobitengine.core.screens;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.squidtopusstudios.zerobitengine.World;
+import com.squidtopusstudios.zerobitengine.WorldBase;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 
 /**
@@ -10,7 +11,7 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
  */
 public class ZbeScreen implements Screen {
     public InputMultiplexer input;
-    protected World world;
+    protected WorldBase world;
 
     /**
      * Called on screen registration. Create any objects here
@@ -26,7 +27,7 @@ public class ZbeScreen implements Screen {
      * Sets the current {@link com.squidtopusstudios.zerobitengine.World} instance
      * @param world {@link com.squidtopusstudios.zerobitengine.World} instance to set
      */
-    public void setWorld(World world) {
+    public void setWorld(WorldBase world) {
         ZeroBit.logger.logDebug("Setting world as "+world);
         this.world = world;
         ZeroBit.setWorld(this.world);
@@ -36,7 +37,7 @@ public class ZbeScreen implements Screen {
      * Returns the current {@link World} instance or logs an error if one hasn't been set
      * @return Current {@link World} instance
      */
-    public World getWorld() {
+    public WorldBase getWorld() {
         if (world == null) {
             ZeroBit.logger.logError("World instance has not been set! Use ZbeScreen.setWorld(world);");
             return null;

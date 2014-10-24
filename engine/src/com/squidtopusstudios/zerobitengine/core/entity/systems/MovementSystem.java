@@ -3,6 +3,8 @@ package com.squidtopusstudios.zerobitengine.core.entity.systems;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
 import com.squidtopusstudios.zerobitengine.core.entity.components.CollisionComponent;
 
 /**
@@ -13,12 +15,18 @@ public class MovementSystem extends ZbeSystem {
     private ZbeEntity solidEntity;
 
     @Override
-    public void processEntity(ZbeEntity entity, float deltaTime) {
-        ComponentMappers.position.get(entity).prevPosition = entity.getPosition();
-        if (ComponentMappers.physics.get(entity).applyGravity) {
-            entity.increaseVelocity(0, -ZeroBit.getWorld().getGravity() * deltaTime);
+    public void processEntity(ZbeEntityBase entity, float deltaTime) {
+        if (!entity.isBox2D()) {
+            ComponentMappers.position.get(entity).prevPosition = entity.getPosition();
+            if (ComponentMappers.physics.get(entity).applyGravity) {
+                ((ZbeEntity) entity).increaseVelocity(0, -ZeroBit.getWorld().getGravity() * deltaTime);
+            }
+            moveBy((ZbeEntity) entity, ((ZbeEntity) entity).getVelocity().x, ((ZbeEntity) entity).getVelocity().y, true);
         }
-        moveBy(entity, entity.getVelocity().x, entity.getVelocity().y, true);
+        else {
+            ((ZbeEntityB2D)entity).setBoundsPosition(entity.getPosition().x - entity.getWidth()/2,
+                    entity.getPosition().y - entity.getHeight()/2);
+        }
     }
 
     /**

@@ -5,11 +5,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,8 @@ public class DefaultRenderer implements IRenderer{
     public Viewport viewport;
     protected SpriteBatch batch;
     protected ShapeRenderer debugRenderer;
+    protected Box2DDebugRenderer b2DebugRenderer;
+    protected Matrix4 b2Matrix;
     protected ArrayList<ZbeEntity> debugEntities;
     private float spriteX;
     private float spriteY;
@@ -35,6 +41,8 @@ public class DefaultRenderer implements IRenderer{
         viewport = new FitViewport(ZeroBit.targetWidth, ZeroBit.targetHeight, camera);
         batch = new SpriteBatch();
         debugRenderer = new ShapeRenderer();
+        b2DebugRenderer = new Box2DDebugRenderer();
+        b2Matrix = new Matrix4(camera.combined);
         debugEntities = new ArrayList<ZbeEntity>();
     }
 
@@ -54,15 +62,15 @@ public class DefaultRenderer implements IRenderer{
 
         batch.begin();
         // Entities
-        for (ZbeEntity entity : ZeroBit.managers.entityManager().getEntities()) {
+        for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
             if (entity.getSprite() == null) {
-                debugEntities.add(entity);
+                if (!entity.isBox2D()) debugEntities.add((ZbeEntity)entity);
             } else {
                 // Add offset in pixels relative to the original sprite dimensions.
                 // For example, if the sprite is originally 16x16 but has been scaled in the game to 160x160
                 // with a y offset of 1, we need to move the sprite up by 10 pixels as 1 visual sprite pixel = 10 real pixels
-                spriteX = entity.getPosition().x + (entity.getSpriteOffset().x * (entity.getSpriteDimensions().width / entity.getSprite().getRegionWidth()));
-                spriteY = entity.getPosition().y + (entity.getSpriteOffset().y * (entity.getSpriteDimensions().height / entity.getSprite().getRegionHeight()));
+                spriteX = entity.getBounds().x + (entity.getSpriteOffset().x * (entity.getSpriteDimensions().width / entity.getSprite().getRegionWidth()));
+                spriteY = entity.getBounds().y + (entity.getSpriteOffset().y * (entity.getSpriteDimensions().height / entity.getSprite().getRegionHeight()));
                 switch (entity.getSpriteAlign()) {
                     case BOTTOM:
                         spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
@@ -131,13 +139,20 @@ public class DefaultRenderer implements IRenderer{
                     debugEntity.getBounds().width * ZeroBit.scale, debugEntity.getBounds().height * ZeroBit.scale);
         }
         if (ZeroBit.showDebugRenderer) {
-            for (ZbeEntity entity : ZeroBit.managers.entityManager().getEntities()) {
+            for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
                 debugRenderer.setColor(entity.getDebugColour());
-                debugRenderer.rect(entity.getBounds().x, entity.getBounds().y,
-                        entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
+                //debugRenderer.rect(entity.getBounds().x, entity.getBounds().y,
+                //        entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
             }
+            if (ZeroBit.getWorld().getWorldType().equals(ZeroBit.WorldType.BOX2D))
+                b2DebugRenderer.render(((WorldB2D)ZeroBit.getWorld()).getB2DWorld(), b2Matrix);
         }
         debugRenderer.end();
+    }
+
+    public void updateB2dMatrix() {
+        b2Matrix.scl(ZeroBit.getWorld().getPixelsPerUnit());
+        b2Matrix.translate((camera.viewportWidth/ZeroBit.getWorld().getPixelsPerUnit())/2, 0, 0);
     }
 
     @Override

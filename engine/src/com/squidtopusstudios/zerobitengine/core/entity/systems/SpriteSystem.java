@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
 import com.squidtopusstudios.zerobitengine.core.entity.components.ResourceComponent;
 
 import javax.xml.soap.Text;
@@ -19,7 +20,7 @@ public class SpriteSystem extends ZbeSystem {
      * @param entity Entity to set texture for
      * @param texture Texture to set
      */
-    public void setTexture(ZbeEntity entity, Texture texture) {
+    public void setTexture(ZbeEntityBase entity, Texture texture) {
         setTextureRegion(entity, new TextureRegion(texture));
     }
 
@@ -28,15 +29,16 @@ public class SpriteSystem extends ZbeSystem {
      * @param entity Entity to set texture for
      * @param textureRegion Texture to set
      */
-    public void setTextureRegion(ZbeEntity entity, TextureRegion textureRegion) {
+    public void setTextureRegion(ZbeEntityBase entity, TextureRegion textureRegion) {
         ResourceComponent resourceComponent = ComponentMappers.resource.get(entity);
         resourceComponent.textureRegion = textureRegion;
-        if (resourceComponent.spriteDimensions.width == -1) {
+        /*if (resourceComponent.spriteDimensions.width == -1) {
             resourceComponent.spriteDimensions.width = entity.getWidth();
         }
         if (resourceComponent.spriteDimensions.height == -1) {
             resourceComponent.spriteDimensions.height = entity.getHeight();
-        }
+        }*/
+        //TODO
     }
 
     public TextureRegion getSprite(Entity entity) {
@@ -49,7 +51,7 @@ public class SpriteSystem extends ZbeSystem {
      * @param x whether to flip horizontally
      * @param y whether to flip vertically
      */
-    public void flipSprite(ZbeEntity entity, boolean x, boolean y) {
+    public void flipSprite(ZbeEntityBase entity, boolean x, boolean y) {
         ComponentMappers.resource.get(entity).textureRegion.flip(true, false);
     }
 

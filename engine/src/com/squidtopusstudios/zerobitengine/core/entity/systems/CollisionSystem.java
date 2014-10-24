@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
+import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
 import com.squidtopusstudios.zerobitengine.core.entity.components.CollisionComponent;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class CollisionSystem extends ZbeSystem {
         predictionBounds.x = x;
         predictionBounds.y = y;
         if (ZeroBit.managers.entityManager().getEntitiesByType(entityType) != null) {
-            for (ZbeEntity testEntity : ZeroBit.managers.entityManager().getEntitiesByType(entityType)) {
+            for (ZbeEntity testEntity : ZeroBit.managers.entityManager().getEntitiesByTypeAs(entityType, ZbeEntity.class)) {
                 if (predictionBounds.overlaps(testEntity.getBounds())) {
                     return testEntity;
                 }
@@ -51,7 +52,7 @@ public class CollisionSystem extends ZbeSystem {
     }
 
     @Override
-    public void processEntity(ZbeEntity entity, float deltaTime) {
+    public void processEntity(ZbeEntityBase entity, float deltaTime) {
     }
 
 
