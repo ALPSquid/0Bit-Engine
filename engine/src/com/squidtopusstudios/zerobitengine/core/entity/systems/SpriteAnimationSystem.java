@@ -90,7 +90,7 @@ public class SpriteAnimationSystem  extends ZbeSystem {
     public void setAnimation(ZbeEntity entity, String name) {
         spriteAnim = ComponentMappers.animation.get(entity);
         if (spriteAnim.currentAnimation == null || !spriteAnim.currentAnimation.getName().equals(name)) {
-            ZeroBit.logger.logDebug("Setting " + entity.getType() + " animation to " + name);
+            //ZeroBit.logger.logDebug("Setting " + entity.getType() + " animation to " + name);
             spriteAnim.currentAnimation = spriteAnim.animations.get(name);
             if (spriteAnim.currentAnimation == null) {
                 ZeroBit.logger.logError("NullPointer trying to get animation: '"+name+"', did you forget to create it?");

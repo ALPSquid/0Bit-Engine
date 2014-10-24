@@ -32,14 +32,14 @@ public class ResourceManager implements IManager {
     }
 
     /**
-     * A simpler way to add a resource
+     * Allows adding a resource using a FileHandle (e.g. gdx.files.internal)
      * From LibGDX:
      * Adds the given asset to the loading queue of the LibGDX.AssetManager.
      * @param fileHandle the filehandle from Gdx.files.X
-     * @param type the type of the asset.
+     * @param type the type of the asset. From ZeroBit.ResourceType.TYPE
      */
-    public synchronized void addResource(String ID, FileHandle fileHandle, Class<?> type) {
-        load(ID, fileHandle.path(), type, null);
+    public synchronized ResourceManager addResource(String ID, FileHandle fileHandle, Class<?> type) {
+        return load(ID, fileHandle.path(), type, null);
     }
 
     /**
@@ -48,34 +48,36 @@ public class ResourceManager implements IManager {
      * @param filePath the file name (interpretation depends on LibGDX.AssetLoader)
      * @param type the type of the asset.
      */
-    public synchronized <T> void addResource(String ID, String filePath, Class<T> type) {
-        load(ID, filePath, type, null);
+    public synchronized <T> ResourceManager addResource(String ID, String filePath, Class<T> type) {
+        return load(ID, filePath, type, null);
     }
 
     /**
      * From LibGDX:
      * Adds the given asset to the loading queue of the LibGDX.AssetManager.
      * @param filePath the file name (interpretation depends on LibGDX.AssetLoader)
-     * @param type the type of the asset.
-     */
-    public synchronized <T> void addResource(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
-        load(ID, filePath, type, parameters);
-    }
-
-    /**
-     * From LibGDX:
-     * Adds the given asset to the loading queue of the LibGDX.AssetManager.
-     * @param filePath the file name (interpretation depends on LibGDX.AssetLoader)
-     * @param type the type of the asset.
+     * @param type the type of the asset. From ZeroBit.ResourceType.TYPE
      * @param parameters parameters for the LibGDX.AssetLoader.
      */
-    private synchronized <T> void load(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
+    public synchronized <T> ResourceManager addResource(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
+        return load(ID, filePath, type, parameters);
+    }
+
+    /**
+     * From LibGDX:
+     * Adds the given asset to the loading queue of the LibGDX.AssetManager.
+     * @param filePath the file name (interpretation depends on LibGDX.AssetLoader)
+     * @param type the type of the asset. From ZeroBit.ResourceType.TYPE
+     * @param parameters parameters for the LibGDX.AssetLoader.
+     */
+    private synchronized <T> ResourceManager load(String ID, String filePath, Class<T> type, AssetLoaderParameters<T> parameters) {
         ZeroBit.logger.logDebug("Loading " + type.getName() + ": " + filePath);
         registeredResources.put(ID, filePath);
         assetManager.load(filePath, type, parameters);
         if (autoLoad) {
             loadAll();
         }
+        return this;
     }
 
     /**
@@ -117,10 +119,10 @@ public class ResourceManager implements IManager {
 
     /**
      * Sets auto loading of resources on or off
-     * @param on whether autoLoad should be set to on
+     * @param autoLoad whether autoLoad should be set to on
      */
-    public void autoLoad(boolean on) {
-        autoLoad = on;
+    public void autoLoad(boolean autoLoad) {
+        this.autoLoad = autoLoad;
     }
 
     @Override
