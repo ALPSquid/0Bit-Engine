@@ -25,6 +25,7 @@ public class EntityManager implements IManager {
     private static Map<WorldBase, EntityManager> entityManagerInstances = new HashMap<WorldBase, EntityManager>();
     private Engine ashleyInstance;
     private Family zbeFamily;
+    private WorldBase world;
     /** ZbeEntity Maps arranged by type **/
     //private Map<String, List<ZbeEntity>> entities = new HashMap<String, List<ZbeEntity>>();
     private Map<String, List<ZbeEntityBase>> entities = new HashMap<String, List<ZbeEntityBase>>();
@@ -43,7 +44,7 @@ public class EntityManager implements IManager {
         if (world != null) {
             if (entityManagerInstances.get(world) == null) {
                 entityManagerInstances.put(world, new EntityManager());
-                entityManagerInstances.get(world).init();
+                entityManagerInstances.get(world).init(world);
             }
             return entityManagerInstances.get(world);
         } else {
@@ -52,11 +53,11 @@ public class EntityManager implements IManager {
         }
     }
 
-    public void init() {
+    public void init(WorldBase world) {
         if (!initialised){
+            this.world = world;
             zbeFamily = Family.getFor(ZbeEntityComponent.class);
             ashleyInstance = new Engine();
-            // Choose families
             ashleyInstance.addSystem(new SpriteSystem());
             ashleyInstance.addSystem(new SpriteAnimationSystem());
             ashleyInstance.addSystem(new PhysicsSystem());
@@ -94,18 +95,11 @@ public class EntityManager implements IManager {
      * @param entity Entity to add to engine
      */
     public <T extends ZbeEntityBase> void addEntity(T entity) {
-        //if (entity.getClass().equals(ZbeEntity.class)) {
         if (entities.get(entity.getType()) == null) {
             entities.put(entity.getType(), new ArrayList<ZbeEntityBase>());
         }
         entities.get(entity.getType()).add(entity);
-        /*}
-        else if (entity.getClass().equals(ZbeEntityB2D.class)) {
-            if (b2dEntities.get(entity.getType()) == null) {
-                b2dEntities.put(entity.getType(), new ArrayList<ZbeEntityB2D>());
-            }
-            b2dEntities.get(((ZbeEntityB2D) entity).getType()).add(((ZbeEntityB2D) entity));
-        }*/
+        entity.setWorld(world);
         ZeroBit.logger.logDebug("Adding entity: '" + entity.getType() + "'");
         ashleyInstance.addEntity(entity);
     }
@@ -116,6 +110,7 @@ public class EntityManager implements IManager {
      */
     public void removeEntity(ZbeEntityBase entity) {
         entities.get(entity.getType()).remove(entity);
+        entity.dispose();
         ashleyInstance.removeEntity(entity);
     }
 
@@ -187,6 +182,7 @@ public class EntityManager implements IManager {
         ZbeEntityBase[] familyEntities = ashleyInstance.getEntitiesFor(zbeFamily).toArray(ZbeEntityBase.class);
         for (ZbeEntityBase entity : familyEntities) {
             ZeroBit.logger.logDebug("Disposing Entity: " + entity.getType());
+            entity.dispose();
         }
         ashleyInstance.removeAllEntities();
     }

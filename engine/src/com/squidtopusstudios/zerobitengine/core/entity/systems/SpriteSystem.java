@@ -41,7 +41,7 @@ public class SpriteSystem extends ZbeSystem {
         //TODO
     }
 
-    public TextureRegion getSprite(Entity entity) {
+    public TextureRegion getSprite(ZbeEntityBase entity) {
         return ComponentMappers.resource.get(entity).textureRegion;
     }
 
@@ -59,7 +59,7 @@ public class SpriteSystem extends ZbeSystem {
      * Flips the currently assigned texture horizontally
      * @param entity {@link ZbeEntity} instance to flip
      */
-    public void flipSprite(ZbeEntity entity) {
+    public void flipSprite(ZbeEntityBase entity) {
         flipSprite(entity, true, false);
     }
 }

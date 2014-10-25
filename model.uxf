@@ -7,14 +7,14 @@ fontsize=12
 Colour Codes:
 	Green: Automatic Process
 	White: Manual Process</help_text>
-  <zoom_level>9</zoom_level>
+  <zoom_level>6</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1962</x>
-      <y>792</y>
-      <w>216</w>
-      <h>108</h>
+      <x>1308</x>
+      <y>630</y>
+      <w>144</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZeroBit&gt;&gt;
 Package::core
@@ -29,10 +29,10 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1566</x>
-      <y>792</y>
-      <w>243</w>
-      <h>162</h>
+      <x>1044</x>
+      <y>630</y>
+      <w>162</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZeroBitGame&gt;&gt;
 Entry Point
@@ -52,10 +52,10 @@ fg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1125</x>
-      <y>864</y>
-      <w>216</w>
-      <h>153</h>
+      <x>750</x>
+      <y>678</y>
+      <w>144</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>&lt;&lt;EntityManager&gt;&gt;
 Package::core.subsystems
@@ -74,10 +74,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1332</x>
-      <y>864</y>
-      <w>315</w>
-      <h>261</h>
+      <x>888</x>
+      <y>678</y>
+      <w>210</w>
+      <h>174</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Access through entities()&gt;&gt;</panel_attributes>
@@ -86,10 +86,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1584</x>
-      <y>657</y>
-      <w>180</w>
-      <h>36</h>
+      <x>1056</x>
+      <y>540</y>
+      <w>120</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>&lt;&lt;LibGDX.Game&gt;&gt;
 --</panel_attributes>
@@ -98,10 +98,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1647</x>
-      <y>684</y>
-      <w>72</w>
-      <h>126</h>
+      <x>1098</x>
+      <y>558</y>
+      <w>48</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -110,10 +110,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2025</x>
-      <y>594</y>
-      <w>234</w>
-      <h>162</h>
+      <x>1350</x>
+      <y>498</y>
+      <w>156</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Logger&gt;&gt;
 Package::utils
@@ -133,30 +133,26 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1080</x>
-      <y>459</y>
-      <w>315</w>
-      <h>117</h>
+      <x>972</x>
+      <y>318</y>
+      <w>210</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZbeEntity&gt;&gt;
 Package::core.entity
 --
 Responsibilities
-- Manage Ashley systems
-- Provide simple access to ashley systems
---
-Usage
-- Create an entity by extending or using EntityManager
-- For extended functionality, add own Ashley Systems</panel_attributes>
+- Adds built in collisions and physics
+--</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1206</x>
-      <y>567</y>
-      <w>117</w>
-      <h>315</h>
+      <x>804</x>
+      <y>480</y>
+      <w>78</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;registered with&gt;&gt;</panel_attributes>
@@ -165,10 +161,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>234</y>
-      <w>261</w>
-      <h>108</h>
+      <x>114</x>
+      <y>258</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ResourceComponent&gt;&gt;
 Package::core.entity.components
@@ -184,10 +180,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>126</y>
-      <w>396</w>
-      <h>756</h>
+      <x>576</x>
+      <y>186</y>
+      <w>264</w>
+      <h>504</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;system of engine
@@ -198,10 +194,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1125</x>
-      <y>1053</y>
-      <w>261</w>
-      <h>135</h>
+      <x>750</x>
+      <y>804</y>
+      <w>174</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;RenderManager&gt;&gt;
 Package::core.subsystems
@@ -219,10 +215,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>945</y>
-      <w>180</w>
-      <h>81</h>
+      <x>540</x>
+      <y>732</y>
+      <w>120</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;IManager&gt;&gt;
 Package::utils
@@ -235,10 +231,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>981</x>
-      <y>864</y>
-      <w>162</w>
-      <h>117</h>
+      <x>654</x>
+      <y>678</y>
+      <w>108</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -247,10 +243,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>981</x>
-      <y>963</y>
-      <w>162</w>
-      <h>117</h>
+      <x>654</x>
+      <y>744</y>
+      <w>108</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -259,10 +255,10 @@ Methods
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1125</x>
-      <y>1233</y>
-      <w>261</w>
-      <h>135</h>
+      <x>750</x>
+      <y>924</y>
+      <w>174</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ResourceManager&gt;&gt;
 Package::core.subsystems
@@ -280,10 +276,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>981</x>
-      <y>972</y>
-      <w>162</w>
-      <h>288</h>
+      <x>654</x>
+      <y>750</y>
+      <w>108</w>
+      <h>192</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -292,12 +288,12 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1629</x>
-      <y>1098</y>
-      <w>279</w>
-      <h>126</h>
+      <x>1086</x>
+      <y>834</y>
+      <w>186</w>
+      <h>84</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;World&gt;&gt;
+    <panel_attributes>&lt;&lt;WorldBase&gt;&gt;
 --
 --
 Responsibilities
@@ -313,10 +309,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>1116</y>
-      <w>180</w>
-      <h>90</h>
+      <x>540</x>
+      <y>846</y>
+      <w>120</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;IActiveClass&gt;&gt;
 Package::utils
@@ -330,10 +326,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>855</x>
-      <y>1017</y>
-      <w>99</w>
-      <h>117</h>
+      <x>570</x>
+      <y>780</y>
+      <w>66</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -342,10 +338,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>882</x>
-      <y>1197</y>
-      <w>846</w>
-      <h>378</h>
+      <x>588</x>
+      <y>900</y>
+      <w>564</w>
+      <h>252</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -354,10 +350,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1800</x>
-      <y>783</y>
-      <w>180</w>
-      <h>36</h>
+      <x>1200</x>
+      <y>624</y>
+      <w>120</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls setGame()&gt;&gt;
@@ -367,10 +363,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1791</x>
-      <y>729</y>
-      <w>216</w>
-      <h>81</h>
+      <x>1194</x>
+      <y>588</y>
+      <w>144</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
@@ -380,10 +376,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1728</x>
-      <y>945</y>
-      <w>99</w>
-      <h>171</h>
+      <x>1152</x>
+      <y>732</y>
+      <w>66</w>
+      <h>114</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
@@ -393,10 +389,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1269</x>
-      <y>729</y>
-      <w>180</w>
-      <h>81</h>
+      <x>846</x>
+      <y>588</y>
+      <w>120</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Managers&gt;&gt;
 Package::core
@@ -410,10 +406,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>918</x>
-      <y>729</y>
-      <w>369</w>
-      <h>234</h>
+      <x>612</x>
+      <y>588</y>
+      <w>246</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -422,10 +418,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1305</x>
-      <y>801</y>
-      <w>117</w>
-      <h>180</h>
+      <x>870</x>
+      <y>636</y>
+      <w>78</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;calls dispose()&gt;&gt;
@@ -435,10 +431,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1323</x>
-      <y>801</y>
-      <w>135</w>
-      <h>351</h>
+      <x>882</x>
+      <y>636</y>
+      <w>90</w>
+      <h>234</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;calls dispose()&gt;&gt;
@@ -448,10 +444,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1341</x>
-      <y>801</y>
-      <w>144</w>
-      <h>459</h>
+      <x>894</x>
+      <y>636</y>
+      <w>96</w>
+      <h>306</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;calls dispose()&gt;&gt;
@@ -461,10 +457,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1440</x>
-      <y>774</y>
-      <w>144</w>
-      <h>99</h>
+      <x>960</x>
+      <y>618</y>
+      <w>96</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
@@ -474,10 +470,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>117</y>
-      <w>261</w>
-      <h>99</h>
+      <x>114</x>
+      <y>180</y>
+      <w>174</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZbeComponent&gt;&gt;
 Package::core.entity.components
@@ -492,10 +488,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1728</x>
-      <y>1260</y>
-      <w>279</w>
-      <h>126</h>
+      <x>1152</x>
+      <y>942</y>
+      <w>186</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>&lt;&lt;DefaultRenderer&gt;&gt;
 Package::core.graphics
@@ -511,10 +507,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1377</x>
-      <y>1152</y>
-      <w>369</w>
-      <h>153</h>
+      <x>918</x>
+      <y>870</y>
+      <w>246</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls render() 
@@ -525,10 +521,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1377</x>
-      <y>1170</y>
-      <w>369</w>
-      <h>180</h>
+      <x>918</x>
+      <y>882</y>
+      <w>246</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Used as defualt renderer&gt;&gt;
@@ -538,10 +534,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1782</x>
-      <y>1440</y>
-      <w>180</w>
-      <h>90</h>
+      <x>1188</x>
+      <y>1062</y>
+      <w>120</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;IRenderer&gt;&gt;
 Package::core.graphics
@@ -554,10 +550,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1827</x>
-      <y>1377</y>
-      <w>99</w>
-      <h>81</h>
+      <x>1218</x>
+      <y>1020</y>
+      <w>66</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -566,10 +562,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>855</x>
-      <y>1197</y>
-      <w>945</w>
-      <h>396</h>
+      <x>570</x>
+      <y>900</y>
+      <w>630</w>
+      <h>264</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -578,10 +574,10 @@ Methods
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1431</x>
-      <y>702</y>
-      <w>594</w>
-      <h>108</h>
+      <x>954</x>
+      <y>570</y>
+      <w>396</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;IInstantiates instance&gt;&gt;
@@ -591,10 +587,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1332</x>
-      <y>882</y>
-      <w>414</w>
-      <h>405</h>
+      <x>888</x>
+      <y>690</y>
+      <w>276</w>
+      <h>270</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;
 &lt;&lt;Calls getEntities()&gt;&gt;
@@ -604,10 +600,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1125</x>
-      <y>1386</y>
-      <w>261</w>
-      <h>135</h>
+      <x>750</x>
+      <y>1026</y>
+      <w>174</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ScreenManager&gt;&gt;
 Package::core.subsystems
@@ -625,10 +621,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1359</x>
-      <y>801</y>
-      <w>144</w>
-      <h>612</h>
+      <x>906</x>
+      <y>636</y>
+      <w>96</w>
+      <h>408</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;calls dispose()&gt;&gt;
@@ -638,10 +634,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>981</x>
-      <y>981</y>
-      <w>162</w>
-      <h>432</h>
+      <x>654</x>
+      <y>756</y>
+      <w>108</w>
+      <h>288</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -650,10 +646,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>387</x>
-      <y>0</y>
-      <w>252</w>
-      <h>81</h>
+      <x>258</x>
+      <y>102</y>
+      <w>168</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZbeSystem&gt;&gt;
 Package::core.entity.components
@@ -665,10 +661,10 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>243</y>
-      <w>261</w>
-      <h>117</h>
+      <x>408</x>
+      <y>264</y>
+      <w>174</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>&lt;&lt;SpriteSystem&gt;&gt;
 Package::core.entity.systems
@@ -685,10 +681,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>558</x>
-      <y>72</y>
-      <w>72</w>
-      <h>189</h>
+      <x>372</x>
+      <y>150</y>
+      <w>48</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -697,10 +693,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>234</y>
-      <w>207</w>
-      <h>36</h>
+      <x>282</x>
+      <y>258</y>
+      <w>138</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -710,10 +706,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>126</y>
-      <w>261</w>
-      <h>99</h>
+      <x>408</x>
+      <y>186</y>
+      <w>174</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;MetaSystem&gt;&gt;
 Package::core.entity.systems
@@ -728,10 +724,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>594</x>
-      <y>72</y>
-      <w>72</w>
-      <h>72</h>
+      <x>396</x>
+      <y>150</y>
+      <w>48</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -740,10 +736,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>117</y>
-      <w>207</w>
-      <h>36</h>
+      <x>282</x>
+      <y>180</y>
+      <w>138</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -753,10 +749,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1494</x>
-      <y>1404</y>
-      <w>207</w>
-      <h>99</h>
+      <x>996</x>
+      <y>1038</y>
+      <w>138</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;ZbeScreen&gt;&gt;
 Package::core.screens
@@ -771,10 +767,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1377</x>
-      <y>1395</y>
-      <w>135</w>
-      <h>36</h>
+      <x>918</x>
+      <y>1032</y>
+      <w>90</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;registered with&gt;&gt;</panel_attributes>
@@ -783,10 +779,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1377</x>
-      <y>1422</y>
-      <w>135</w>
-      <h>36</h>
+      <x>918</x>
+      <y>1050</y>
+      <w>90</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls dispose()&gt;&gt;
@@ -796,10 +792,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1377</x>
-      <y>855</y>
-      <w>720</w>
-      <h>846</h>
+      <x>918</x>
+      <y>672</y>
+      <w>480</w>
+      <h>564</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;setScreen()&gt;&gt;</panel_attributes>
@@ -808,10 +804,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>369</y>
-      <w>261</w>
-      <h>108</h>
+      <x>114</x>
+      <y>348</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;BoundsComponent&gt;&gt;
 Package::core.entity.components
@@ -826,10 +822,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1674</x>
-      <y>891</y>
-      <w>405</w>
-      <h>828</h>
+      <x>1116</x>
+      <y>696</y>
+      <w>270</w>
+      <h>552</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;calls setWorld()&gt;&gt;</panel_attributes>
@@ -838,10 +834,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>495</y>
-      <w>261</w>
-      <h>108</h>
+      <x>114</x>
+      <y>432</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;SimplePositionComponent&gt;&gt;
 Package::core.entity.components
@@ -856,10 +852,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>243</y>
-      <w>144</w>
-      <h>27</h>
+      <x>576</x>
+      <y>264</y>
+      <w>96</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=-
 bg=green</panel_attributes>
@@ -868,10 +864,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>135</y>
-      <w>576</w>
-      <h>342</h>
+      <x>576</x>
+      <y>192</y>
+      <w>384</w>
+      <h>228</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -880,10 +876,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>360</y>
-      <w>720</w>
-      <h>117</h>
+      <x>282</x>
+      <y>342</y>
+      <w>480</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -892,10 +888,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>468</y>
-      <w>675</w>
-      <h>54</h>
+      <x>282</x>
+      <y>414</y>
+      <w>450</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -904,10 +900,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>252</y>
-      <w>567</w>
-      <h>225</h>
+      <x>576</x>
+      <y>270</y>
+      <w>378</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -916,10 +912,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1386</x>
-      <y>558</y>
-      <w>972</w>
-      <h>729</h>
+      <x>924</x>
+      <y>474</y>
+      <w>648</w>
+      <h>486</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls getSprite()&gt;&gt;
@@ -929,10 +925,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1386</x>
-      <y>549</y>
-      <w>981</w>
-      <h>747</h>
+      <x>924</x>
+      <y>468</y>
+      <w>654</w>
+      <h>498</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 
@@ -944,10 +940,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1386</x>
-      <y>540</y>
-      <w>999</w>
-      <h>765</h>
+      <x>924</x>
+      <y>462</y>
+      <w>666</w>
+      <h>510</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 
@@ -961,10 +957,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>621</y>
-      <w>261</w>
-      <h>108</h>
+      <x>114</x>
+      <y>516</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;PhysicsComponent&gt;&gt;
 Package::core.entity.components
@@ -979,22 +975,22 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>477</y>
-      <w>675</w>
-      <h>180</h>
+      <x>282</x>
+      <y>300</y>
+      <w>720</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
-    <additional_attributes>730.0;10.0;80.0;10.0;80.0;180.0;10.0;180.0</additional_attributes>
+    <additional_attributes>1180.0;30.0;1180.0;10.0;530.0;10.0;530.0;210.0;80.0;210.0;80.0;380.0;10.0;380.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>378</y>
-      <w>261</w>
-      <h>99</h>
+      <x>408</x>
+      <y>354</y>
+      <w>174</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;PhysicsSystem&gt;&gt;
 Package::core.entity.systems
@@ -1009,10 +1005,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>378</y>
-      <w>207</w>
-      <h>270</h>
+      <x>282</x>
+      <y>354</y>
+      <w>138</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 
@@ -1023,10 +1019,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>225</y>
-      <w>738</w>
-      <h>252</h>
+      <x>282</x>
+      <y>252</y>
+      <w>492</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -1035,10 +1031,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>108</y>
-      <w>756</w>
-      <h>369</h>
+      <x>282</x>
+      <y>174</y>
+      <w>504</w>
+      <h>246</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -1047,10 +1043,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>747</y>
-      <w>261</w>
-      <h>108</h>
+      <x>114</x>
+      <y>600</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;CollisionComponent&gt;&gt;
 Package::core.entity.components
@@ -1065,22 +1061,22 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>513</y>
-      <w>675</w>
-      <h>270</h>
+      <x>282</x>
+      <y>318</y>
+      <w>702</w>
+      <h>306</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
-    <additional_attributes>730.0;10.0;520.0;10.0;520.0;110.0;110.0;110.0;110.0;280.0;10.0;280.0</additional_attributes>
+    <additional_attributes>1150.0;10.0;540.0;10.0;540.0;320.0;110.0;320.0;110.0;490.0;10.0;490.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>495</y>
-      <w>207</w>
-      <h>279</h>
+      <x>282</x>
+      <y>432</y>
+      <w>138</w>
+      <h>186</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 
@@ -1091,10 +1087,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>495</y>
-      <w>261</w>
-      <h>99</h>
+      <x>408</x>
+      <y>432</y>
+      <w>174</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;CollisionSystem&gt;&gt;
 Package::core.entity.systems
@@ -1109,10 +1105,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>549</x>
-      <y>72</y>
-      <w>81</w>
-      <h>324</h>
+      <x>366</x>
+      <y>150</y>
+      <w>54</w>
+      <h>216</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -1121,10 +1117,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>72</y>
-      <w>90</w>
-      <h>441</h>
+      <x>360</x>
+      <y>150</y>
+      <w>60</w>
+      <h>294</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -1133,22 +1129,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>378</y>
-      <w>144</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>lt=-
-bg=green</panel_attributes>
-    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>864</x>
-      <y>495</y>
-      <w>144</w>
-      <h>27</h>
+      <x>576</x>
+      <y>432</y>
+      <w>96</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=-
 bg=green</panel_attributes>
@@ -1157,10 +1141,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>621</y>
-      <w>261</w>
-      <h>108</h>
+      <x>408</x>
+      <y>516</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;MovementSystem&gt;&gt;
 Package::core.entity.systems
@@ -1176,10 +1160,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>531</x>
-      <y>72</y>
-      <w>99</w>
-      <h>567</h>
+      <x>354</x>
+      <y>150</y>
+      <w>66</w>
+      <h>378</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -1188,10 +1172,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>621</y>
-      <w>144</w>
-      <h>27</h>
+      <x>576</x>
+      <y>516</y>
+      <w>96</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=-
 bg=green</panel_attributes>
@@ -1200,10 +1184,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>531</y>
-      <w>234</w>
-      <h>126</h>
+      <x>576</x>
+      <y>456</y>
+      <w>156</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;accessed via&gt;&gt;</panel_attributes>
@@ -1212,10 +1196,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>747</y>
-      <w>261</w>
-      <h>108</h>
+      <x>408</x>
+      <y>600</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;LogicSystem&gt;&gt;
 Package::core.entity.systems
@@ -1231,10 +1215,10 @@ Usage
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>873</y>
-      <w>261</w>
-      <h>108</h>
+      <x>114</x>
+      <y>684</y>
+      <w>174</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>&lt;&lt;CollisionComponent&gt;&gt;
 Package::core.entity.components
@@ -1249,10 +1233,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>747</y>
-      <w>207</w>
-      <h>153</h>
+      <x>282</x>
+      <y>600</y>
+      <w>138</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -1262,10 +1246,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>540</y>
-      <w>234</w>
-      <h>234</h>
+      <x>576</x>
+      <y>462</y>
+      <w>156</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -1275,10 +1259,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1782</x>
-      <y>1566</y>
-      <w>180</w>
-      <h>90</h>
+      <x>1188</x>
+      <y>1146</y>
+      <w>120</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>&lt;&lt;DebugOverlay&gt;&gt;
 Package::core.graphics
@@ -1293,10 +1277,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1827</x>
-      <y>1521</y>
-      <w>99</w>
-      <h>63</h>
+      <x>1218</x>
+      <y>1116</y>
+      <w>66</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;implements&gt;&gt;</panel_attributes>
@@ -1305,10 +1289,10 @@ Usage
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1800</x>
-      <y>801</y>
-      <w>180</w>
-      <h>36</h>
+      <x>1200</x>
+      <y>636</y>
+      <w>120</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls setInputMultiplexer()&gt;&gt;
@@ -1318,10 +1302,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1791</x>
-      <y>819</y>
-      <w>198</w>
-      <h>36</h>
+      <x>1194</x>
+      <y>648</y>
+      <w>132</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls setGlobalInputProcessor()&gt;&gt;
@@ -1331,10 +1315,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1800</x>
-      <y>837</y>
-      <w>180</w>
-      <h>36</h>
+      <x>1200</x>
+      <y>660</y>
+      <w>120</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;Calls initManagers()&gt;&gt;
@@ -1344,10 +1328,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>864</y>
-      <w>261</w>
-      <h>72</h>
+      <x>408</x>
+      <y>678</y>
+      <w>174</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>&lt;&lt;StateSystem&gt;&gt;
 Package::core.entity.systems
@@ -1360,10 +1344,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>549</y>
-      <w>234</w>
-      <h>342</h>
+      <x>576</x>
+      <y>468</y>
+      <w>156</w>
+      <h>228</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -1373,10 +1357,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>522</x>
-      <y>72</y>
-      <w>108</w>
-      <h>810</h>
+      <x>348</x>
+      <y>150</y>
+      <w>72</w>
+      <h>540</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -1385,10 +1369,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>999</y>
-      <w>261</w>
-      <h>72</h>
+      <x>114</x>
+      <y>768</y>
+      <w>174</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>&lt;&lt;StateComponent&gt;&gt;
 Package::core.entity.components
@@ -1401,10 +1385,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>864</y>
-      <w>207</w>
-      <h>162</h>
+      <x>282</x>
+      <y>678</y>
+      <w>138</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -1414,10 +1398,10 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>171</x>
-      <y>1089</y>
-      <w>261</w>
-      <h>72</h>
+      <x>114</x>
+      <y>828</y>
+      <w>174</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes> &lt;&lt;SpriteAnimationComponent&gt;&gt;
 Package::core.entity.components
@@ -1430,10 +1414,10 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>531</x>
-      <y>1035</y>
-      <w>234</w>
-      <h>72</h>
+      <x>354</x>
+      <y>792</y>
+      <w>156</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>&lt;&lt;SpriteAnimationSystem&gt;&gt;
 Package::core.entity.systems
@@ -1446,10 +1430,10 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>423</x>
-      <y>1035</y>
-      <w>126</w>
-      <h>81</h>
+      <x>282</x>
+      <y>792</y>
+      <w>84</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
@@ -1459,10 +1443,10 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>513</x>
-      <y>72</y>
-      <w>72</w>
-      <h>981</h>
+      <x>342</x>
+      <y>150</y>
+      <w>48</w>
+      <h>654</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -1471,14 +1455,166 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>756</x>
-      <y>567</y>
-      <w>360</w>
-      <h>495</h>
+      <x>504</x>
+      <y>480</y>
+      <w>240</w>
+      <h>330</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 &lt;&lt;component of&gt;&gt;
 bg=green</panel_attributes>
     <additional_attributes>380.0;10.0;380.0;30.0;330.0;30.0;330.0;170.0;190.0;170.0;190.0;410.0;20.0;410.0;20.0;530.0;10.0;530.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1248</x>
+      <y>378</y>
+      <w>174</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes> &lt;&lt;Box2DComponent&gt;&gt;
+Package::core.entity.components
+--
+Responsibilities
+- Holds Box2D data
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>972</x>
+      <y>378</y>
+      <w>210</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ZbeEntityB2D&gt;&gt;
+Package::core.entity
+--
+Responsibilities
+- Box2D version of ZbeEntity
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>408</y>
+      <w>210</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ZbeEntityBase&gt;&gt;
+Package::core.entity
+--
+Responsibilities
+- Provide simple access to ashley systems and Comps.
+--
+Usage
+- Create an entity by extending or using EntityManager
+- For extended functionality, add own Ashley Systems</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1230</x>
+      <y>786</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;World&gt;&gt;
+--
+Usage
+- Use for ZbeEntity 
+  (inbuilt Collisions and Physics</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1230</x>
+      <y>738</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;WorldB2D&gt;&gt;
+--
+Usage
+- Use for Box2D</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>786</y>
+      <w>48</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>30.0;80.0;30.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1194</x>
+      <y>744</y>
+      <w>48</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>30.0;150.0;30.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>378</y>
+      <w>66</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;80.0;60.0;80.0;60.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>324</y>
+      <w>60</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;150.0;50.0;150.0;50.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>576</x>
+      <y>354</y>
+      <w>96</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=-
+bg=green</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1176</x>
+      <y>372</y>
+      <w>84</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+&lt;&lt;accessed via&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
 </diagram>

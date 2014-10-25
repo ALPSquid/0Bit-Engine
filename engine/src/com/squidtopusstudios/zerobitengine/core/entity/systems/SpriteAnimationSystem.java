@@ -40,7 +40,7 @@ public class SpriteAnimationSystem  extends ZbeSystem {
      * @param rows number of rows in the sprite sheet
      * @return the created array of frames
      */
-    public TextureRegion[] createAnimationFrames(Entity entity, String framesName, Texture spriteSheet, int columns, int rows) {
+    public TextureRegion[] createAnimationFrames(ZbeEntityBase entity, String framesName, Texture spriteSheet, int columns, int rows) {
         TextureRegion[][] tmp  = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/columns, spriteSheet.getHeight()/rows);
         TextureRegion[] frames = new TextureRegion[columns * rows];
         int index = 0;
@@ -61,7 +61,7 @@ public class SpriteAnimationSystem  extends ZbeSystem {
      * @param frames frames to create an animation from
      * @return the created animation
      */
-    public ZbeAnimation createAnimation(Entity entity, String animName, TextureRegion... frames) {
+    public ZbeAnimation createAnimation(ZbeEntityBase entity, String animName, TextureRegion... frames) {
         spriteAnim = ComponentMappers.animation.get(entity);
         ZbeAnimation animation = new ZbeAnimation(animName, spriteAnim.frameDuration, frames);
         ZeroBit.logger.logDebug("Creating animation: "+animName);
@@ -79,7 +79,7 @@ public class SpriteAnimationSystem  extends ZbeSystem {
      * @param rows number of rows in the sprite sheet
      * @return the created animation
      */
-    public ZbeAnimation createAnimation(Entity entity, String animName, Texture spriteSheet, int columns, int rows) {
+    public ZbeAnimation createAnimation(ZbeEntityBase entity, String animName, Texture spriteSheet, int columns, int rows) {
         TextureRegion[] frames = createAnimationFrames(entity, animName+"_frames", spriteSheet, columns, rows);
         return createAnimation(entity, animName, frames);
     }

@@ -64,6 +64,14 @@ public class WorldB2D extends WorldBase {
         return b2World.getGravity();
     }
 
+    /**
+     * Convert x & y coordinates in pixels to x & y coordinates in world units
+     * @return Vector2 coordinates in pixels
+     */
+    public Vector2 pixelsToPosition(float x, float y) {
+        return new Vector2((x / getPixelsPerUnit()) - ((ZeroBit.targetWidth/getPixelsPerUnit()) / 2), (y / getPixelsPerUnit()));
+    }
+
     @Override
     public void dispose() {
         super.dispose();

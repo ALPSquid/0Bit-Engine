@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
@@ -31,6 +30,8 @@ public class DefaultRenderer implements IRenderer{
     protected ArrayList<ZbeEntity> debugEntities;
     private float spriteX;
     private float spriteY;
+    private float batchOffsetX = 0;
+    private float batchOffsetY = 0;
 
 
     @Override
@@ -52,7 +53,7 @@ public class DefaultRenderer implements IRenderer{
     @Override
     public void update() {
         camera.update();
-        batch.setProjectionMatrix(camera.projection);
+        batch.setProjectionMatrix(camera.projection); // camera.combined
         batch.setTransformMatrix(camera.view);
         debugRenderer.setProjectionMatrix(camera.projection);
         debugRenderer.setTransformMatrix(camera.view);
@@ -150,9 +151,14 @@ public class DefaultRenderer implements IRenderer{
         debugRenderer.end();
     }
 
-    public void updateB2dMatrix() {
+    public void updateB2dMatrix(boolean isBox2D) {
         b2Matrix.scl(ZeroBit.getWorld().getPixelsPerUnit());
         b2Matrix.translate((camera.viewportWidth/ZeroBit.getWorld().getPixelsPerUnit())/2, 0, 0);
+        if (isBox2D) {
+            batchOffsetX = camera.viewportWidth/2;
+        } else {
+            batchOffsetX = 0;
+        }
     }
 
     @Override

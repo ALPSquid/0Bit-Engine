@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public class Box2DComponent extends Component {
 
+    public boolean collidable = true;
+
     public Body body = ((WorldB2D)ZeroBit.getWorld()).getB2DWorld().createBody(new BodyDef());
     public Map<String, Fixture> fixtures = new HashMap<String, Fixture>();
 

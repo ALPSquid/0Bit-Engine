@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.squidtopusstudios.zerobitengine.WorldBase;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
 import com.squidtopusstudios.zerobitengine.core.entity.systems.SpriteAnimationSystem;
@@ -56,6 +57,19 @@ public abstract class ZbeEntityBase extends Entity {
      */
     public String getType() {
         return getComponent(ZbeEntityComponent.class).type;
+    }
+
+    /** @return the world this entity belongs to **/
+    protected WorldBase getWorld() {
+        return getComponent(ZbeEntityComponent.class).world;
+    }
+
+    public void setWorld(WorldBase world) {
+        if (getWorld() == null) {
+            getComponent(ZbeEntityComponent.class).world = world;
+        } else {
+            ZeroBit.logger.logError("Entity already as a world!");
+        }
     }
 
     /**
@@ -338,5 +352,9 @@ public abstract class ZbeEntityBase extends Entity {
 
     public String getState() {
         return getComponent(StateComponent.class).state;
+    }
+
+    public void dispose() {
+        getComponent(ZbeEntityComponent.class).world = null;
     }
 }

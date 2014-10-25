@@ -2,8 +2,10 @@ package com.squidtopusstudios.zerobitengine.core.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
+import com.squidtopusstudios.zerobitengine.utils.ZbeBox2D;
 
 import java.util.Map;
 
@@ -34,17 +36,18 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     }
 
     /**
-     * Set the Vector2 position of the entity's body
+     * Set the Vector2 position of the entity's body in units
      * Also sets the entity's bounds which are used for sprite positioning in Box2D entities
      * @return current ZbeEntityB2D instance
      */
     @Override
     public ZbeEntityB2D setPosition(float x, float y) {
         getComponent(Box2DComponent.class).body.setTransform(x, y, 0);
-        getBounds().setPosition(x - getWidth()/2, y - getHeight()/2);
+        setBoundsPosition(getWorld().unitsToPixels(x), getWorld().unitsToPixels(y));
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ZbeEntityB2D setBounds(float width, float height) {
         getBounds().setSize(width, height);
@@ -54,16 +57,14 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return this;
     }
 
-    /**
-     * @return Vector2 position of the entity
-     */
+    /** @return entity's body position in units **/
     @Override
     public Vector2 getPosition() {
         return getComponent(Box2DComponent.class).body.getPosition();
     }
 
     /**
-     * Set the position of the bounds used for sprite positioning
+     * Set the position (in pixels) of the bounds used for sprite positioning
      * @return current instance of ZbeEntityB2D
      */
     public ZbeEntityB2D setBoundsPosition(float x, float y) {
@@ -81,9 +82,9 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     /** If false, collisions won't be detected. */
     @Override
     public ZbeEntityB2D enableCollisions(boolean collidable) {
-        getComponent(PhysicsComponent.class).collidable = collidable;
+        getComponent(Box2DComponent.class).collidable = collidable;
         for (Fixture fixture : getComponent(Box2DComponent.class).body.getFixtureList()) {
-            fixture.setSensor(collidable);
+            fixture.setSensor(!collidable);
         }
         return this;
     }
@@ -117,15 +118,15 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     public ZbeEntityB2D asBox(float width, float height) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = getBodyType();
-        setBody(ZeroBit.getWorldB2D().getB2DWorld().createBody(bodyDef));
+        setBody(getWorld().getB2DWorld().createBody(bodyDef));
 
         PolygonShape poly = new PolygonShape();
-        poly.setAsBox(width/2, height/2);
+        poly.setAsBox(width / 2, height / 2);
         createFixture("base", poly, getDefaultDensity());
         poly.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
-            setBounds(width, height);
+            setBounds(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
         }
         return this;
     }
@@ -137,7 +138,7 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     public ZbeEntityB2D asCircle(float radius) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = getBodyType();
-        setBody(ZeroBit.getWorldB2D().getB2DWorld().createBody(bodyDef));
+        setBody(getWorld().getB2DWorld().createBody(bodyDef));
 
         CircleShape circle = new CircleShape();
         circle.setRadius(radius);
@@ -145,8 +146,28 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         circle.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
-            setBounds(radius*2, radius*2);
+            setBounds(getWorld().unitsToPixels(radius * 2), getWorld().unitsToPixels(radius * 2));
         }
+        return this;
+    }
+
+    /**
+     * Creates this entity as a Box2D edge with fixture "base"
+     * @param x1 start x coordinate
+     * @param y1 start y coordinate
+     * @param x2 end x coordinate
+     * @param y2 end y coordinate
+     * @return current ZbeEntityB2D instance
+     */
+    public ZbeEntityB2D asEdge(float x1, float y1, float x2, float y2) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = getBodyType();
+        setBody(getWorld().getB2DWorld().createBody(bodyDef));
+
+        EdgeShape edge = new EdgeShape();
+        edge.set(x1, y1, x2, y2);
+        createFixture("base", edge, getDefaultDensity());
+        edge.dispose();
         return this;
     }
 
@@ -193,5 +214,10 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     /** @return Fixture from this entity's body **/
     public Fixture getFixture(String fixtureName) {
         return getFixtures().get(fixtureName);
+    }
+
+    @Override
+    protected WorldB2D getWorld() {
+        return (WorldB2D)super.getWorld();
     }
 }

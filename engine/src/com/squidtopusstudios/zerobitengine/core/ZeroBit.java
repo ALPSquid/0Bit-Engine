@@ -2,7 +2,6 @@ package com.squidtopusstudios.zerobitengine.core;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
-import com.squidtopusstudios.zerobitengine.World;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.WorldBase;
 import com.squidtopusstudios.zerobitengine.ZeroBitGame;
@@ -12,7 +11,7 @@ import com.squidtopusstudios.zerobitengine.utils.ZbeInputProcessor;
 /**
  *  Static class for managing global resources and settings
  */
-public class ZeroBit {
+public final class ZeroBit {
 
     public static final String ZBE_VERSION = "0.0.2";
     public static String appVersion = "0.0.1";
@@ -25,7 +24,6 @@ public class ZeroBit {
     public static int targetHeight = Gdx.graphics.getHeight();
     public static float scale = 1f;
     public static Color bg_colour = new Color(0,0,0,1);
-    private static InputMultiplexer inputMultiplexer;
 
     /**
      * Supported resource types available when registering a resource
@@ -91,6 +89,7 @@ public class ZeroBit {
     public static Managers managers;
     private static ZeroBitGame gameInstance;
     private static WorldBase worldInstance;
+    private static InputMultiplexer inputMultiplexer;
 
     public synchronized static void setGame(String appVersion, ZeroBitGame game, int targetWidth, int targetHeight, boolean fixedTimeStep) {
         if (gameInstance == null) {
@@ -132,7 +131,7 @@ public class ZeroBit {
 
     public static void setWorld(WorldBase world) {
         worldInstance = world;
-        managers.renderManager().getRenderer().updateB2dMatrix();
+        managers.renderManager().getRenderer().updateB2dMatrix(world.getWorldType().equals(WorldType.BOX2D));
     }
 
     /**

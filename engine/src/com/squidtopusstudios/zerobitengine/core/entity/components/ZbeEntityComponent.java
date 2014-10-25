@@ -1,6 +1,7 @@
 package com.squidtopusstudios.zerobitengine.core.entity.components;
 
 import com.badlogic.ashley.core.Component;
+import com.squidtopusstudios.zerobitengine.WorldBase;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 
 /**
@@ -8,4 +9,5 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
  */
 public class ZbeEntityComponent extends Component {
     public String type = "null";
+    public WorldBase world;
 }

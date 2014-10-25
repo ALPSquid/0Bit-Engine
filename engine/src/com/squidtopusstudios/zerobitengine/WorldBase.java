@@ -82,4 +82,13 @@ public abstract class WorldBase implements IActiveClass {
     public ZeroBit.WorldType getWorldType() {
         return worldType;
     }
+
+
+    public float pixelsToUnits(float pixels) {
+        return pixels / getPixelsPerUnit();
+    }
+
+    public float unitsToPixels(float units) {
+        return units * getPixelsPerUnit();
+    }
 }
