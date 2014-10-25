@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Wrapper for adding Ashley Components and systems
+ * Standard Entity with optional rectangle collision detection and basic physics.
+ * Note that all parameters and return values, except moveBy() which is in units, are in pixels. You can convert between using the methods from world (getWorld())
+ * This may well change in the future to use units for everything like the Box2D entity
  */
 public class ZbeEntity extends ZbeEntityBase {
 

@@ -25,8 +25,9 @@ public class MovementSystem extends ZbeSystem {
             }
             moveBy(zbeEntity, zbeEntity.getVelocity().x, zbeEntity.getVelocity().y, true);
         } else {
-            ((ZbeEntityB2D) entity).setBoundsPosition(ZeroBit.getWorld().unitsToPixels(entity.getPosition().x) - entity.getWidth() / 2,
-                                                      ZeroBit.getWorld().unitsToPixels(entity.getPosition().y) - entity.getHeight() / 2);
+            ZbeEntityB2D zbeEntityB2D = (ZbeEntityB2D)entity;
+            zbeEntityB2D.setBoundsPosition((zbeEntityB2D.getPosition().x + zbeEntityB2D.getBoundsOffset().x) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getWidth()/2),
+                                           (zbeEntityB2D.getPosition().y + zbeEntityB2D.getBoundsOffset().y) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getHeight()/2));
         }
     }
 

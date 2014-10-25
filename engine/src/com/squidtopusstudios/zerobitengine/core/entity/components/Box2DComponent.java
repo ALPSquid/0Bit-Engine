@@ -1,6 +1,7 @@
 package com.squidtopusstudios.zerobitengine.core.entity.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class Box2DComponent extends Component {
 
     public boolean collidable = true;
+    public Vector2 offset = new Vector2(0, 0);
 
     public Body body = ((WorldB2D)ZeroBit.getWorld()).getB2DWorld().createBody(new BodyDef());
     public Map<String, Fixture> fixtures = new HashMap<String, Fixture>();

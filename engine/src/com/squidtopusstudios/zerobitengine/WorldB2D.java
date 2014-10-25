@@ -1,5 +1,6 @@
 package com.squidtopusstudios.zerobitengine;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 
@@ -14,8 +15,8 @@ public class WorldB2D extends WorldBase {
     private com.badlogic.gdx.physics.box2d.World b2World;
     public float physicsTimeStep = 1/45f;
     public int maxFrameSkip = 5;
-    public int velocityIterations = 4;
-    public int physicsIterations = 4;
+    public int velocityIterations = 8;
+    public int positionIterations = 3;
     private float accumulator = 0;
 
 
@@ -31,14 +32,15 @@ public class WorldB2D extends WorldBase {
 
     @Override
     public void update() {
-        float frameTime = Math.min(ZeroBit.getDelta(), 0.25f);
+        /*float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
         accumulator += frameTime;
         int loops = 0;
         while (accumulator >= physicsTimeStep && loops < maxFrameSkip) {
-            b2World.step(ZeroBit.getDelta(), velocityIterations, physicsIterations);
+            b2World.step(Gdx.graphics.getDeltaTime(), velocityIterations, positionIterations);
             accumulator -= physicsTimeStep;
             loops++;
-        }
+        }*/
+        b2World.step(ZeroBit.getDelta(), velocityIterations, positionIterations);
     }
 
     /**

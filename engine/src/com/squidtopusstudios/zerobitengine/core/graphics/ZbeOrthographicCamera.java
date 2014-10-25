@@ -21,6 +21,10 @@ public class ZbeOrthographicCamera extends OrthographicCamera {
     protected float followZ = 0;
 
 
+    public boolean isFollowing() {
+        return followEntity != null;
+    }
+
     @Override
     public void update() {
         super.update();
@@ -28,8 +32,8 @@ public class ZbeOrthographicCamera extends OrthographicCamera {
             followX = followEntity.getX();
             followY = followEntity.getY();
             if (followEntity.isBox2D()) {
-                followX *= ZeroBit.getWorld().getPixelsPerUnit();
-                followY *= ZeroBit.getWorld().getPixelsPerUnit();
+                followX *= (float)ZeroBit.getWorld().getPixelsPerUnit();
+                followY *= (float)ZeroBit.getWorld().getPixelsPerUnit();
             }
             if (limitFollow) {
                 if (followX < minX) {
@@ -83,5 +87,10 @@ public class ZbeOrthographicCamera extends OrthographicCamera {
      */
     public void follow(ZbeEntityBase entity) {
         follow(entity, 0, 0, 0, 0, false);
+    }
+
+    /** Stop following **/
+    public void stopFollow() {
+        followEntity = null;
     }
 }

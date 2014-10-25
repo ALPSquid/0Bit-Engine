@@ -11,6 +11,8 @@ import java.util.Map;
 
 /**
  * Box2D version of {@link ZbeEntity}. Use instead of {@link ZbeEntity} if you want to use Box2D.
+ * Note that when working with Box2D, all the following parameters and return values are in world units. You can convert between using the methods from world (getWorld())
+ * Entity base methods, like sprite manipulation, are in pixels.
  */
 public class ZbeEntityB2D extends ZbeEntityBase {
 
@@ -47,10 +49,10 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return this;
     }
 
-    /** {@inheritDoc} */
+    /** Set the bounds dimensions in units. This should encapsulate your fixtures and is used for sprite positioning */
     @Override
     public ZbeEntityB2D setBounds(float width, float height) {
-        getBounds().setSize(width, height);
+        getBounds().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
         if (getSpriteDimensions().width == -1) {
             setSpriteDimensions((int)width, (int)height);
         }
@@ -64,15 +66,25 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     }
 
     /**
-     * Set the position (in pixels) of the bounds used for sprite positioning
+     * Set the position (in units) of the bounds used for sprite positioning
      * @return current instance of ZbeEntityB2D
      */
     public ZbeEntityB2D setBoundsPosition(float x, float y) {
-        getBounds().setPosition(x, y);
+        getBounds().setPosition(getWorld().unitsToPixels(x), getWorld().unitsToPixels(y));
         return this;
     }
 
-    /** see {@link ZbeEntityBase#setSpriteDimensions(int, int)} **/
+    /** Set the bounds offset to allow for easier positioning around all fixtures **/
+    public ZbeEntityB2D setBoundsOffset(float x, float y) {
+        getComponent(Box2DComponent.class).offset = new Vector2(x, y);
+        return this;
+    }
+
+    public Vector2 getBoundsOffset() {
+        return getComponent(Box2DComponent.class).offset;
+    }
+
+    /** see {@link ZbeEntityBase#setSpriteDimensions(int, int)} (in pixels) **/
     public ZbeEntityBase setSpriteDimensions(int width, int height) {
         super.setSpriteDimensions(width, height);
         //setBounds(width, height);
@@ -95,7 +107,7 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     }
 
     public Vector2 getVelocity() {
-        return getComponent(Box2DComponent.class).body.getLinearVelocity();
+        return getBody().getLinearVelocity();
     }
 
     public void setVelocity(float x, float y) {
@@ -113,6 +125,8 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     // ---- Box2D predefined Bodies
     /**
      * Creates this entity as a Box2D rectangle with fixture "base"
+     * @param width full width in units
+     * @param height full height in units
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asBox(float width, float height) {
@@ -126,13 +140,14 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         poly.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
-            setBounds(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
+            setBounds(width, height);
         }
         return this;
     }
 
     /**
      * Creates this entity as a Box2D circle with fixture "base"
+     * @param radius radius in units
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asCircle(float radius) {
@@ -146,17 +161,17 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         circle.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
-            setBounds(getWorld().unitsToPixels(radius * 2), getWorld().unitsToPixels(radius * 2));
+            setBounds(radius * 2, radius * 2);
         }
         return this;
     }
 
     /**
      * Creates this entity as a Box2D edge with fixture "base"
-     * @param x1 start x coordinate
-     * @param y1 start y coordinate
-     * @param x2 end x coordinate
-     * @param y2 end y coordinate
+     * @param x1 start x coordinate in units
+     * @param y1 start y coordinate in units
+     * @param x2 end x coordinate in units
+     * @param y2 end y coordinate in units
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asEdge(float x1, float y1, float x2, float y2) {
@@ -205,6 +220,18 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     /** @return default density, used with as<Shape>() **/
     public float getDefaultDensity() {
         return getComponent(Box2DComponent.class).density;
+    }
+
+    /** Set the friction for the given fixture **/
+    public void setFriction(String fixture, float friction) {
+        getFixture(fixture).setFriction(friction);
+    }
+
+    /** Set the friction for all of this entity's fixtures **/
+    public void setFriction(float friction) {
+        for (Fixture fixture : getFixtures().values()) {
+            fixture.setFriction(friction);
+        }
     }
 
     /** @return Map of fixtures for this entity's body **/

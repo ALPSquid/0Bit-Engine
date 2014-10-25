@@ -100,6 +100,7 @@ public class EntityManager implements IManager {
         }
         entities.get(entity.getType()).add(entity);
         entity.setWorld(world);
+        entity.create();
         ZeroBit.logger.logDebug("Adding entity: '" + entity.getType() + "'");
         ashleyInstance.addEntity(entity);
     }

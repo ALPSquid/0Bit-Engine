@@ -42,6 +42,8 @@ public abstract class ZbeEntityBase extends Entity {
         return isBox2D;
     }
 
+    /** Called when added to the world **/
+    public void create() {}
 
     /**
      * Set the entity type/group (used for collision detection)

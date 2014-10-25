@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -53,10 +54,18 @@ public class DefaultRenderer implements IRenderer{
     @Override
     public void update() {
         camera.update();
-        batch.setProjectionMatrix(camera.projection); // camera.combined
+        batch.setProjectionMatrix(camera.projection); // camera.projection
         batch.setTransformMatrix(camera.view);
         debugRenderer.setProjectionMatrix(camera.projection);
         debugRenderer.setTransformMatrix(camera.view);
+        b2Matrix.set(camera.combined);
+        b2Matrix.scale(ZeroBit.getWorld().getPixelsPerUnit(), ZeroBit.getWorld().getPixelsPerUnit(), 1);
+        if (!camera.isFollowing()) {
+            b2Matrix.translate((camera.viewportWidth / ZeroBit.getWorld().getPixelsPerUnit()) / 2, 0, 0);
+            batchOffsetX = camera.viewportWidth / 2;
+        } else if (batchOffsetX > 0) {
+            batchOffsetX = 0;
+        }
 
         Gdx.gl.glClearColor(ZeroBit.bg_colour.r, ZeroBit.bg_colour.g, ZeroBit.bg_colour.b, ZeroBit.bg_colour.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -105,7 +114,7 @@ public class DefaultRenderer implements IRenderer{
                         spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
                         break;
                 }
-                batch.draw(entity.getSprite(), spriteX, spriteY,
+                batch.draw(entity.getSprite(), spriteX+batchOffsetX, spriteY+batchOffsetY,
                         entity.getSpriteDimensions().width * ZeroBit.scale, entity.getSpriteDimensions().height * ZeroBit.scale);
             }
         }
@@ -134,26 +143,29 @@ public class DefaultRenderer implements IRenderer{
 
         // Debug
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for (ZbeEntity debugEntity : debugEntities) {
-            debugRenderer.setColor(debugEntity.getDebugColour());
-            debugRenderer.rect(debugEntity.getBounds().x, debugEntity.getBounds().y,
-                    debugEntity.getBounds().width * ZeroBit.scale, debugEntity.getBounds().height * ZeroBit.scale);
-        }
         if (ZeroBit.showDebugRenderer) {
             for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
                 debugRenderer.setColor(entity.getDebugColour());
-                //debugRenderer.rect(entity.getBounds().x, entity.getBounds().y,
-                //        entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
+                debugRenderer.rect(entity.getBounds().x+batchOffsetX, entity.getBounds().y+batchOffsetY,
+                        entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);
             }
             if (ZeroBit.getWorld().getWorldType().equals(ZeroBit.WorldType.BOX2D))
                 b2DebugRenderer.render(((WorldB2D)ZeroBit.getWorld()).getB2DWorld(), b2Matrix);
+        }
+        else {
+            // Debug render everything without a sprite
+            for (ZbeEntity debugEntity : debugEntities) {
+                debugRenderer.setColor(debugEntity.getDebugColour());
+                debugRenderer.rect(debugEntity.getBounds().x+batchOffsetX, debugEntity.getBounds().y+batchOffsetY,
+                        debugEntity.getBounds().width * ZeroBit.scale, debugEntity.getBounds().height * ZeroBit.scale);
+            }
         }
         debugRenderer.end();
     }
 
     public void updateB2dMatrix(boolean isBox2D) {
-        b2Matrix.scl(ZeroBit.getWorld().getPixelsPerUnit());
-        b2Matrix.translate((camera.viewportWidth/ZeroBit.getWorld().getPixelsPerUnit())/2, 0, 0);
+        //b2Matrix.scl(ZeroBit.getWorld().getPixelsPerUnit());
+        //b2Matrix.translate((camera.viewportWidth/ZeroBit.getWorld().getPixelsPerUnit())/2, 0, 0);
         if (isBox2D) {
             batchOffsetX = camera.viewportWidth/2;
         } else {
