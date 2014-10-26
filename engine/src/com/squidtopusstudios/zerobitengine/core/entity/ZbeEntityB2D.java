@@ -3,9 +3,7 @@ package com.squidtopusstudios.zerobitengine.core.entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
-import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
-import com.squidtopusstudios.zerobitengine.utils.ZbeBox2D;
 
 import java.util.Map;
 
@@ -55,6 +53,26 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         getBounds().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
         if (getSpriteDimensions().width == -1) {
             setSpriteDimensions((int)width, (int)height);
+        }
+        return this;
+    }
+
+    /** The idea is to automatically size and position the bounding box but to do so requires a lot of calculations
+     * on each fixture shape not to mention the fact that you can't actually get the vertices of a PolygonShape.
+     * Will just have to be manual for now
+     */
+    private ZbeEntityB2D adjustBounds() {
+        for (Fixture fixture : getFixtures().values()) {
+            switch (fixture.getType()) {
+                case Polygon:
+                    break;
+                case Circle:
+                    break;
+                case Edge:
+                    break;
+                case Chain:
+                    break;
+            }
         }
         return this;
     }
@@ -130,9 +148,8 @@ public class ZbeEntityB2D extends ZbeEntityBase {
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asBox(float width, float height) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = getBodyType();
-        setBody(getWorld().getB2DWorld().createBody(bodyDef));
+        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
+        setBodyType(getBodyType());
 
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(width / 2, height / 2);
@@ -151,9 +168,8 @@ public class ZbeEntityB2D extends ZbeEntityBase {
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asCircle(float radius) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = getBodyType();
-        setBody(getWorld().getB2DWorld().createBody(bodyDef));
+        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
+        setBodyType(getBodyType());
 
         CircleShape circle = new CircleShape();
         circle.setRadius(radius);
@@ -163,6 +179,73 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         if (getWidth() <= 0 && getHeight() <= 0) {
             setBounds(radius * 2, radius * 2);
         }
+        return this;
+    }
+
+    public ZbeEntityB2D asPolygon(float... vertices) {
+        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
+        setBodyType(getBodyType());
+
+        PolygonShape poly = new PolygonShape();
+        poly.set(vertices);
+        createFixture("base", poly, getDefaultDensity());
+        poly.dispose();
+
+        if (getWidth() <= 0 && getHeight() <= 0) {
+            // Calculate the bounds by finding the difference between the left most vertex and the right most vertex
+            // and the difference between the upper most vertex and the lower most vertex
+            float minX = 0;
+            float maxX = 0;
+            float minY = 0;
+            float maxY = 0;
+            for (int i=0; i < vertices.length; i++) {
+                if ((i & 1) == 0) {
+                    if (vertices[i] < minX) minX = vertices[i];
+                    else if (vertices[i] > maxX) maxX = vertices[i];
+                }
+                else {
+                    if (vertices[i] < minY) minY = vertices[i];
+                    else if (vertices[i] > maxY) maxY = vertices[i];
+                }
+            }
+
+            float offsetX = 0;
+            float offsetY = 0;
+            if (minX < 0) offsetX = minX;
+            if (minY < 0) offsetY = minY;
+            setBounds(maxX - minX, maxY - minY);
+            setBoundsOffset(getWorld().pixelsToUnits(getWidth()/2) + offsetX,
+                    getWorld().pixelsToUnits(getHeight()/2) + offsetY);
+        }
+        return this;
+    }
+
+    /**
+     * For platformers:
+     * Creates this entity with a base fixture set of a box and circle foot sensor
+     * Box is added to the fixture list with name 'base_box'
+     * foot sensor is added to the fixture list with name 'base_sensor'
+     * @param width full width in units
+     * @param height full height in units
+     */
+    public ZbeEntityB2D asSimpleActor(float width, float height) {
+        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
+        setBodyType(BodyDef.BodyType.DynamicBody);
+
+        PolygonShape poly = new PolygonShape();
+        poly.setAsBox(width/2, (height - width/2) / 2);
+        createFixture("base_box", poly, getDefaultDensity());
+        poly.dispose();
+
+        CircleShape circle = new CircleShape();
+        circle.setRadius(width/2);
+        circle.setPosition(new Vector2(0, -(height - width/2) / 2));
+        createFixture("base_sensor", circle, 0);
+        circle.dispose();
+
+        setBounds(width, height);
+        setBoundsOffset(0, -(height-(height - width/2))/2);
+
         return this;
     }
 
@@ -203,18 +286,20 @@ public class ZbeEntityB2D extends ZbeEntityBase {
      * @param name unique name for the fixture
      * @return the current ZbeEntityB2D instance
      */
-    public ZbeEntityB2D createFixture(String name, FixtureDef fixtureDef) {
-        getComponent(Box2DComponent.class).fixtures.put(name, getBody().createFixture(fixtureDef));
-        return this;
+    public Fixture createFixture(String name, FixtureDef fixtureDef) {
+        Fixture f = getBody().createFixture(fixtureDef);
+        getComponent(Box2DComponent.class).fixtures.put(name, f);
+        return f;
     }
     /**
      * See {@link #createFixture(String, FixtureDef)}
      * @param shape Shape to create a fixture from
      * @return the current ZbeEntityB2D instance
      */
-    public ZbeEntityB2D createFixture(String name, Shape shape, float density) {
-        getComponent(Box2DComponent.class).fixtures.put(name, getBody().createFixture(shape, density));
-        return this;
+    public Fixture createFixture(String name, Shape shape, float density) {
+        Fixture f = getBody().createFixture(shape, density);
+        getComponent(Box2DComponent.class).fixtures.put(name, f);
+        return f;
     }
 
     /** @return default density, used with as<Shape>() **/
