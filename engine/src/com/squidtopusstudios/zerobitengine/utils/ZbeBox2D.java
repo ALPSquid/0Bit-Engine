@@ -2,6 +2,10 @@ package com.squidtopusstudios.zerobitengine.utils;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Box2D utils for quick fixture creation. Turns out it doesn't actually work:
  * The methods can't be used as Box2D doesn't take a copy of the shape until Body.createFixture() is called

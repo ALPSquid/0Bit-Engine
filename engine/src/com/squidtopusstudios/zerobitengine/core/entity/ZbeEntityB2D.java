@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
+import com.squidtopusstudios.zerobitengine.utils.Utils;
 
 import java.util.Map;
 
@@ -187,35 +188,19 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         setBodyType(getBodyType());
 
         PolygonShape poly = new PolygonShape();
-        poly.set(vertices);
+        poly.set(Utils.normalize(vertices));
         createFixture("base", poly, getDefaultDensity());
         poly.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
             // Calculate the bounds by finding the difference between the left most vertex and the right most vertex
             // and the difference between the upper most vertex and the lower most vertex
-            float minX = 0;
-            float maxX = 0;
-            float minY = 0;
-            float maxY = 0;
-            for (int i=0; i < vertices.length; i++) {
-                if ((i & 1) == 0) {
-                    if (vertices[i] < minX) minX = vertices[i];
-                    else if (vertices[i] > maxX) maxX = vertices[i];
-                }
-                else {
-                    if (vertices[i] < minY) minY = vertices[i];
-                    else if (vertices[i] > maxY) maxY = vertices[i];
-                }
-            }
-
-            float offsetX = 0;
-            float offsetY = 0;
-            if (minX < 0) offsetX = minX;
-            if (minY < 0) offsetY = minY;
-            setBounds(maxX - minX, maxY - minY);
-            setBoundsOffset(getWorld().pixelsToUnits(getWidth()/2) + offsetX,
-                    getWorld().pixelsToUnits(getHeight()/2) + offsetY);
+            float[][] coords = Utils.splitXY(vertices);
+            float[] minMaxX = Utils.minMax(coords[0]);
+            float[] minMaxY = Utils.minMax(coords[1]);
+            setBounds(minMaxX[1] - minMaxX[0], minMaxY[1] - minMaxY[0]);
+            //setBoundsOffset(getWorld().pixelsToUnits(getWidth()/2) + offsetX,
+            //        getWorld().pixelsToUnits(getHeight()/2) + offsetY);
         }
         return this;
     }
@@ -232,19 +217,20 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
         setBodyType(BodyDef.BodyType.DynamicBody);
 
+        float boxHeight =  height - width/2;
+        float boxOffset = (width/2)/2;
         PolygonShape poly = new PolygonShape();
-        poly.setAsBox(width/2, (height - width/2) / 2);
+        poly.setAsBox(width/2, boxHeight / 2, new Vector2(0, boxOffset), 0);
         createFixture("base_box", poly, getDefaultDensity());
         poly.dispose();
 
         CircleShape circle = new CircleShape();
         circle.setRadius(width/2);
-        circle.setPosition(new Vector2(0, -(height - width/2) / 2));
+        circle.setPosition(new Vector2(0, -boxHeight/2 + boxOffset));
         createFixture("base_sensor", circle, 0);
         circle.dispose();
 
         setBounds(width, height);
-        setBoundsOffset(0, -(height-(height - width/2))/2);
 
         return this;
     }
