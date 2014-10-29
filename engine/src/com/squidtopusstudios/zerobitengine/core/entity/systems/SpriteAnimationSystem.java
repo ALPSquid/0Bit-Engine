@@ -18,6 +18,8 @@ public class SpriteAnimationSystem  extends ZbeSystem {
 
     SpriteAnimationComponent spriteAnim;
     TextureRegion textureRegion;
+    boolean flipX;
+    boolean flipY;
 
     @Override
     public void processEntity(ZbeEntityBase entity, float deltaTime) {
@@ -26,7 +28,10 @@ public class SpriteAnimationSystem  extends ZbeSystem {
             // update the current animation
             spriteAnim.stateTime += deltaTime;
             textureRegion = spriteAnim.getCurrentFrame();
-            entity.setSprite(textureRegion);
+            flipX = entity.getSprite().isFlipX();
+            flipY = entity.getSprite().isFlipY();
+            entity.setTextureRegion(textureRegion);
+            if (flipX || flipY) entity.flipSprite(flipX, flipY);
         }
     }
 
@@ -90,11 +95,11 @@ public class SpriteAnimationSystem  extends ZbeSystem {
      * @param name name of the registered animation to set
      */
     public void setAnimation(ZbeEntityBase entity, String name) {
-        spriteAnim = ComponentMappers.animation.get(entity);
-        if (spriteAnim.currentAnimation == null || !spriteAnim.currentAnimation.getName().equals(name)) {
+        if (entity.getCurrentAnimation() == null || !entity.getCurrentAnimation().getName().equals(name)) {
             //ZeroBit.logger.logDebug("Setting " + entity.getType() + " animation to " + name);
-            spriteAnim.currentAnimation = spriteAnim.animations.get(name);
-            if (spriteAnim.currentAnimation == null) {
+            //spriteAnim.currentAnimation = spriteAnim.animations.get(name);
+            ComponentMappers.animation.get(entity).currentAnimation = entity.getAnimation(name);
+            if (entity.getCurrentAnimation() == null) {
                 ZeroBit.logger.logError("NullPointer trying to get animation: '"+name+"', did you forget to create it?");
             }
         }

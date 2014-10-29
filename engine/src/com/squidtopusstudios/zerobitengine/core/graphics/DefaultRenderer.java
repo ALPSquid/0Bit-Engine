@@ -75,51 +75,55 @@ public class DefaultRenderer implements IRenderer{
         batch.begin();
         // Entities
         for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
-            if (entity.getSprite() == null) {
+            if (entity.getSprite().getTexture() == null) {
                 debugEntities.add((ZbeEntityBase)entity);
             } else {
                 // Add offset in pixels relative to the original sprite dimensions.
                 // For example, if the sprite is originally 16x16 but has been scaled in the game to 160x160
                 // with a y offset of 1, we need to move the sprite up by 10 pixels as 1 visual sprite pixel = 10 real pixels
-                spriteX = entity.getBounds().x + (entity.getSpriteOffset().x * (entity.getSpriteDimensions().width / entity.getSprite().getRegionWidth()));
-                spriteY = entity.getBounds().y + (entity.getSpriteOffset().y * (entity.getSpriteDimensions().height / entity.getSprite().getRegionHeight()));
+                //spriteX = entity.getBounds().x + (entity.getSpriteOffset().x * (entity.getSpriteDimensions().width / entity.getSprite().getRegionWidth()));
+                //spriteY = entity.getBounds().y + (entity.getSpriteOffset().y * (entity.getSpriteDimensions().height / entity.getSprite().getRegionHeight()));
+                spriteX = entity.getBounds().x + (entity.getSpriteOffset().x * (entity.getSprite().getWidth() / entity.getSprite().getRegionWidth()));
+                spriteY = entity.getBounds().y + (entity.getSpriteOffset().y * (entity.getSprite().getHeight() / entity.getSprite().getRegionHeight()));
                 switch (entity.getSpriteAlign()) {
                     case BOTTOM:
-                        spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
-                        System.out.println(new Vector2(spriteX, spriteY).sub(entity.getBounds().x, entity.getBounds().y));
+                        spriteX -= (entity.getSprite().getWidth() - entity.getWidth()) / 2;
                         break;
                     case BOTTOM_LEFT:
                         // default
                         break;
                     case BOTTOM_RIGHT:
-                        spriteX += entity.getWidth() - entity.getSpriteDimensions().width;
+                        spriteX += entity.getWidth() - entity.getSprite().getWidth();
                         break;
                     case CENTER:
-                        spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
-                        spriteY -= (entity.getSpriteDimensions().height - entity.getHeight()) / 2;
+                        spriteX -= (entity.getSprite().getWidth() - entity.getWidth()) / 2;
+                        spriteY -= (entity.getSprite().getHeight() - entity.getHeight()) / 2;
                         break;
                     case LEFT:
-                        spriteY -= (entity.getSpriteDimensions().height - entity.getHeight()) / 2;
+                        spriteY -= (entity.getSprite().getHeight() - entity.getHeight()) / 2;
                         break;
                     case RIGHT:
-                        spriteX += entity.getWidth() - entity.getSpriteDimensions().width;
-                        spriteY -= (entity.getSpriteDimensions().height - entity.getHeight()) / 2;
+                        spriteX += entity.getWidth() - entity.getSprite().getWidth();
+                        spriteY -= (entity.getSprite().getHeight() - entity.getHeight()) / 2;
                         break;
                     case TOP:
-                        spriteX -= (entity.getSpriteDimensions().width - entity.getWidth()) / 2;
-                        spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
+                        spriteX -= (entity.getSprite().getWidth() - entity.getWidth()) / 2;
+                        spriteY += entity.getHeight() - entity.getSprite().getHeight();
                         break;
                     case TOP_LEFT:
-                        spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
+                        spriteY += entity.getHeight() - entity.getSprite().getHeight();
                         break;
                     case TOP_RIGHT:
-                        spriteX += entity.getWidth() - entity.getSpriteDimensions().width;
-                        spriteY += entity.getHeight() - entity.getSpriteDimensions().height;
+                        spriteX += entity.getWidth() - entity.getSprite().getWidth();
+                        spriteY += entity.getHeight() - entity.getSprite().getHeight();
                         break;
                 }
                 if (!entity.isBox2D()) {
-                    batch.draw(entity.getSprite(), spriteX + batchOffsetX, spriteY + batchOffsetY,
-                            entity.getSpriteDimensions().width * ZeroBit.scale, entity.getSpriteDimensions().height * ZeroBit.scale);
+                    //batch.draw(entity.getSprite(), spriteX + batchOffsetX, spriteY + batchOffsetY,
+                    //        entity.getSpriteDimensions().width * ZeroBit.scale, entity.getSpriteDimensions().height * ZeroBit.scale);
+                    entity.getSprite().setPosition(spriteX + batchOffsetX, spriteY + batchOffsetY);
+                    entity.getSprite().setScale(ZeroBit.scale);
+                    entity.getSprite().draw(batch);
                 } else {
                     ZbeEntityB2D zbeEntityB2D = ((ZbeEntityB2D) entity);
                     /*batch.draw(zbeEntityB2D.getSprite(),
@@ -129,23 +133,15 @@ public class DefaultRenderer implements IRenderer{
                             entity.getSpriteDimensions().width, entity.getSpriteDimensions().height,
                             ZeroBit.scale, ZeroBit.scale, zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);*/
 
-                    //TODO: All aboard the Sprite train, choo! choo!
-                    // Keep existing implementation but add a Sprite object and use that instead in getSprite()
-                    // This is messed up when not using Box2D camera follow though
-                    Sprite sprite = new Sprite(entity.getSprite());
-                    sprite.setSize(entity.getSpriteDimensions().width, entity.getSpriteDimensions().height);
-                    sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-                    sprite.setPosition(spriteX, spriteY);
-                    sprite.rotate(zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);
-                    sprite.draw(batch);
+                    entity.getSprite().setPosition(spriteX + batchOffsetX, spriteY + batchOffsetY);
+                    entity.getSprite().setScale(ZeroBit.scale);
+                    if (entity.autoOrigin()) entity.getSprite().setOriginCenter();
+                    if (entity.autoRotate()) entity.getSprite().setRotation(zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);
+                    entity.getSprite().draw(batch);
                 }
             }
         }
         batch.end();
-
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.circle(spriteX, spriteY, 4);
-        debugRenderer.end();
 
         // Viewport bars
         if (viewport.getBottomGutterHeight() > 0 || viewport.getLeftGutterWidth() > 0) {
@@ -192,10 +188,6 @@ public class DefaultRenderer implements IRenderer{
                         zbeEntityB2D.getHeight()/2 + zbeEntityB2D.getBoundsOffset().y,
                         zbeEntityB2D.getBounds().width, zbeEntityB2D.getBounds().height,
                         ZeroBit.scale, ZeroBit.scale, zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);
-                // Bounds rotation point
-                debugRenderer.circle(ZeroBit.getWorld().unitsToPixels(zbeEntityB2D.getX()),
-                        ZeroBit.getWorld().unitsToPixels(zbeEntityB2D.getY()),
-                        4);
             } else {
                 debugRenderer.rect(entity.getBounds().x+batchOffsetX, entity.getBounds().y+batchOffsetY,
                         entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);

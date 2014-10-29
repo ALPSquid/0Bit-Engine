@@ -2,7 +2,9 @@ package com.squidtopusstudios.zerobitengine.core.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.joints.*;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
+import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
 import com.squidtopusstudios.zerobitengine.utils.Utils;
 
@@ -22,39 +24,58 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     }
 
     /**
-     * Set the Box2D type
+     * Set the Box2D type for the Body
+     * @param bodyName name of the body
      * @param type BodyType to set
      * @return current instance of ZbeEntityB2D
      */
+    public ZbeEntityB2D setBodyType(String bodyName, BodyDef.BodyType type) {
+        getBody(bodyName).setType(type);
+        return this;
+    }
+    /** see {@link #setBodyType(String, BodyDef.BodyType)} using first added Body **/
     public ZbeEntityB2D setBodyType(BodyDef.BodyType type) {
-        getComponent(Box2DComponent.class).body.setType(type);
+        getBody().setType(type);
         return this;
     }
 
-    /** @return the entity's BodyType **/
-    public BodyDef.BodyType getBodyType() {
-        return getComponent(Box2DComponent.class).body.getType();
-    }
-
     /**
-     * Set the Vector2 position of the entity's body in units
+     * Set the Vector2 position of the first added body
      * Also sets the entity's bounds which are used for sprite positioning in Box2D entities
      * @return current ZbeEntityB2D instance
      */
     @Override
     public ZbeEntityB2D setPosition(float x, float y) {
-        getComponent(Box2DComponent.class).body.setTransform(x, y, 0);
+        getBody().setTransform(x, y, 0);
+        setBoundsPosition(getWorld().unitsToPixels(x), getWorld().unitsToPixels(y));
+        return this;
+    }
+    /** see {@link #setPosition(float, float)}**/
+    public ZbeEntityB2D setPosition(String bodyName, float x, float y) {
+        getBody(bodyName).setTransform(x, y, 0);
         setBoundsPosition(getWorld().unitsToPixels(x), getWorld().unitsToPixels(y));
         return this;
     }
 
+    /**
+     * Set the bounds dimensions in units. This should encapsulate your fixtures and is used for sprite positioning
+     * @param resizeSprite whether to resize the sprite to match the new bounds dimensions
+     **/
+    public ZbeEntityB2D setBounds(float width, float height, boolean resizeSprite) {
+        getBounds().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
+        if (resizeSprite) {
+            getSprite().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
+        }
+        /*if (getSpriteDimensions().width == -1) {
+            setSpriteDimensions((int)width, (int)height);
+        }*/
+
+        return this;
+    }
     /** Set the bounds dimensions in units. This should encapsulate your fixtures and is used for sprite positioning */
     @Override
     public ZbeEntityB2D setBounds(float width, float height) {
-        getBounds().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
-        if (getSpriteDimensions().width == -1) {
-            setSpriteDimensions((int)width, (int)height);
-        }
+        setBounds(width, height, true);
         return this;
     }
 
@@ -78,10 +99,14 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return this;
     }
 
-    /** @return entity's body position in units **/
+    /** @return position in units of the first added body **/
     @Override
     public Vector2 getPosition() {
-        return getComponent(Box2DComponent.class).body.getPosition();
+        return getBody().getPosition();
+    }
+    /** see {@link #getPosition()}**/
+    public Vector2 getPosition(String bodyName) {
+        return getBody(bodyName).getPosition();
     }
 
     /**
@@ -93,7 +118,8 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return this;
     }
 
-    /** Set the bounds offset to allow for easier positioning around all fixtures **/
+    /** Set the bounds offset to allow for easier positioning around all fixtures.
+     *  Warning: If an offset is set when rotation is enabled, the bounds will not stay centered while rotating! **/
     public ZbeEntityB2D setBoundsOffset(float x, float y) {
         getComponent(Box2DComponent.class).offset = new Vector2(x, y);
         return this;
@@ -103,19 +129,14 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return getComponent(Box2DComponent.class).offset;
     }
 
-    /** see {@link ZbeEntityBase#setSpriteDimensions(int, int)} (in pixels) **/
-    public ZbeEntityBase setSpriteDimensions(int width, int height) {
-        super.setSpriteDimensions(width, height);
-        //setBounds(width, height);
-        return this;
-    }
-
     /** If false, collisions won't be detected. */
     @Override
     public ZbeEntityB2D enableCollisions(boolean collidable) {
         getComponent(Box2DComponent.class).collidable = collidable;
-        for (Fixture fixture : getComponent(Box2DComponent.class).body.getFixtureList()) {
-            fixture.setSensor(!collidable);
+        for (Body body : getBodies().values()) {
+            for (Fixture fixture : body.getFixtureList()) {
+                fixture.setSensor(!collidable);
+            }
         }
         return this;
     }
@@ -125,6 +146,10 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return getComponent(PhysicsComponent.class).collidable;
     }
 
+    public Vector2 getVelocity(String bodyName) {
+        return getBody(bodyName).getLinearVelocity();
+    }
+    /** get the velocity of the first body added **/
     public Vector2 getVelocity() {
         return getBody().getLinearVelocity();
     }
@@ -143,18 +168,22 @@ public class ZbeEntityB2D extends ZbeEntityBase {
 
     // ---- Box2D predefined Bodies
     /**
-     * Creates this entity as a Box2D rectangle with fixture "base"
+     * Creates this entity as a Box2D rectangle with body "base_box" fixture "base_box"
      * @param width full width in units
      * @param height full height in units
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asBox(float width, float height) {
-        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
-        setBodyType(getBodyType());
+        BodyDef bodyDef = new BodyDef();
+        createBody("base_box", bodyDef);
 
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(width / 2, height / 2);
-        createFixture("base", poly, getDefaultDensity());
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = poly;
+        fixtureDef.density = getDefaultDensity();
+        fixtureDef.friction = getDefaultFriction();
+        createFixture("base_box", "base_box", fixtureDef);
         poly.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
@@ -164,17 +193,21 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     }
 
     /**
-     * Creates this entity as a Box2D circle with fixture "base"
+     * Creates this entity as a Box2D circle with body "base_circle" and fixture "base_circle"
      * @param radius radius in units
      * @return current ZbeEntityB2D instance
      */
     public ZbeEntityB2D asCircle(float radius) {
-        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
-        setBodyType(getBodyType());
+        BodyDef bodyDef = new BodyDef();
+        createBody("base_circle", bodyDef);
 
         CircleShape circle = new CircleShape();
         circle.setRadius(radius);
-        createFixture("base", circle, getDefaultDensity());
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = getDefaultDensity();
+        fixtureDef.friction = getDefaultFriction();
+        createFixture("base_circle", "base_circle", fixtureDef);
         circle.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
@@ -183,13 +216,22 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return this;
     }
 
+    /**
+     * Creates this entity as a Box2D polygon with body "base_poly" and fixture "base_poly"
+     * @param vertices the vertices to construct a polygon from
+     * @return current ZbeEntityB2D instance
+     */
     public ZbeEntityB2D asPolygon(float... vertices) {
-        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
-        setBodyType(getBodyType());
+        BodyDef bodyDef = new BodyDef();
+        createBody("base_poly", bodyDef);
 
         PolygonShape poly = new PolygonShape();
         poly.set(Utils.normalize(vertices));
-        createFixture("base", poly, getDefaultDensity());
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = poly;
+        fixtureDef.density = getDefaultDensity();
+        fixtureDef.friction = getDefaultFriction();
+        createFixture("base_poly", "base_poly", fixtureDef);
         poly.dispose();
 
         if (getWidth() <= 0 && getHeight() <= 0) {
@@ -207,36 +249,66 @@ public class ZbeEntityB2D extends ZbeEntityBase {
 
     /**
      * For platformers:
-     * Creates this entity with a base fixture set of a box and circle foot sensor
-     * Box is added to the fixture list with name 'base_box'
-     * foot sensor is added to the fixture list with name 'base_sensor'
+     * Creates this entity with the following:
+     *      - A box body with name 'base_box'
+     *          - With a box fixture 'base_box'
+     *      - A circle body with name 'base_motor'
+     *          - With a circle fixture 'base_motor'
+     *      - A revolute joint with name 'base_motor' connecting the two bodies together
      * @param width full width in units
      * @param height full height in units
      */
     public ZbeEntityB2D asSimpleActor(float width, float height) {
-        setBody(getWorld().getB2DWorld().createBody(new BodyDef()));
-        setBodyType(BodyDef.BodyType.DynamicBody);
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        createBody("base_box", bodyDef);
 
         float boxHeight =  height - width/2;
         float boxOffset = (width/2)/2;
         PolygonShape poly = new PolygonShape();
         poly.setAsBox(width/2, boxHeight / 2, new Vector2(0, boxOffset), 0);
-        createFixture("base_box", poly, getDefaultDensity());
+        createFixture("base_box", "base_box", poly, getDefaultDensity());
         poly.dispose();
 
-        CircleShape circle = new CircleShape();
+        /*CircleShape circle = new CircleShape();
         circle.setRadius(width/2);
         circle.setPosition(new Vector2(0, -boxHeight/2 + boxOffset));
         createFixture("base_sensor", circle, 0);
+        circle.dispose();*/
+
+        bodyDef.position.set(getBody("base_box").getPosition());
+        createBody("base_motor", bodyDef);
+
+        CircleShape circle = new CircleShape();
+        circle.setRadius(width/2);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = getDefaultDensity();
+        fixtureDef.friction = getDefaultFriction();
+        fixtureDef.restitution = 0;
+        createFixture("base_motor", "base_motor", fixtureDef);
         circle.dispose();
 
-        setBounds(width, height);
+        RevoluteJointDef motor = new RevoluteJointDef();
+        motor.enableMotor = true;
+        motor.maxMotorTorque = 50;
+        motor.bodyA = getBody("base_box");
+        motor.bodyB = getBody("base_motor");
+        motor.collideConnected = false;
+        motor.localAnchorA.set(0, -boxHeight/2 + boxOffset);
+        motor.localAnchorB.set(0, 0);
+
+        createJoint("base_motor", motor);
+
+        if (getWidth() <= 0 && getHeight() <= 0) {
+            setBounds(width, height);
+        }
 
         return this;
     }
 
     /**
-     * Creates this entity as a Box2D edge with fixture "base"
+     * Creates this entity as a Box2D edge with body "base" and fixture "base"
      * @param x1 start x coordinate in units
      * @param y1 start y coordinate in units
      * @param x2 end x coordinate in units
@@ -245,77 +317,143 @@ public class ZbeEntityB2D extends ZbeEntityBase {
      */
     public ZbeEntityB2D asEdge(float x1, float y1, float x2, float y2) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = getBodyType();
-        setBody(getWorld().getB2DWorld().createBody(bodyDef));
+        bodyDef.type = getDefaultBodyType();
+        createBody("base", bodyDef);
 
         EdgeShape edge = new EdgeShape();
         edge.set(x1, y1, x2, y2);
-        createFixture("base", edge, getDefaultDensity());
+        createFixture("base", "base", edge, getDefaultDensity());
         edge.dispose();
         return this;
     }
 
     // ---- Box2D specific Getters and Setters ----
-    /** @return Body for this entity **/
+    /** @return the first Body added to this entity **/
     public Body getBody() {
-        return getComponent(Box2DComponent.class).body;
+        return getComponent(Box2DComponent.class).bodies.values().iterator().next();
     }
-    /** @return current ZbeEntityB2D instance **/
-    public ZbeEntityB2D setBody(Body body) {
-        getComponent(Box2DComponent.class).body = body;
+
+    /** @return the Body by name belonging to this entity **/
+    public Body getBody(String bodyName) {
+        return getBodies().get(bodyName);
+    }
+    /** @return Map of Bodies belonging to this entity **/
+    public Map<String, Body> getBodies() {
+        return getComponent(Box2DComponent.class).bodies;
+    }
+
+    /** Gets the name of a registered Body. Make sure the Body your requesting the name of has been registered with the entity first!
+     * @return the registered name of the body
+     */
+    public String getBodyName(Body body) {
+        for (Map.Entry<String, Body> entry : getBodies().entrySet()) {
+            if (entry.getValue().equals(body)) {
+                return entry.getKey();
+            }
+        }
+        ZeroBit.logger.logError("Provided Body could not be found, are you sure you registered it with addBody()/createBody()?");
+        return "";
+    }
+
+    /** Adds the Body to the Map of Bodies belonging to this entity
+     * @param name unique name for the body
+     * @return current ZbeEntityB2D instance **/
+    public ZbeEntityB2D addBody(String name, Body body) {
+        getBodies().put(name, body);
         return this;
+    }
+    /** Creates and adds a Body to the Map of Bodies belonging to this entity **/
+    public Body createBody(String name, BodyDef bodyDef) {
+        Body b = getWorld().getB2DWorld().createBody(bodyDef);
+        getBodies().put(name, b);
+        return b;
+    }
+
+    /** @return Map of all fixtures belonging to this entity **/
+    public Map<String, Fixture> getFixtures() {
+        return getComponent(Box2DComponent.class).fixtures;
+    }
+    /** @return Fixture belonging to this entity **/
+    public Fixture getFixture(String fixtureName) {
+        return getFixtures().get(fixtureName);
     }
 
     /**
-     * Creates and adds a fixture to this entity's body and adds the fixture
+     * Creates and adds a fixture to the body and adds the fixture
      * to a map of named fixtures for this entity for easy access
-     * @param name unique name for the fixture
-     * @return the current ZbeEntityB2D instance
+     * @param bodyName name of the body to add the fixture to
+     * @param fixtureName unique name for the fixture
+     * @return the created fixture
      */
-    public Fixture createFixture(String name, FixtureDef fixtureDef) {
-        Fixture f = getBody().createFixture(fixtureDef);
-        getComponent(Box2DComponent.class).fixtures.put(name, f);
+    public Fixture createFixture(String bodyName, String fixtureName, FixtureDef fixtureDef) {
+        Fixture f = getBody(bodyName).createFixture(fixtureDef);
+        getComponent(Box2DComponent.class).fixtures.put(fixtureName, f);
         return f;
     }
     /**
-     * See {@link #createFixture(String, FixtureDef)}
+     * See {@link #createFixture(String bodyName, String fixtureName, FixtureDef fixtureDef)}
      * @param shape Shape to create a fixture from
-     * @return the current ZbeEntityB2D instance
+     * @return the created fixture
      */
-    public Fixture createFixture(String name, Shape shape, float density) {
-        Fixture f = getBody().createFixture(shape, density);
-        getComponent(Box2DComponent.class).fixtures.put(name, f);
+    public Fixture createFixture(String bodyName, String fixtureName, Shape shape, float density) {
+        Fixture f = getBody(bodyName).createFixture(shape, density);
+        getFixtures().put(fixtureName, f);
         return f;
+    }
+
+    /** @return map of joints belonging to this entity **/
+    public Map<String, Joint> getJoints() {
+        return getComponent(Box2DComponent.class).joints;
+    }
+
+    /** @return the Joint by name belonging to this entity **/
+    public Joint getJoint(String jointName) {
+        return getJoints().get(jointName);
+    }
+
+    /**
+     * Creates a Joint from a JointDef and adds it to the map of joints belonging to this entity
+     * @param jointName unique name for the joint
+     * @return the created Joint
+     */
+    public Joint createJoint(String jointName, JointDef jointDef) {
+        Joint j = getWorld().getB2DWorld().createJoint(jointDef);
+        getJoints().put(jointName, j);
+        return j;
     }
 
     /** @return default density, used with as<Shape>() **/
     public float getDefaultDensity() {
-        return getComponent(Box2DComponent.class).density;
+        return getComponent(Box2DComponent.class).defaultDensity;
+    }
+
+    /** @return default friction, used with as<Shape>() **/
+    public float getDefaultFriction() {
+        return getComponent(Box2DComponent.class).defaultFriction;
+    }
+
+    /** @return default body type, used with as<Shape>() **/
+    public BodyDef.BodyType getDefaultBodyType() {
+        return getComponent(Box2DComponent.class).defaultType;
     }
 
     /** Set the friction for the given fixture **/
-    public void setFriction(String fixture, float friction) {
+    public ZbeEntityB2D setFriction(String fixture, float friction) {
         getFixture(fixture).setFriction(friction);
+        return this;
     }
 
     /** Set the friction for all of this entity's fixtures **/
-    public void setFriction(float friction) {
+    public ZbeEntityB2D setFriction(float friction) {
         for (Fixture fixture : getFixtures().values()) {
             fixture.setFriction(friction);
         }
-    }
-
-    /** @return Map of fixtures for this entity's body **/
-    public Map<String, Fixture> getFixtures() {
-        return getComponent(Box2DComponent.class).fixtures;
-    }
-    /** @return Fixture from this entity's body **/
-    public Fixture getFixture(String fixtureName) {
-        return getFixtures().get(fixtureName);
+        return this;
     }
 
     @Override
     protected WorldB2D getWorld() {
         return (WorldB2D)super.getWorld();
     }
+
 }

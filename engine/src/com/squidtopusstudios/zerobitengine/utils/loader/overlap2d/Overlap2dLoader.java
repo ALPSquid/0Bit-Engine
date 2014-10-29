@@ -66,7 +66,7 @@ public class Overlap2dLoader {
             ZbeEntity entity = new ZbeEntity(item.itemIdentifier);
             entity.setPosition(item.x, item.y)
                     .setBounds(tr.getRegionWidth()*item.scaleX, tr.getRegionHeight()*item.scaleY)
-                    .setSprite(tr);
+                    .setTexture(tr.getTexture());
             try {
                 // Load the mesh data and add to a list of point arrays
                 MeshVO meshData = projectVO.meshes.get(item.meshId+"");

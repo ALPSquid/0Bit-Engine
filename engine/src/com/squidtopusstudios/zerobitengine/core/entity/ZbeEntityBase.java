@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -36,6 +37,12 @@ public abstract class ZbeEntityBase extends Entity {
         add(new LogicComponent());
         add(new StateComponent());
         setType(type);
+        initSprite();
+    }
+
+    private void initSprite() {
+        getSprite().setOrigin(-1, -1);
+        getSprite().setRotation(-0.01f);
     }
 
     public boolean isBox2D() {
@@ -92,31 +99,32 @@ public abstract class ZbeEntityBase extends Entity {
     public void update(float deltaTime) {}
 
     /**
-     * Set the Texture component
-     * @param texture Texture to set
+     * Set the Sprite component. Note: If you want to change the texture, use setTexture
+     * @param sprite Texture to set
      * @return current ZbeEntity instance
      */
-    public ZbeEntityBase setSprite(Texture texture) {
-        ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).setTexture(this, texture);
+    public ZbeEntityBase setSprite(Sprite sprite) {
+        //ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).setTexture(this, texture);
+        getSprite().set(sprite);
         return this;
     }
 
-    /**
-     * Set the TextureRegion component
-     * @param textureRegion TextureRegion to set
-     * @return current ZbeEntity instance
-     */
-    public ZbeEntityBase setSprite(TextureRegion textureRegion) {
-        ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).setTextureRegion(this, textureRegion);
+    /** @return the Sprite for this entity */
+    public Sprite getSprite() {
+        //return ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).getSprite(this);
+        return getComponent(ResourceComponent.class).sprite;
+    }
+
+    /** Set the texture for the entity **/
+    public ZbeEntityBase setTexture(Texture texture) {
+        getSprite().setRegion(texture);
         return this;
     }
 
-    /**
-     * Get the currently set TextureRegion component
-     * @return Currently set TextureRegion
-     */
-    public TextureRegion getSprite() {
-        return ZeroBit.managers.entityManager().getSystem(SpriteSystem.class).getSprite(this);
+    /** Set the texture region for the entity **/
+    public ZbeEntityBase setTextureRegion(TextureRegion region) {
+        getSprite().setRegion(region);
+        return this;
     }
 
     /**
@@ -271,17 +279,11 @@ public abstract class ZbeEntityBase extends Entity {
      * @return current ZbeEntityBase instance
      */
     public ZbeEntityBase setSpriteDimensions(int width, int height) {
-        getComponent(ResourceComponent.class).spriteDimensions.width = width;
-        getComponent(ResourceComponent.class).spriteDimensions.height = height;
+        //TODO maintain aspect ratio option
+        //getComponent(ResourceComponent.class).spriteDimensions.width = width;
+        //getComponent(ResourceComponent.class).spriteDimensions.height = height;
+        getSprite().setSize(width, height);
         return this;
-    }
-
-    /**
-     * Get the custom dimensions of the entity's sprite.
-     * @return entity's SpriteDimensions
-     */
-    public ResourceComponent.SpriteDimensions getSpriteDimensions() {
-        return getComponent(ResourceComponent.class).spriteDimensions;
     }
 
     /**
@@ -354,6 +356,25 @@ public abstract class ZbeEntityBase extends Entity {
 
     public String getState() {
         return getComponent(StateComponent.class).state;
+    }
+
+    /** @return whether the engine will handle sprite rotation automatically **/
+    public boolean autoRotate() {
+        return getComponent(ResourceComponent.class).autoRotate;
+    }
+    /** @param autoRotate whether the engine should handle sprite rotation automatically **/
+    public ZbeEntityBase setAutoRotate(boolean autoRotate) {
+        getComponent(ResourceComponent.class).autoRotate = autoRotate;
+        return this;
+    }
+    /** @return whether the engine will handle the sprite origin automatically **/
+    public boolean autoOrigin() {
+        return getComponent(ResourceComponent.class).autoOrigin;
+    }
+    /** @param autoOrigin whether the engine should handle the sprite origin automatically **/
+    public ZbeEntityBase setAutoOrigin(boolean autoOrigin) {
+        getComponent(ResourceComponent.class).autoOrigin = autoOrigin;
+        return this;
     }
 
     public void dispose() {

@@ -7,6 +7,7 @@ import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -17,12 +18,13 @@ public class Box2DComponent extends Component {
     public boolean collidable = true;
     public Vector2 offset = new Vector2(0, 0);
 
-    public Body body = ((WorldB2D)ZeroBit.getWorld()).getB2DWorld().createBody(new BodyDef());
-    public Map<String, Fixture> fixtures = new HashMap<String, Fixture>();
+    //public Body body = ((WorldB2D)ZeroBit.getWorld()).getB2DWorld().createBody(new BodyDef());
+    public Map<String, Body> bodies = new LinkedHashMap<String, Body>();
+    public Map<String, Fixture> fixtures = new LinkedHashMap<String, Fixture>();
+    public Map<String, Joint> joints = new LinkedHashMap<String, Joint>();
 
-    public float friction = 0.8f;
-    public float restitution = 0.3f;
-    public float density = 0.7f;
-    public float angle = 0;
-    public BodyDef.BodyType type = BodyDef.BodyType.StaticBody;
+    public float defaultFriction = 0.8f;
+    public float defaultRestitution = 0.3f;
+    public float defaultDensity = 0.7f;
+    public BodyDef.BodyType defaultType = BodyDef.BodyType.StaticBody;
 }
