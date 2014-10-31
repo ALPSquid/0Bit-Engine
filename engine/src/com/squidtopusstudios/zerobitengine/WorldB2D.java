@@ -32,15 +32,15 @@ public class WorldB2D extends WorldBase {
 
     @Override
     public void update() {
-        /*float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+        float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
         accumulator += frameTime;
         int loops = 0;
         while (accumulator >= physicsTimeStep && loops < maxFrameSkip) {
-            b2World.step(Gdx.graphics.getDeltaTime(), velocityIterations, positionIterations);
+            b2World.step(physicsTimeStep, velocityIterations, positionIterations);
             accumulator -= physicsTimeStep;
             loops++;
-        }*/
-        b2World.step(ZeroBit.getDelta(), velocityIterations, positionIterations);
+        }
+        //b2World.step(ZeroBit.getDelta(), velocityIterations, positionIterations);
     }
 
     /**

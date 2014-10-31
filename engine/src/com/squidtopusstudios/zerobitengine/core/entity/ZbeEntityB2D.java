@@ -1,5 +1,6 @@
 package com.squidtopusstudios.zerobitengine.core.entity;
 
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.*;
@@ -16,6 +17,9 @@ import java.util.Map;
  * Entity base methods, like sprite manipulation, are in pixels.
  */
 public class ZbeEntityB2D extends ZbeEntityBase {
+
+    public PolygonRegion polygonRegion; //TODO Test and remove
+
 
     public ZbeEntityB2D(String type) {
         super(type);
@@ -290,8 +294,8 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         circle.dispose();
 
         RevoluteJointDef motor = new RevoluteJointDef();
-        motor.enableMotor = true;
-        motor.maxMotorTorque = 50;
+        motor.enableMotor = false;
+        //motor.maxMotorTorque = 50;
         motor.bodyA = getBody("base_box");
         motor.bodyB = getBody("base_motor");
         motor.collideConnected = false;

@@ -22,6 +22,7 @@ public class Box2DComponent extends Component {
     public Map<String, Body> bodies = new LinkedHashMap<String, Body>();
     public Map<String, Fixture> fixtures = new LinkedHashMap<String, Fixture>();
     public Map<String, Joint> joints = new LinkedHashMap<String, Joint>();
+    // TODO support for an image per body
 
     public float defaultFriction = 0.8f;
     public float defaultRestitution = 0.3f;

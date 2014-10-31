@@ -3,6 +3,7 @@ package com.squidtopusstudios.zerobitengine.core.subsystems;
 
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.utils.IManager;
@@ -108,6 +109,22 @@ public class ResourceManager implements IManager {
                     new NullPointerException());
             return null;
         }
+    }
+
+    /** Sets a new {@link AssetLoader} for the given type.
+     * @param type the type of the asset
+     * @param loader the loader */
+    public synchronized <T, P extends AssetLoaderParameters<T>> void setLoader (Class<T> type, AssetLoader<T, P> loader) {
+        setLoader(type, null, loader);
+    }
+
+    /** Sets a new {@link AssetLoader} for the given type.
+     * @param type the type of the asset
+     * @param suffix the suffix the filename must have for this loader to be used or null to specify the default loader.
+     * @param loader the loader */
+    public synchronized <T, P extends AssetLoaderParameters<T>> void setLoader (Class<T> type, String suffix,
+                                                                                AssetLoader<T, P> loader) {
+        assetManager.setLoader(type, suffix, loader);
     }
 
     /**

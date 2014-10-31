@@ -3,6 +3,7 @@ package com.squidtopusstudios.zerobitengine.core.graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -35,6 +36,7 @@ public class DefaultRenderer implements IRenderer{
     private float spriteY;
     private float batchOffsetX = 0;
     private float batchOffsetY = 0;
+    private PolygonSpriteBatch polyBatch;
 
 
     @Override
@@ -48,6 +50,7 @@ public class DefaultRenderer implements IRenderer{
         b2DebugRenderer = new Box2DDebugRenderer();
         b2Matrix = new Matrix4(camera.combined);
         debugEntities = new ArrayList<ZbeEntityBase>();
+        polyBatch = new PolygonSpriteBatch();
     }
 
     /**
@@ -71,6 +74,18 @@ public class DefaultRenderer implements IRenderer{
 
         Gdx.gl.glClearColor(ZeroBit.bg_colour.r, ZeroBit.bg_colour.g, ZeroBit.bg_colour.b, ZeroBit.bg_colour.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //TODO Test and remove
+        for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
+            if (entity.getSprite().getTexture() == null) {
+                if (entity.isBox2D() && ((ZbeEntityB2D) entity).polygonRegion != null) {
+                    polyBatch.setProjectionMatrix(camera.combined);
+                    polyBatch.begin();
+                    polyBatch.draw(((ZbeEntityB2D) entity).polygonRegion, entity.getX(), entity.getY());
+                    polyBatch.end();
+                }
+            }
+        }
 
         batch.begin();
         // Entities
