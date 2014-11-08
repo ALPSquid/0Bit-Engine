@@ -1,6 +1,7 @@
 package com.squidtopusstudios.zerobitengine.core.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -9,16 +10,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.squidtopusstudios.zerobitengine.WorldB2D;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
+import com.squidtopusstudios.zerobitengine.utils.Utils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Default Renderer, for more control you can either extend this class or create your own that implements IRenderer
@@ -59,7 +66,7 @@ public class DefaultRenderer implements IRenderer{
     @Override
     public void update() {
         camera.update();
-        batch.setProjectionMatrix(camera.projection); // camera.projection
+        batch.setProjectionMatrix(camera.projection);
         batch.setTransformMatrix(camera.view);
         debugRenderer.setProjectionMatrix(camera.projection);
         debugRenderer.setTransformMatrix(camera.view);
@@ -75,7 +82,7 @@ public class DefaultRenderer implements IRenderer{
         Gdx.gl.glClearColor(ZeroBit.bg_colour.r, ZeroBit.bg_colour.g, ZeroBit.bg_colour.b, ZeroBit.bg_colour.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //TODO Test and remove
+        // TODO Test and remove (Rube Test)
         for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
             if (entity.getSprite().getTexture() == null) {
                 if (entity.isBox2D() && ((ZbeEntityB2D) entity).polygonRegion != null) {
@@ -86,18 +93,18 @@ public class DefaultRenderer implements IRenderer{
                 }
             }
         }
+        //---
 
         batch.begin();
         // Entities
         for (ZbeEntityBase entity : ZeroBit.managers.entityManager().getEntities()) {
             if (entity.getSprite().getTexture() == null) {
-                debugEntities.add((ZbeEntityBase)entity);
+                // TODO change automatic debug design to improve performance
+                debugEntities.add(entity); // TODO option to disable this behaviour for an entity
             } else {
                 // Add offset in pixels relative to the original sprite dimensions.
                 // For example, if the sprite is originally 16x16 but has been scaled in the game to 160x160
                 // with a y offset of 1, we need to move the sprite up by 10 pixels as 1 visual sprite pixel = 10 real pixels
-                //spriteX = entity.getBounds().x + (entity.getSpriteOffset().x * (entity.getSpriteDimensions().width / entity.getSprite().getRegionWidth()));
-                //spriteY = entity.getBounds().y + (entity.getSpriteOffset().y * (entity.getSpriteDimensions().height / entity.getSprite().getRegionHeight()));
                 spriteX = entity.getBounds().x + (entity.getSpriteOffset().x * (entity.getSprite().getWidth() / entity.getSprite().getRegionWidth()));
                 spriteY = entity.getBounds().y + (entity.getSpriteOffset().y * (entity.getSprite().getHeight() / entity.getSprite().getRegionHeight()));
                 switch (entity.getSpriteAlign()) {
@@ -133,27 +140,13 @@ public class DefaultRenderer implements IRenderer{
                         spriteY += entity.getHeight() - entity.getSprite().getHeight();
                         break;
                 }
-                if (!entity.isBox2D()) {
-                    //batch.draw(entity.getSprite(), spriteX + batchOffsetX, spriteY + batchOffsetY,
-                    //        entity.getSpriteDimensions().width * ZeroBit.scale, entity.getSpriteDimensions().height * ZeroBit.scale);
-                    entity.getSprite().setPosition(spriteX + batchOffsetX, spriteY + batchOffsetY);
-                    entity.getSprite().setScale(ZeroBit.scale);
-                    entity.getSprite().draw(batch);
-                } else {
-                    ZbeEntityB2D zbeEntityB2D = ((ZbeEntityB2D) entity);
-                    /*batch.draw(zbeEntityB2D.getSprite(),
-                            spriteX + batchOffsetX, spriteY + batchOffsetY,
-                            zbeEntityB2D.getWidth() / 2 + zbeEntityB2D.getBoundsOffset().x,
-                            zbeEntityB2D.getHeight() / 2 + zbeEntityB2D.getBoundsOffset().y,
-                            entity.getSpriteDimensions().width, entity.getSpriteDimensions().height,
-                            ZeroBit.scale, ZeroBit.scale, zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);*/
-
-                    entity.getSprite().setPosition(spriteX + batchOffsetX, spriteY + batchOffsetY);
-                    entity.getSprite().setScale(ZeroBit.scale);
-                    if (entity.autoOrigin()) entity.getSprite().setOriginCenter();
-                    if (entity.autoRotate()) entity.getSprite().setRotation(zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);
-                    entity.getSprite().draw(batch);
+                entity.getSprite().setPosition(spriteX + batchOffsetX, spriteY + batchOffsetY);
+                entity.getSprite().setScale(ZeroBit.scale);
+                if (entity.isBox2D()) {
+                    if (entity.autoOrigin() && ((ZbeEntityB2D)entity).getBoundsOrigin().equals(ZeroBit.BoundsOrigin.CENTER)) entity.getSprite().setOriginCenter();
+                    if (entity.autoRotate()) entity.getSprite().setRotation(((ZbeEntityB2D) entity).getBoundsAnchor().getAngle() * MathUtils.radDeg);
                 }
+                entity.getSprite().draw(batch);
             }
         }
         batch.end();
@@ -188,7 +181,7 @@ public class DefaultRenderer implements IRenderer{
         }
         else {
             // Debug render everything without a sprite
-            debugRender(debugEntities.toArray(new ZbeEntityBase[debugEntities.size()]));
+            //debugRender(debugEntities.toArray(new ZbeEntityBase[debugEntities.size()]));
         }
         debugRenderer.end();
     }
@@ -198,11 +191,20 @@ public class DefaultRenderer implements IRenderer{
             debugRenderer.setColor(entity.getDebugColour());
             if (entity.isBox2D()) {
                 ZbeEntityB2D zbeEntityB2D = ((ZbeEntityB2D)entity);
+                debugRenderer.setColor(Color.GREEN);
+                debugRenderer.circle(ZeroBit.getWorld().unitsToPixels(zbeEntityB2D.getPosition().x) + batchOffsetX, ZeroBit.getWorld().unitsToPixels(zbeEntityB2D.getPosition().y) + batchOffsetY, 3);
+                debugRenderer.setColor(Color.BLUE);
+                debugRenderer.circle(ZeroBit.getWorld().unitsToPixels(zbeEntityB2D.getBody().getWorldCenter().x) + batchOffsetX, ZeroBit.getWorld().unitsToPixels(zbeEntityB2D.getBody().getWorldCenter().y) + batchOffsetY, 3);
+
+                debugRenderer.setColor(entity.getDebugColour());
+                debugRenderer.circle(zbeEntityB2D.getBounds().x + batchOffsetX, zbeEntityB2D.getBounds().y + batchOffsetY, 3);
+
                 debugRenderer.rect(zbeEntityB2D.getBounds().x + batchOffsetX, zbeEntityB2D.getBounds().y + batchOffsetY,
-                        zbeEntityB2D.getWidth()/2 + zbeEntityB2D.getBoundsOffset().x,
-                        zbeEntityB2D.getHeight()/2 + zbeEntityB2D.getBoundsOffset().y,
+                        (zbeEntityB2D.getBoundsOrigin().equals(ZeroBit.BoundsOrigin.BOTTOM_LEFT))? 0 : zbeEntityB2D.getWidth()/2 + zbeEntityB2D.getBoundsOffset().x,
+                        (zbeEntityB2D.getBoundsOrigin().equals(ZeroBit.BoundsOrigin.BOTTOM_LEFT))? 0 : zbeEntityB2D.getHeight()/2 + zbeEntityB2D.getBoundsOffset().y,
                         zbeEntityB2D.getBounds().width, zbeEntityB2D.getBounds().height,
-                        ZeroBit.scale, ZeroBit.scale, zbeEntityB2D.getBody().getAngle() * MathUtils.radDeg);
+                        ZeroBit.scale, ZeroBit.scale, zbeEntityB2D.getBoundsAnchor().getAngle() * MathUtils.radDeg);
+
             } else {
                 debugRenderer.rect(entity.getBounds().x+batchOffsetX, entity.getBounds().y+batchOffsetY,
                         entity.getBounds().width * ZeroBit.scale, entity.getBounds().height * ZeroBit.scale);

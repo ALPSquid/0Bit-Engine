@@ -58,6 +58,11 @@ public final class ZeroBit {
         DEFAULT, BOX2D
     }
 
+    /** positioning for Box2D sprite bounds. See {@link com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D #setBoundsOrigin(BoundsOrigin)} **/
+    public static enum BoundsOrigin {
+        BOTTOM_LEFT, CENTER
+    }
+
     /**
      * Align types
      */

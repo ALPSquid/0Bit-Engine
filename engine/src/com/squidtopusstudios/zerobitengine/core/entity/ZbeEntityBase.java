@@ -37,13 +37,8 @@ public abstract class ZbeEntityBase extends Entity {
         add(new LogicComponent());
         add(new StateComponent());
         setType(type);
-        initSprite();
     }
 
-    private void initSprite() {
-        getSprite().setOrigin(-1, -1);
-        getSprite().setRotation(-0.01f);
-    }
 
     public boolean isBox2D() {
         return isBox2D;
@@ -288,10 +283,19 @@ public abstract class ZbeEntityBase extends Entity {
 
     /**
      * Set the rectangle bounds of the entity
+     * @param resizeSprite whether to resize the sprite to match the new bounds dimensions
+     **/
+    public ZbeEntityBase setBounds(float width, float height, boolean resizeSprite) {
+        getBounds().setSize(width, height);
+        if (resizeSprite) getSprite().setSize(width, height);
+        return this;
+    }
+    /**
+     * Set the rectangle bounds of the entity. The Sprite WON'T automatically be resized to match.
      * @return current ZbeEntity instance
      */
     public ZbeEntityBase setBounds(float width, float height) {
-        getComponent(BoundsComponent.class).bounds.setSize(width, height);
+        setBounds(width, height, false);
         return this;
     }
 

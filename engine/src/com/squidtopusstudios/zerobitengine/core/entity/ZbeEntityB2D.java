@@ -9,6 +9,7 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.components.*;
 import com.squidtopusstudios.zerobitengine.utils.Utils;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class ZbeEntityB2D extends ZbeEntityBase {
 
-    public PolygonRegion polygonRegion; //TODO Test and remove
+    public PolygonRegion polygonRegion; //TODO Rube: Test and remove
 
 
     public ZbeEntityB2D(String type) {
@@ -50,7 +51,10 @@ public class ZbeEntityB2D extends ZbeEntityBase {
      */
     @Override
     public ZbeEntityB2D setPosition(float x, float y) {
-        getBody().setTransform(x, y, 0);
+        //getBody().setTransform(x, y, 0);
+        for (Body body : getBodies().values()) {
+            body.setTransform(x, y, body.getAngle());
+        }
         setBoundsPosition(getWorld().unitsToPixels(x), getWorld().unitsToPixels(y));
         return this;
     }
@@ -61,26 +65,72 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         return this;
     }
 
+    /** @return position in units of the first added body **/
+    @Override
+    public Vector2 getPosition() {
+        return getBody().getPosition();
+    }
+    /** see {@link #getPosition()}**/
+    public Vector2 getPosition(String bodyName) {
+        return getBody(bodyName).getPosition();
+    }
+
     /**
      * Set the bounds dimensions in units. This should encapsulate your fixtures and is used for sprite positioning
      * @param resizeSprite whether to resize the sprite to match the new bounds dimensions
      **/
+    @Override
     public ZbeEntityB2D setBounds(float width, float height, boolean resizeSprite) {
         getBounds().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
         if (resizeSprite) {
             getSprite().setSize(getWorld().unitsToPixels(width), getWorld().unitsToPixels(height));
         }
-        /*if (getSpriteDimensions().width == -1) {
-            setSpriteDimensions((int)width, (int)height);
-        }*/
-
         return this;
     }
-    /** Set the bounds dimensions in units. This should encapsulate your fixtures and is used for sprite positioning */
+    /** Set the bounds dimensions in units. This should encapsulate your fixtures and is used for sprite positioning
+     * The Sprite WILL automatically be resized to match */
     @Override
     public ZbeEntityB2D setBounds(float width, float height) {
         setBounds(width, height, true);
         return this;
+    }
+
+    /**
+     * Sets the origin for bounds positioning.
+     * Use :
+     *  // TODO: centering for polygons that have coordinates below 0
+     *  BoundsOrigin.BOTTOM_LEFT for standard polygons (all vert coordinates >= 0)
+     *  BoundsOrigin.CENTER for standard shapes (boxes, circles etc.)
+     * Note: the green circle when using the debug renderer is the origin of the respective body
+     * @return current ZbeEntityB2D instance for chaining
+     */
+    public ZbeEntityB2D setBoundsOrigin(ZeroBit.BoundsOrigin origin) {
+        getComponent(BoundsComponent.class).boundsOrigin = origin;
+        return this;
+    }
+
+    /** @return the origin around which the bounds are positioned **/
+    public ZeroBit.BoundsOrigin getBoundsOrigin() {
+        return getComponent(BoundsComponent.class).boundsOrigin;
+    }
+
+
+    /**
+     * Sets the body to center the bounding box on
+     * @param bodyName the body to center the bounding box on
+     * @return current ZbeEntityB2D instance for chaining
+     */
+    public ZbeEntityB2D setBoundsAnchor(String bodyName) {
+        getComponent(BoundsComponent.class).boundsAnchor = bodyName;
+        return this;
+    }
+
+    /** @return the body the bounding box is centered on. Default is the parent body **/
+    public Body getBoundsAnchor() {
+        if (getComponent(BoundsComponent.class).boundsAnchor == null) {
+            return getBody();
+        }
+        return getBody(getComponent(BoundsComponent.class).boundsAnchor);
     }
 
     /** The idea is to automatically size and position the bounding box but to do so requires a lot of calculations
@@ -101,16 +151,6 @@ public class ZbeEntityB2D extends ZbeEntityBase {
             }
         }
         return this;
-    }
-
-    /** @return position in units of the first added body **/
-    @Override
-    public Vector2 getPosition() {
-        return getBody().getPosition();
-    }
-    /** see {@link #getPosition()}**/
-    public Vector2 getPosition(String bodyName) {
-        return getBody(bodyName).getPosition();
     }
 
     /**
@@ -230,7 +270,7 @@ public class ZbeEntityB2D extends ZbeEntityBase {
         createBody("base_poly", bodyDef);
 
         PolygonShape poly = new PolygonShape();
-        poly.set(Utils.normalize(vertices));
+        poly.set(vertices); //Utils.normalize(vertices)
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = poly;
         fixtureDef.density = getDefaultDensity();
@@ -245,8 +285,7 @@ public class ZbeEntityB2D extends ZbeEntityBase {
             float[] minMaxX = Utils.minMax(coords[0]);
             float[] minMaxY = Utils.minMax(coords[1]);
             setBounds(minMaxX[1] - minMaxX[0], minMaxY[1] - minMaxY[0]);
-            //setBoundsOffset(getWorld().pixelsToUnits(getWidth()/2) + offsetX,
-            //        getWorld().pixelsToUnits(getHeight()/2) + offsetY);
+            setBoundsOrigin(ZeroBit.BoundsOrigin.BOTTOM_LEFT);
         }
         return this;
     }
@@ -304,6 +343,16 @@ public class ZbeEntityB2D extends ZbeEntityBase {
 
         createJoint("base_motor", motor);
 
+        getBody("base_box").setBullet(true);
+        getBody("base_motor").setBullet(true);
+        getBody("base_box").setSleepingAllowed(false);
+        getBody("base_motor").setSleepingAllowed(false);
+        getBody("base_box").setFixedRotation(true);
+
+        setParentBody("base_motor");
+        setBoundsAnchor("base_box");
+
+
         if (getWidth() <= 0 && getHeight() <= 0) {
             setBounds(width, height);
         }
@@ -332,18 +381,32 @@ public class ZbeEntityB2D extends ZbeEntityBase {
     }
 
     // ---- Box2D specific Getters and Setters ----
-    /** @return the first Body added to this entity **/
+    /** @return the parent body for this entity, if no parent is manually set, the first added body is used **/
     public Body getBody() {
         return getComponent(Box2DComponent.class).bodies.values().iterator().next();
     }
 
-    /** @return the Body by name belonging to this entity **/
+    /** @return the Body by name belonging to this entity**/
     public Body getBody(String bodyName) {
         return getBodies().get(bodyName);
     }
     /** @return Map of Bodies belonging to this entity **/
     public Map<String, Body> getBodies() {
         return getComponent(Box2DComponent.class).bodies;
+    }
+
+    /** Sets the parent body for this entity.
+     * This is used when calling a method that references a body without supplying a body name
+     *      e.g. setPosition(x, y) over setPosition(bodyName, x, y) **/
+    public ZbeEntityB2D setParentBody(String bodyName) {
+        Map<String, Body> bodies = new LinkedHashMap<String, Body>(getBodies());
+        Body parentBody = bodies.get(bodyName);
+        bodies.remove(bodyName);
+
+        getBodies().clear();
+        getBodies().put(bodyName, parentBody);
+        getBodies().putAll(bodies);
+        return this;
     }
 
     /** Gets the name of a registered Body. Make sure the Body your requesting the name of has been registered with the entity first!

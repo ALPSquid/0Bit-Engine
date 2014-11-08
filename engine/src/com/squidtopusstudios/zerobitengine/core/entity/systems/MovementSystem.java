@@ -1,11 +1,16 @@
 package com.squidtopusstudios.zerobitengine.core.entity.systems;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 import com.squidtopusstudios.zerobitengine.core.entity.ComponentMappers;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D;
 import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
 import com.squidtopusstudios.zerobitengine.core.entity.components.CollisionComponent;
+import com.squidtopusstudios.zerobitengine.utils.Utils;
 
 /**
  * handles movement for Ashley Entities
@@ -26,8 +31,31 @@ public class MovementSystem extends ZbeSystem {
             moveBy(zbeEntity, zbeEntity.getVelocity().x, zbeEntity.getVelocity().y, true);
         } else {
             ZbeEntityB2D zbeEntityB2D = (ZbeEntityB2D)entity;
-            zbeEntityB2D.setBoundsPosition((zbeEntityB2D.getPosition().x + zbeEntityB2D.getBoundsOffset().x) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getWidth()/2),
-                                           (zbeEntityB2D.getPosition().y + zbeEntityB2D.getBoundsOffset().y) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getHeight()/2));
+            switch (zbeEntityB2D.getBoundsOrigin()) {
+                case CENTER:
+                    zbeEntityB2D.setBoundsPosition((zbeEntityB2D.getBoundsAnchor().getPosition().x + zbeEntityB2D.getBoundsOffset().x) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getWidth()/2),
+                                                   (zbeEntityB2D.getBoundsAnchor().getPosition().y + zbeEntityB2D.getBoundsOffset().y) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getHeight()/2));
+                    break;
+                case BOTTOM_LEFT:
+                    zbeEntityB2D.setBoundsPosition((zbeEntityB2D.getBoundsAnchor().getPosition().x + zbeEntityB2D.getBoundsOffset().x),
+                                                    (zbeEntityB2D.getBoundsAnchor().getPosition().y + zbeEntityB2D.getBoundsOffset().y));
+            }
+
+            /*if (zbeEntityB2D.getType().equals("")) {
+                // TODO Centering bounds on polygons and positioning bounds in center of polygons. Option to set center?
+                if (zbeEntityB2D.getBody().getFixtureList().get(0).getShape().getType().equals(Shape.Type.Polygon)) {
+                    PolygonShape poly = (PolygonShape) zbeEntityB2D.getBody().getFixtureList().get(0).getShape();
+                    float[] verts = new float[poly.getVertexCount() * 2];
+                    Vector2 tmp = new Vector2();
+                    for (int i = 0; i < poly.getVertexCount(); i++) {
+                        poly.getVertex(i, tmp);
+                        verts[i] = tmp.x;
+                        verts[i + 1] = tmp.y;
+                    }
+                    zbeEntityB2D.setBoundsPosition((zbeEntityB2D.getBody().getWorldCenter().x + zbeEntityB2D.getBoundsOffset().x) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getWidth() / 2),
+                            (zbeEntityB2D.getBody().getWorldCenter().y + zbeEntityB2D.getBoundsOffset().y) - ZeroBit.getWorld().pixelsToUnits(zbeEntityB2D.getHeight() / 2));
+                }
+            }*/
         }
     }
 

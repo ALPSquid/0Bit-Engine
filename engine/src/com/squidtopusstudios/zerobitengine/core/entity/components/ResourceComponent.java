@@ -21,5 +21,4 @@ public class ResourceComponent extends Component {
     //public TextureRegion textureRegion;
     public ZeroBit.Align align = ZeroBit.Align.CENTER;
     public Vector2 spriteOffset = new Vector2(0, 0);
-
 }

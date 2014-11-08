@@ -24,8 +24,8 @@ public class Box2DComponent extends Component {
     public Map<String, Joint> joints = new LinkedHashMap<String, Joint>();
     // TODO support for an image per body
 
-    public float defaultFriction = 0.8f;
+    public float defaultFriction = 0.5f;
     public float defaultRestitution = 0.3f;
-    public float defaultDensity = 0.7f;
+    public float defaultDensity = 0.4f;
     public BodyDef.BodyType defaultType = BodyDef.BodyType.StaticBody;
 }
