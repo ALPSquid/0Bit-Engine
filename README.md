@@ -1,6 +1,8 @@
 0Bit-Engine
 ===========
 
+In progress: Moving from singleton draft design to a more finalised & structured OOP design
+
 LibGDX based game engine (currently a concept in progress). Note that this started out to save me from writing the same behind-the-scenes management systems everytime I go to create a game. It may or may not grow into something fully fledged but I am making everything as generic as possible so the option is always there.
 
 The 0Bit Engine is a concept engine based on the libGDX game framework. It aims to manage the back-end game systems in a way that allows the developer to focus purely on gameplay. This means it could also be comfortably used for rapid prototyping and game jams like Ludum Dare as well as for projects that require more control by extending the subsystems that are already in place. This will all be documented further in development.
