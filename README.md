@@ -20,8 +20,8 @@ The engine is designed around the concept of subsystems which are accessed from 
 - Entities using Ashley
 - Particles
 - Logging (wrapper for the inbuilt LibGDX logging system)
-- Physics (Box2D option?)
-- Collision Detection (simple: custom/LibGDX, advanced: Box2D(?))
+- Physics (Box2D option)
+- Collision Detection (simple: custom/LibGDX, advanced: Box2D)
 - Lua Scripting
 
 
