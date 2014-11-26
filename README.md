@@ -1,7 +1,7 @@
 0Bit-Engine
 ===========
 
-In progress: Moving from singleton draft design to a more finalised & structured OOP design
+**In progress**: Moving from singleton draft design to a more finalised & structured OOP design, probably a complete component based design.
 
 LibGDX based game engine (currently a concept in progress). Note that this started out to save me from writing the same behind-the-scenes management systems everytime I go to create a game. It may or may not grow into something fully fledged but I am making everything as generic as possible so the option is always there.
 
