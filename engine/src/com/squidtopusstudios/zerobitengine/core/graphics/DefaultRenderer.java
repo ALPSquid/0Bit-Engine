@@ -36,7 +36,7 @@ public class DefaultRenderer implements IRenderer{
     public Viewport viewport;
     protected SpriteBatch batch;
     protected ShapeRenderer debugRenderer;
-    protected Box2DDebugRenderer b2DebugRenderer;
+    protected Box2DDebugRenderer b2DebugRendecoerer;
     protected Matrix4 b2Matrix;
     protected ArrayList<ZbeEntityBase> debugEntities;
     private float spriteX;
