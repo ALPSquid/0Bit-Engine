@@ -58,8 +58,8 @@ Currently Implemented
 - **Input System**
 
 - **Logging System**
-	There is an abstract logging class that can be extended to implement custom logging desitnations. By default, the Zbe class contains a static reference to a ConsoleLogger which, as you probably guessed, logs to the console using Gdx.app.log_type. The Logger constructor takes an optional Logger argument to chain loggers together. For example, you could pass a FileLogger to ConsoleLogger which would result in messages being printed to the console and a file. 
-	Messages are in the format: {package.class}({method}, {ln}): {Message}
+	- There is an abstract logging class that can be extended to implement custom logging desitnations. By default, the Zbe class contains a static reference to a ConsoleLogger which, as you probably guessed, logs to the console using Gdx.app.log_type. The Logger constructor takes an optional Logger argument to chain loggers together. For example, you could pass a FileLogger to ConsoleLogger which would result in messages being printed to the console and a file. 
+	- Messages are in the format: {package.class}({method}, {ln}): {Message}
 
 - **More Coming Soon**
 

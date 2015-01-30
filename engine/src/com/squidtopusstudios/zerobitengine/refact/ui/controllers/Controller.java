@@ -3,10 +3,10 @@ package com.squidtopusstudios.zerobitengine.refact.ui.controllers;
 import com.squidtopusstudios.zerobitengine.refact.ui.View;
 
 /**
- * Engine MVC Setup:
- *      view -> Controller -> model
- *      view - observers (push or pull) -> model
- *
+ * Engine MVC Setup:<br/>
+ *      view -> Controller -> model<br/>
+ *      view - observers (push or pull) -> model<br/>
+ * <br/><br/>
  * Your controller should manage adding and removing the View observer with the target model(s) (in setView) to ensure
  * the view doesn't have any unnecessary model references
  */
