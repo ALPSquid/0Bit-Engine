@@ -1,6 +1,5 @@
 package com.squidtopusstudios.zerobitengine.utils.loader.rube;
 
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
@@ -12,11 +11,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.gushikustudios.rube.RubeScene;
-import com.gushikustudios.rube.loader.RubeSceneAsyncLoader;
 import com.gushikustudios.rube.loader.RubeSceneLoader;
 import com.gushikustudios.rube.loader.serializers.utils.RubeImage;
-import com.squidtopusstudios.zerobitengine.core.ZeroBit;
-import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D;
+import com.squidtopusstudios.zerobitengine.ZeroBit;
+import com.squidtopusstudios.zerobitengine.entity.ZbeEntityB2D;
 
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public class RubeLoader /*extends RubeSceneLoader*/ {
     public static RubeScene loadScene(FileHandle file) {
         //ZeroBit.managers.resourceManager().setLoader(RubeScene.class, new RubeSceneAsyncLoader(ZeroBit.getWorldB2D().getB2DWorld(), new InternalFileHandleResolver()));
         //ZeroBit.managers.resourceManager().addResource("RubeScene", file, RubeScene.class);
-        String scenePath = file.path().substring(0, file.path().lastIndexOf("/"));
+        /*String scenePath = file.path().substring(0, file.path().lastIndexOf("/"));
         RubeSceneLoader loader = new RubeSceneLoader(ZeroBit.getWorldB2D().getB2DWorld());
         RubeScene scene = loader.loadScene(file);
 
@@ -89,7 +87,8 @@ public class RubeLoader /*extends RubeSceneLoader*/ {
                 entity.setTexture(texture);
                 entity.setBounds(image.width, image.height);
             }
-        }
-        return scene;
+        }*/
+        //return scene;
+        return null;
     }
 }

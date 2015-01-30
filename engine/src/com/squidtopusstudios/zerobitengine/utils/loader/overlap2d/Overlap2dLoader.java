@@ -1,26 +1,17 @@
 package com.squidtopusstudios.zerobitengine.utils.loader.overlap2d;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Json;
-import com.squidtopusstudios.zerobitengine.core.ZeroBit;
-import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntity;
-import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityB2D;
-import com.squidtopusstudios.zerobitengine.core.entity.ZbeEntityBase;
-import com.squidtopusstudios.zerobitengine.utils.Utils;
+import com.squidtopusstudios.zerobitengine.ZeroBit;
+import com.squidtopusstudios.zerobitengine.entity.DynamicEntity;
+import com.squidtopusstudios.zerobitengine.entity.ZbeEntityB2D;
 import com.uwsoft.editor.renderer.data.MainItemVO;
 import com.uwsoft.editor.renderer.data.MeshVO;
 import com.uwsoft.editor.renderer.data.ProjectInfoVO;
@@ -61,7 +52,7 @@ public class Overlap2dLoader {
      * @param atlas TextureAtlas used by the scene
      */
     public static void loadMap(FileHandle projectPath, FileHandle scenePath, TextureAtlas atlas) {
-        ZeroBit.logger.logDebug("Loading Overlap2D scene: " + scenePath.toString());
+        /*ZeroBit.logger.logDebug("Loading Overlap2D scene: " + scenePath.toString());
         Json json = new Json();
         SceneVO sceneVO = json.fromJson(SceneVO.class, scenePath.readString());
         ProjectInfoVO projectVO = json.fromJson(ProjectInfoVO.class, projectPath.readString());
@@ -76,17 +67,17 @@ public class Overlap2dLoader {
                         ZeroBit.getWorld().pixelsToUnits(region.getRegionHeight() * item.scaleY));
                 entity.setTextureRegion(region);
             } else {
-                ZbeEntity entity = ZeroBit.managers.entityManager().createEntity(item.itemIdentifier);
+                DynamicEntity entity = ZeroBit.managers.entityManager().createEntity(item.itemIdentifier);
                 entity.setPosition(item.x, item.y);
                 entity.setBounds(region.getRegionWidth() * item.scaleX, region.getRegionHeight() * item.scaleY, true);
                 entity.setTextureRegion(region);
             }
-        }
+        }*/
     }
 
     private static void loadB2DData(ProjectInfoVO projectVO, MainItemVO item, ZbeEntityB2D entity) {
         // Load Box2D meshes
-        MeshVO meshData = projectVO.meshes.get(item.meshId+"");
+       /* MeshVO meshData = projectVO.meshes.get(item.meshId+"");
         List<float[]> polygonVerts = new ArrayList<float[]>();
         for (int i=0; i < meshData.minPolygonData.length; i++) {
             float[] verts = new float[meshData.minPolygonData[i].length * 2];
@@ -125,7 +116,7 @@ public class Overlap2dLoader {
             entity.createFixture("base", "base_"+i, fixtureDef);
         }
         poly.dispose();
-        entity.setBoundsOrigin(ZeroBit.BoundsOrigin.BOTTOM_LEFT);
+        entity.setBoundsOrigin(ZeroBit.BoundsOrigin.BOTTOM_LEFT);*/
     }
 
     /**

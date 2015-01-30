@@ -1,8 +1,6 @@
 package com.squidtopusstudios.zerobitengine;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.squidtopusstudios.zerobitengine.core.ZeroBit;
 
 
 /**
@@ -10,7 +8,7 @@ import com.squidtopusstudios.zerobitengine.core.ZeroBit;
  * This is basically a manager for the actual Box2D World class to allow unified functionality between this and
  * the standard 0Bit {@link World} class.
  */
-public class WorldB2D extends WorldBase {
+public abstract class WorldB2D extends World {
 
     private com.badlogic.gdx.physics.box2d.World b2World;
     public float physicsTimeStep = 1/45f;
@@ -27,7 +25,7 @@ public class WorldB2D extends WorldBase {
 
     @Override
     public void create() {
-        b2World = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -getGravity()*getPixelsPerUnit()), true);
+        b2World = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -getGravity() * getPixelsPerUnit()), true);
     }
 
     @Override
@@ -76,7 +74,6 @@ public class WorldB2D extends WorldBase {
 
     @Override
     public void dispose() {
-        super.dispose();
         b2World.dispose();
     }
 }

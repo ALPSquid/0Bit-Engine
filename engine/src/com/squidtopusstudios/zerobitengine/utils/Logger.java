@@ -1,8 +1,7 @@
 package com.squidtopusstudios.zerobitengine.utils;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.squidtopusstudios.zerobitengine.core.ZeroBit;
+import com.squidtopusstudios.zerobitengine.ZeroBit;
 
 /**
  * Singleton - LibGDX Logging Wrapper providing extended functionality like caller class, method and line number

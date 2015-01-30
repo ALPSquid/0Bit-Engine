@@ -13,7 +13,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = '0Bit-Engine'
-        gdxVersion = '1.5.2'
+        gdxVersion = '1.5.3'
         roboVMVersion = '0.0.14'
         reflectasmVersion = '1.10.0'
     }
