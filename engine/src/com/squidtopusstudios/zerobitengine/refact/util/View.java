@@ -1,6 +1,6 @@
-package com.squidtopusstudios.zerobitengine.refact.ui;
+package com.squidtopusstudios.zerobitengine.refact.util;
 
-import com.squidtopusstudios.zerobitengine.refact.ui.controllers.Controller;
+import com.squidtopusstudios.zerobitengine.refact.util.controllers.Controller;
 import com.squidtopusstudios.zerobitengine.refact.util.Observer.Observer;
 
 /**

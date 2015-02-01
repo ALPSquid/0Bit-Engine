@@ -1,8 +1,8 @@
 package com.squidtopusstudios.zerobitengine.refact.entity;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.EntitySystem;
 import com.squidtopusstudios.zerobitengine.refact.Zbe;
-import com.squidtopusstudios.zerobitengine.entity.systems.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,19 +65,22 @@ public class EntityManager {
      */
     public void dispose() {
         Zbe.logger.logDebug("Disposing entities");
-        /*ZbeEntity[] entities = getEntities();
-        for (ZbeEntity entity : entities) {
-            entity.dispose();
-        }*/
         ashley.removeAllEntities();
     }
 
     /**
-     * Adds a system to the Ashley engine instance.
-     * Use this to add your own systems
-     * @param system System instance to add
+     * @param pause whether to pause all Ashley systems. False will resume paused systems
      */
-    public void addSystem(ZbeSystem system) {
-        ashley.addSystem(system);
+    public void pauseSystems(boolean pause) {
+        for (EntitySystem system : ashley.getSystems()) {
+            system.setProcessing(pause);
+        }
+    }
+
+    /**
+     * @return Ashley Engine instance for adding systems
+     */
+    public Engine getEngine() {
+        return ashley;
     }
 }

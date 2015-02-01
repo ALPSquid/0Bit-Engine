@@ -10,9 +10,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.gushikustudios.rube.RubeScene;
-import com.gushikustudios.rube.loader.RubeSceneLoader;
-import com.gushikustudios.rube.loader.serializers.utils.RubeImage;
 import com.squidtopusstudios.zerobitengine.ZeroBit;
 import com.squidtopusstudios.zerobitengine.entity.ZbeEntityB2D;
 
@@ -25,7 +22,7 @@ public class RubeLoader /*extends RubeSceneLoader*/ {
 
 
     //@Override
-    public static RubeScene loadScene(FileHandle file) {
+    public static void loadScene(FileHandle file) {
         //ZeroBit.managers.resourceManager().setLoader(RubeScene.class, new RubeSceneAsyncLoader(ZeroBit.getWorldB2D().getB2DWorld(), new InternalFileHandleResolver()));
         //ZeroBit.managers.resourceManager().addResource("RubeScene", file, RubeScene.class);
         /*String scenePath = file.path().substring(0, file.path().lastIndexOf("/"));
@@ -89,6 +86,5 @@ public class RubeLoader /*extends RubeSceneLoader*/ {
             }
         }*/
         //return scene;
-        return null;
     }
 }

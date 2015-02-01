@@ -1,8 +1,8 @@
-package com.squidtopusstudios.zerobitengine.refact.ui.controllers;
+package com.squidtopusstudios.zerobitengine.refact.util.controllers;
 
 
 import com.squidtopusstudios.zerobitengine.refact.screens.ZbeScreen;
-import com.squidtopusstudios.zerobitengine.refact.ui.View;
+import com.squidtopusstudios.zerobitengine.refact.util.View;
 
 
 /**

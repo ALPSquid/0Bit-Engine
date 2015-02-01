@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Base Entity class for all engine entities. Extends The Ashley Entity class to provide component and system support.
- * Also implements the {@link Observable} interface to allow {@link Observer}s, such as a {@link com.squidtopusstudios.zerobitengine.refact.ui.View}, to receive updates.
+ * Base Entity class for all engine entities. Extends The Ashley Entity class to provide component and system support.<br/>
+ * Also implements the {@link Observable} interface to allow {@link Observer}s, such as a {@link com.squidtopusstudios.zerobitengine.refact.util.View}, to receive updates.<br/>
  * See {@link com.squidtopusstudios.zerobitengine.refact.util.Observer.ZbeObservable} for observable usage.
  */
 public class ZbeEntity extends Entity implements Observable {
@@ -31,7 +31,8 @@ public class ZbeEntity extends Entity implements Observable {
     }
 
     /**
-     * Sends this instance and a data HashMap<String, Object> to all Observers, use for a push implementation.
+     * Sends this instance and a data HashMap<String, Object> to all Observers, use for a push implementation.<br/>
+     * The data map is cleared once all observers have been notified.
      */
     public void notifyObservers() {
         for (Observer observer : observers) {
@@ -43,7 +44,7 @@ public class ZbeEntity extends Entity implements Observable {
     /**
      * Add data item to be sent to observers when notifyObservers() is called
      */
-    protected void addObserverData(String key, Object data) {
+    public void addObserverData(String key, Object data) {
         this.data.put(key, data);
     }
 }

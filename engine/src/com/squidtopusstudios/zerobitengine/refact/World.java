@@ -9,16 +9,19 @@ import com.squidtopusstudios.zerobitengine.refact.entity.EntityManager;
 public abstract class World {
 
     private EntityManager entityManager;
-    private float gravity = 9f;
     private int pixelsPerUnit = 1;
 
 
+    /**
+     * @param pixelsPerUnit the number of pixels per world unit. Default is 1:1.<br/>
+     * If using Box2D, this is considered to be pixels per meter
+     */
     public World(int pixelsPerUnit) {
         setPixelsPerUnit(pixelsPerUnit);
         entityManager = new EntityManager();
     }
 
-    /** Called each frame. Make sure you call super().update() */
+    /** Called each frame. Make sure you call super().update() if overriding */
     public void update(float delta) {
         entityManager.update(delta);
     }
@@ -41,17 +44,6 @@ public abstract class World {
      */
     public EntityManager getEntities() {
         return entityManager;
-    }
-
-    /**
-     * @param gravity Set the value of gravity for this world in world units
-     */
-    public void setGravity(float gravity) {
-        this.gravity = gravity;
-    }
-
-    public float getGravity() {
-        return gravity;
     }
 
     /**

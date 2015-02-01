@@ -21,7 +21,8 @@ public abstract class ZbeObservable implements Observable {
     }
 
     /**
-     * Sends this instance and a data HashMap<String, Object> to all Observers, use for a push implementation.
+     * Sends this instance and a data HashMap<String, Object> to all Observers, use for a push implementation.<br/>
+     * The data map is cleared once all observers have been notified.
      */
     public void notifyObservers() {
         for (Observer observer : observers) {
@@ -33,7 +34,7 @@ public abstract class ZbeObservable implements Observable {
     /**
      * Add data item to be sent to observers when notifyObservers() is called
      */
-    protected void addObserverData(String key, Object data) {
+    public void addObserverData(String key, Object data) {
         this.data.put(key, data);
     }
 }

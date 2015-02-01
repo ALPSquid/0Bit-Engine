@@ -49,7 +49,7 @@ public abstract class Logger {
     }
 
     public Logger() {
-        this.nextLogger = null;
+        this(null);
     }
 
     /**
