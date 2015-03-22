@@ -1,7 +1,7 @@
 0bit-Engine
 ===========
 
-**Refactor in Progress** See 'refact' package for progress
+**Refactor in Progress** See ['refact'](https://github.com/ALPSquid/0Bit-Engine/tree/master/engine/src/com/squidtopusstudios/zerobitengine/refact) package for progress
 
 **Early Stages**: Note that the engine is in very early stages and some aspects may not be suitable for your game, if something needs adding/changing, please let me know by contacting me or raising an issue!
 
