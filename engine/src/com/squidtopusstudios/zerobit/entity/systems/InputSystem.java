@@ -24,14 +24,13 @@ import java.util.Map;
  */
 public class InputSystem extends IteratingSystem implements InputObserver, Observable {
 
-    private ComponentMapper<MovementComponent> mvm = ComponentMapper.getFor(MovementComponent.class);
-    private ComponentMapper<StatComponent> statm = ComponentMapper.getFor(StatComponent.class);
-    private ComponentMapper<StateComponent> stm = ComponentMapper.getFor(StateComponent.class);
+    protected ComponentMapper<MovementComponent> mvm = ComponentMapper.getFor(MovementComponent.class);
+    protected ComponentMapper<StatComponent> statm = ComponentMapper.getFor(StatComponent.class);
+    protected ComponentMapper<StateComponent> stm = ComponentMapper.getFor(StateComponent.class);
     //private ComponentMapper<MessagingComponent> msgm = ComponentMapper.getFor(MessagingComponent.class);
-    private MovementComponent mvc;
-    private StatComponent statc;
-    private StateComponent stc;
-    private Box2DUserData playerUserData;
+    protected MovementComponent mvc;
+    protected StatComponent statc;
+    protected StateComponent stc;
     //private MessagingComponent msgc;
 
 
@@ -63,7 +62,7 @@ public class InputSystem extends IteratingSystem implements InputObserver, Obser
                     mvc.right = false;
                     break;
             }
-            // Events that should only be process when not paused
+            // Events that should only be processed when not paused
             if (checkProcessing()) {
                 switch (event) {
                     case GameActions.PLAYER_LEFT:
@@ -105,7 +104,6 @@ public class InputSystem extends IteratingSystem implements InputObserver, Obser
         mvc = mvm.get(entity);
         statc = statm.get(entity);
         stc = stm.get(entity);
-        playerUserData = (Box2DUserData)entity.getComponent(Box2DComponent.class).body.getUserData();
         //msgc = msgm.get(entity);
     }
 

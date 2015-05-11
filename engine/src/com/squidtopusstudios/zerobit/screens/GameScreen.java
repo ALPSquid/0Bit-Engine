@@ -80,7 +80,6 @@ public abstract class GameScreen extends ZBScreen implements Observer {
         // Clean up observers if switching from a world
         if (currentWorld != null) {
             inputMapper.removeObserver(currentWorld.getEntities().getEngine().getSystem(InputSystem.class));
-            //currentWorld.getEntities().getEngine().getSystem(InputSystem.class).removeObserver(this);
             resetViews();
         }
         currentWorld = worlds.get(name);
@@ -94,7 +93,6 @@ public abstract class GameScreen extends ZBScreen implements Observer {
             }
         });
         inputMapper.registerObserver(currentWorld.getEntities().getEngine().getSystem(InputSystem.class));
-        currentWorld.getEntities().getEngine().getSystem(InputSystem.class).registerObserver(this);
     }
 
     /**

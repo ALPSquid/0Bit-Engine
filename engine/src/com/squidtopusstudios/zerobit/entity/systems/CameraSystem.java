@@ -10,18 +10,18 @@ import com.squidtopusstudios.zerobit.entity.components.Box2DComponent;
  */
 public class CameraSystem extends EntitySystem {
 
-    private Box2DComponent b2dc;
+    protected Box2DComponent b2dc;
 
-    private OrthographicCamera camera;
-    private Entity followEntity;
+    protected OrthographicCamera camera;
+    protected Entity followEntity;
 
-    private Float minX;
-    private Float maxX;
-    private Float minY;
-    private Float maxY;
-    private float followX;
-    private float followY;
-    private float followZ = 0;
+    protected Float minX;
+    protected Float maxX;
+    protected Float minY;
+    protected Float maxY;
+    protected float followX;
+    protected float followY;
+    protected float followZ = 0;
 
 
     /**

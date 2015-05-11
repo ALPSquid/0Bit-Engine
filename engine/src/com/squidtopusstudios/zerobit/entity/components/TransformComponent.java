@@ -2,11 +2,11 @@ package com.squidtopusstudios.zerobit.entity.components;
 
 
 /**
- * Position and rotation component for all Entity types. Box2D entities have their positions mapped to this as well!
+ * Position and rotation component for all Entity types. Box2D entities use body positions instead.
  */
 public class TransformComponent extends ZBComponent {
 
-    // Original position values from level file
+    // Original position values used for resetting this component
     public float origX = 0;
     public float origY = 0;
     public float origRotation = 0;

@@ -14,13 +14,13 @@ import com.squidtopusstudios.zerobit.entity.components.TransformComponent;
  */
 public class ParallaxSystem extends IteratingSystem {
 
-    private ComponentMapper<ParallaxComponent> pxm = ComponentMapper.getFor(ParallaxComponent.class);
-    private ComponentMapper<TransformComponent> transm = ComponentMapper.getFor(TransformComponent.class);
-    private ParallaxComponent pxc;
-    private TransformComponent transc;
+    protected ComponentMapper<ParallaxComponent> pxm = ComponentMapper.getFor(ParallaxComponent.class);
+    protected ComponentMapper<TransformComponent> transm = ComponentMapper.getFor(TransformComponent.class);
+    protected ParallaxComponent pxc;
+    protected TransformComponent transc;
 
-    private OrthographicCamera camera;
-    private Vector3 prevCameraPos = new Vector3();
+    protected OrthographicCamera camera;
+    protected Vector3 prevCameraPos = new Vector3();
 
 
     public ParallaxSystem() {

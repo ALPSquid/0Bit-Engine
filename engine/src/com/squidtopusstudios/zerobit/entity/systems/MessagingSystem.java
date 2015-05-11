@@ -12,8 +12,8 @@ import com.squidtopusstudios.zerobit.util.observers.Observer;
  */
 public class MessagingSystem extends IteratingSystem {
 
-    private ComponentMapper<MessagingComponent> msgm = ComponentMapper.getFor(MessagingComponent.class);
-    private MessagingComponent msgc;
+    protected ComponentMapper<MessagingComponent> msgm = ComponentMapper.getFor(MessagingComponent.class);
+    protected MessagingComponent msgc;
 
 
     public MessagingSystem() {

@@ -13,10 +13,10 @@ import com.squidtopusstudios.zerobit.util.observers.ObserverKeys;
  */
 public class StatSystem extends IteratingSystem {
 
-    private ComponentMapper<MessagingComponent> msgm = ComponentMapper.getFor(MessagingComponent.class);
-    private ComponentMapper<StatComponent> satm = ComponentMapper.getFor(StatComponent.class);
-    private MessagingComponent msgc;
-    private StatComponent statc;
+    protected ComponentMapper<MessagingComponent> msgm = ComponentMapper.getFor(MessagingComponent.class);
+    protected ComponentMapper<StatComponent> satm = ComponentMapper.getFor(StatComponent.class);
+    protected MessagingComponent msgc;
+    protected StatComponent statc;
 
 
     public StatSystem() {

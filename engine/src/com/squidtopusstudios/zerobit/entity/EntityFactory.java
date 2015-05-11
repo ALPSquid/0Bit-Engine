@@ -21,7 +21,7 @@ public class EntityFactory {
 
 
     /**
-     * Creates a rectangular Box2D Entity of width, height with a wheel as it's base
+     * Creates a rectangular Box2D Entity of width, height with a wheel as it's base. Useful for platformers
      * @param entityID ID of the entity
      * @param box2DSystem the {@link Box2DSystem} with the Box2D World to add the Body to
      * @param width full width of the body

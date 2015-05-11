@@ -3,6 +3,7 @@ package com.squidtopusstudios.zerobit;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.squidtopusstudios.zerobit.data.SaveManager;
+import com.squidtopusstudios.zerobit.input.keybindings.KeyMapManager;
 import com.squidtopusstudios.zerobit.util.logging.ConsoleLogger;
 import com.squidtopusstudios.zerobit.util.logging.Logger;
 
@@ -14,6 +15,8 @@ public class ZeroBit {
     public static AssetManager assetManager = new AssetManager();
     public static Logger logger = new ConsoleLogger(); // TODO: Create file logger example
     public static SaveManager saveManager = new SaveManager(); //TODO: Is an instance of this necessary?
+    /** Allows loading and accessing key maps */
+    public static KeyMapManager keyMaps = new KeyMapManager();
     /** Current debug toggle state. On = renderer and overlay active */
     public static boolean debugRender = false;
     /** Current gametime  */

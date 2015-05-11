@@ -12,20 +12,20 @@ import com.squidtopusstudios.zerobit.entity.components.VisualComponent;;
  */
 public class DaySystem extends EntitySystem {
 
-    private float skyDayAlpha = 1;
-    private double alpha;
-    private int speed = 256; // 256
-    private boolean toDay = false; // Transition: to day=1, to night=0
-    private Entity skyboxDay;
-    private Entity skyboxNight;
-    private Box2DSystem b2dSystem;
+    protected float skyDayAlpha = 1;
+    protected double alpha;
+    protected int speed = 256; // 256
+    protected boolean toDay = false; // Transition: to day=1, to night=0
+    protected Entity skyboxDay;
+    protected Entity skyboxNight;
+    protected Box2DSystem b2dSystem;
 
-    private ComponentMapper<TransformComponent> transm = ComponentMapper.getFor(TransformComponent.class);
-    private ComponentMapper<VisualComponent> vism = ComponentMapper.getFor(VisualComponent.class);
-    private TransformComponent day_transc;
-    private TransformComponent night_transc;
-    private VisualComponent day_visc;
-    private VisualComponent night_visc;
+    protected ComponentMapper<TransformComponent> transm = ComponentMapper.getFor(TransformComponent.class);
+    protected ComponentMapper<VisualComponent> vism = ComponentMapper.getFor(VisualComponent.class);
+    protected TransformComponent day_transc;
+    protected TransformComponent night_transc;
+    protected VisualComponent day_visc;
+    protected VisualComponent night_visc;
 
 
     public DaySystem() {

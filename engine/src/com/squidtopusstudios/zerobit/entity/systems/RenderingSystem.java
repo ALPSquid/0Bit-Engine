@@ -25,20 +25,20 @@ import java.util.ArrayList;
  */
 public class RenderingSystem extends SortedIteratingSystem {
 
-    private ComponentMapper<VisualComponent> vism = ComponentMapper.getFor(VisualComponent.class);
-    private ComponentMapper<SpriterComponent> sprtm = ComponentMapper.getFor(SpriterComponent.class);
-    private ComponentMapper<BehaviourComponent> bvm = ComponentMapper.getFor(BehaviourComponent.class);
-    private ComponentMapper<NodeComponent> nodem = ComponentMapper.getFor(NodeComponent.class);
-    VisualComponent visc;
-    SpriterComponent sprtc;
-    BehaviourComponent bvc;
-    NodeComponent nodec;
+    protected ComponentMapper<VisualComponent> vism = ComponentMapper.getFor(VisualComponent.class);
+    protected ComponentMapper<SpriterComponent> sprtm = ComponentMapper.getFor(SpriterComponent.class);
+    protected ComponentMapper<BehaviourComponent> bvm = ComponentMapper.getFor(BehaviourComponent.class);
+    protected ComponentMapper<NodeComponent> nodem = ComponentMapper.getFor(NodeComponent.class);
+    protected VisualComponent visc;
+    protected SpriterComponent sprtc;
+    protected BehaviourComponent bvc;
+    protected NodeComponent nodec;
 
     public float[] bgColour = {0, 0, 0, 0};
-    private ArrayList<ParticleEffect> particles = new ArrayList<ParticleEffect>();
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private ShapeRenderer shapeRenderer;
+    protected ArrayList<ParticleEffect> particles = new ArrayList<ParticleEffect>();
+    protected OrthographicCamera camera;
+    protected SpriteBatch batch;
+    protected ShapeRenderer shapeRenderer;
 
 
     public RenderingSystem() {

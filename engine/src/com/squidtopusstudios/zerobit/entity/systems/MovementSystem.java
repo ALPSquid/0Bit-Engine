@@ -10,16 +10,16 @@ import com.squidtopusstudios.zerobit.entity.components.MovementComponent;
 import com.squidtopusstudios.zerobit.entity.components.StateComponent;
 
 /**
- * Handles movement via flags
+ * Handles movement via flags. TODO: Support non-Box2D objects
  */
 public class MovementSystem extends IteratingSystem {
 
-    private ComponentMapper<MovementComponent> mvm = ComponentMapper.getFor(MovementComponent.class);
-    private ComponentMapper<Box2DComponent> b2dm = ComponentMapper.getFor(Box2DComponent.class);
-    private ComponentMapper<StateComponent> stm = ComponentMapper.getFor(StateComponent.class);
-    private MovementComponent mvc;
-    private Box2DComponent b2dc;
-    private StateComponent stc;
+    protected ComponentMapper<MovementComponent> mvm = ComponentMapper.getFor(MovementComponent.class);
+    protected ComponentMapper<Box2DComponent> b2dm = ComponentMapper.getFor(Box2DComponent.class);
+    protected ComponentMapper<StateComponent> stm = ComponentMapper.getFor(StateComponent.class);
+    protected MovementComponent mvc;
+    protected Box2DComponent b2dc;
+    protected StateComponent stc;
 
 
     public MovementSystem() {

@@ -5,7 +5,7 @@ Development is taking place on the [dev branch](https://github.com/ALPSquid/0Bit
 
 **Early Stages**: Note that the engine is in very early stages and parts are being refactored regularly.
 
-The 0bit Engine is an engine based on the libGDX game framework. 
+The 0bit Engine is an engine built on the libGDX game framework. 
 It aims to provide a solid, modular game architecture as well as many components that work out of the box. 
 It should be comfortable to use for rapid prototyping and game jams as well as for larger projects that require more control.
 
