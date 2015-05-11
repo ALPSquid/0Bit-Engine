@@ -1,75 +1,67 @@
 0bit-Engine
 ===========
 
-**Refactor in Progress** See ['refact'](https://github.com/ALPSquid/0Bit-Engine/tree/master/engine/src/com/squidtopusstudios/zerobitengine/refact) package for progress
+Development is taking place on the [dev branch](https://github.com/ALPSquid/0Bit-Engine/tree/dev)
 
-**Early Stages**: Note that the engine is in very early stages and some aspects may not be suitable for your game, if something needs adding/changing, please let me know by contacting me or raising an issue!
+**Early Stages**: Note that the engine is in very early stages and parts are being refactored regularly.
 
-LibGDX based game engine. Note that this started out to save me from writing the same behind-the-scenes management systems everytime I go to create a game. It may or may not grow into something fully fledged but I am attempting to make everything as generic as possible so the option is always there.
-
-The 0bit Engine is an engine based on the libGDX game framework. It aims to manage the back-end game systems in a way that allows the developer to focus purely on gameplay. This means it could be comfortably used for rapid prototyping and game jams as well as for larger projects that require more control by extending the subsystems that are already in place or accessing libGDX directly. This will all be documented further in development.
-
-I aim to keep the underlying engine concepts (Screens etc.) in line with libGDX as much as possible.
-
-
-**Should easily manage:**
-- Screens
-- Assets
-- Rendering 
-- Debugging overlays and renderers
-- World
-- Input (including Controller support)
-- GUIs
-- Entities using Ashley
-- Particles
-- Logging (wrapper for the inbuilt LibGDX logging system)
-- Physics (Box2D)
-- Collision Detection (simple: custom, advanced: Box2D)
-- Lua Scripting
+The 0bit Engine is an engine based on the libGDX game framework. 
+It aims to provide a solid, modular game architecture as well as many components that work out of the box. 
+It should be comfortable to use for rapid prototyping and game jams as well as for larger projects that require more control.
 
 
 Currently Implemented
 -----------
 - **Base Game, World and Screen systems**
-	- Allows creation of a game with any number of World and Screens. Screens contain a reference to one World at a time but can have any number of views (UIs) active at once.
-	- Worlds use unit based positioning and provide methods for converting between pixels and units.
+	- Allows creation of a game with any number of Worlds and Screens. Screens can have any number of views (UIs) active at once.
+	- Worlds each have an Ashley engine instance which can be used with the multitude of systems and components 0bit comes with.
+	- World entities can be created programmatically or be loaded asynchronously from a file (such as an Overlap2D project).
+	- Box2D and non-Box2D entities can exist at the same time
+	- Comes with a loading and screen caching system
 	
 - **Screen UIs**
-	- Uses an MVC-like architecture with Views, such as a HUD, being able to observe Models, such as the player entity. Push and pull are available to observers.
+	- Uses an MVC-like architecture with Views, such as a HUD, being able to observe Models, such as a player entity. Push and pull are available to observers.
+	- Views use a Scene2D stage and supports loading from a file (such as an Overlap2D project)
+	- Includes custom actors for sprite animations and particle effects
 
-- **Creation of World specific entities**
+- **Ashley Systems**
+	- **Animation**: Manages sprite and Spriter animations
+	- **Movement**: Moves Box2D and non-Box2D entities
+	- **Physics**: Manages a Box2D world with included physics filters
+	- **Box2D Lights**: The Box2D system includes a RayHandler for dynamic lighting
+	- **Day-Night Cycle**: Simulates day-night cycles with skybox image rotation. Currently only supports the Box2D RayHandler
+	- **Rendering**: Renders worlds using z-index sorting. Supports Box2D and non-Box2D entity rendering in the same world.
+	- **AI**: Updates AI Controllers which can have any combination of Steerables and Behaviours. 
+	Currently includes Patrol (movement between nodes), Wander (Random movement between nodes) and Proximity (entity detection) behaviours
+	- **Messaging**: Allows entities to observe other entities as well as be observed by views
+	- **Parallax**: Allows a parallax value to be applied to any entity. Movements are relative to the camera
+	- **Camera**: Allows the camera to follow a specific entity with optional boundaries
 
-- **Animation System**
-
-- **State System**
-
-- **Movement system** 
-
-- **Simple collision system**
-
-- **Physics System (optional)**
-
+- **Input System and Key Maps**
+	- *Architecture is currently being changed*   
+	Provides an input system that maps keys/controller buttons from a keymap to game actions which are then dispatched to observers.
+	
 - **Resource System**
-
-- **Rendering System**
+	- Provides an asset manager instance for loading assets, including maps/levels, asynchronously while a loading screen is displayed and updated
+	- Provides utility functions for creation bitmap fonts and sprite animations
 
 - **Debug Overlay**
-
-- **Input System**
+	- A UI View that provides resource information such as memory usage and world entities as well as the Bo2D Debug Renderer.
 
 - **Logging System**
-	- There is an abstract logging class that can be extended to implement custom logging desitnations. By default, the Zbe class contains a static reference to a ConsoleLogger which, as you probably guessed, logs to the console using Gdx.app.log_type. The Logger constructor takes an optional Logger argument to chain loggers together. For example, you could pass a FileLogger to ConsoleLogger which would result in messages being printed to the console and a file. 
+	- Uses the decorator pattern for logging. Comes with a default console logger.
 	- Messages are in the format: {package.class}({method}, {ln}): {Message}
 
-- **More Coming Soon**
-
+- **More Features and Examples Coming Soon**
+    
+    
 	
-Reference/Inspiration:
- - LibGDX Wiki
-	https://github.com/libgdx/libgdx/wiki
- - LibGDX Ashley
-	https://github.com/libgdx/ashley/wiki/Framework-overview
- - FlashPunk
-	http://useflashpunk.net/basic/flashpunk-basics.html
- - DeltaTime
-	http://www.koonsolo.com/news/dewitters-gameloop/
+Reference/Inspiration:  
+ - LibGDX Wiki  
+	https://github.com/libgdx/libgdx/wiki  
+ - LibGDX Ashley  
+	https://github.com/libgdx/ashley/wiki/Framework-overview  
+ - FlashPunk  
+	http://useflashpunk.net/basic/flashpunk-basics.html  
+ - DeltaTime  
+	http://www.koonsolo.com/news/dewitters-gameloop/  
