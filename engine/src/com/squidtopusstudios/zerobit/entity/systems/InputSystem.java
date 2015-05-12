@@ -1,8 +1,6 @@
 package com.squidtopusstudios.zerobit.entity.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.squidtopusstudios.zerobit.ZeroBit;
 import com.squidtopusstudios.zerobit.entity.Box2DUserData;
@@ -22,20 +20,18 @@ import java.util.Map;
  * Executes commands best on input events from an {@link com.squidtopusstudios.zerobit.util.observers.InputObservable} <br/>
  * Dispatches messages on certain input events after checks have been performed
  */
-public class InputSystem extends IteratingSystem implements InputObserver, Observable {
+public class InputSystem extends EntitySystem implements InputObserver, Observable {
 
     protected ComponentMapper<MovementComponent> mvm = ComponentMapper.getFor(MovementComponent.class);
-    protected ComponentMapper<StatComponent> statm = ComponentMapper.getFor(StatComponent.class);
     protected ComponentMapper<StateComponent> stm = ComponentMapper.getFor(StateComponent.class);
     //private ComponentMapper<MessagingComponent> msgm = ComponentMapper.getFor(MessagingComponent.class);
     protected MovementComponent mvc;
-    protected StatComponent statc;
     protected StateComponent stc;
     //private MessagingComponent msgc;
 
 
     public InputSystem() {
-        super(Family.all(PlayerComponent.class, MovementComponent.class, Box2DComponent.class).get());
+        super();
     }
 
     @Override
@@ -43,11 +39,6 @@ public class InputSystem extends IteratingSystem implements InputObserver, Obser
         super.update(deltaTime);
         removeObservers();
         notifyObservers();
-    }
-
-    @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-
     }
 
     @Override
@@ -82,16 +73,6 @@ public class InputSystem extends IteratingSystem implements InputObserver, Obser
 
                     case GameActions.PLAYER_INTERACT:
                         break;
-
-                    case GameActions.DAMAGE:
-                        statc.healthChange -= 50;
-                        break;
-                    case GameActions.HEAL:
-                        statc.healthChange += 50;
-                        break;
-                    case GameActions.XP_GAIN:
-                        statc.xpChange += 15;
-                        break;
                 }
             }
         }
@@ -102,7 +83,6 @@ public class InputSystem extends IteratingSystem implements InputObserver, Obser
      */
     public void setControllable(Entity entity) {
         mvc = mvm.get(entity);
-        statc = statm.get(entity);
         stc = stm.get(entity);
         //msgc = msgm.get(entity);
     }

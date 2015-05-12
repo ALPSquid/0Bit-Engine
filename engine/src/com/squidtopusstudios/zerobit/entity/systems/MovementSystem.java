@@ -4,13 +4,15 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.squidtopusstudios.zerobit.ZeroBit;
+import com.squidtopusstudios.zerobit.entity.Box2DUserData;
 import com.squidtopusstudios.zerobit.entity.EntityStates;
 import com.squidtopusstudios.zerobit.entity.components.Box2DComponent;
 import com.squidtopusstudios.zerobit.entity.components.MovementComponent;
 import com.squidtopusstudios.zerobit.entity.components.StateComponent;
 
 /**
- * Handles movement via flags. TODO: Support non-Box2D objects
+ * Handles movement via flags. TODO: Support non-Box2D objects and design state system
  */
 public class MovementSystem extends IteratingSystem {
 
@@ -56,8 +58,22 @@ public class MovementSystem extends IteratingSystem {
             //stc.state = (stc.state != EntityStates.MOVING)? stc.state & EntityStates.MOVING : EntityStates.MOVING;
             stc.state = EntityStates.MOVING;
         }
-        else {
-            resetSpeed();
+
+        if (mvc.up) {
+            if (b2dc.body.getLinearVelocity().y < mvc.speed) {
+                b2dc.body.applyLinearImpulse(0, mvc.speed / 2,
+                        b2dc.body.getWorldCenter().x, b2dc.body.getWorldCenter().y, true);
+            }
+            //stc.state = (stc.state != EntityStates.MOVING)? stc.state & EntityStates.MOVING : EntityStates.MOVING;
+            stc.state = EntityStates.MOVING;
+        }
+        else if (mvc.down) {
+            if (b2dc.body.getLinearVelocity().y > -mvc.speed) {
+                b2dc.body.applyLinearImpulse(0, -mvc.speed / 2,
+                        b2dc.body.getWorldCenter().x, b2dc.body.getWorldCenter().y, true);
+            }
+            //stc.state = (stc.state != EntityStates.MOVING)? stc.state & EntityStates.MOVING : EntityStates.MOVING;
+            stc.state = EntityStates.MOVING;
         }
 
         if (mvc.jump) {
@@ -66,7 +82,15 @@ public class MovementSystem extends IteratingSystem {
         }
     }
 
-    private void resetSpeed() {
-        b2dc.body.setLinearVelocity(0, b2dc.body.getLinearVelocity().y);
+    protected void resetSpeed(boolean x, boolean y) {
+        b2dc.body.setLinearVelocity(
+                (x)? 0 : b2dc.body.getLinearVelocity().x,
+                (y)? 0 : b2dc.body.getLinearVelocity().y
+        );
     }
+
+    protected void resetSpeed() {
+        resetSpeed(true, true);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.squidtopusstudios.zerobit.worlds;
 
+import com.badlogic.ashley.core.EntitySystem;
 import com.squidtopusstudios.zerobit.entity.systems.*;
 import com.squidtopusstudios.zerobit.entity.systems.ai.BehaviourSystem;
 
@@ -35,6 +36,10 @@ public abstract class B2DWorld extends ZBWorld {
         entities.getEngine().addSystem(new VisualSystem());
         entities.getEngine().addSystem(new RenderingSystem());
         entities.getEngine().addSystem(new Box2DSystem());
+
+        for (int i=0; i<entities.getEngine().getSystems().size(); i++) {
+            entities.getEngine().getSystems().get(i).priority = i;
+        }
 
         entities.getEngine().getSystem(RenderingSystem.class).setCamera(entities.getEngine().getSystem(CameraSystem.class).getCamera());
         entities.getEngine().getSystem(Box2DSystem.class).setCamera(entities.getEngine().getSystem(CameraSystem.class).getCamera());

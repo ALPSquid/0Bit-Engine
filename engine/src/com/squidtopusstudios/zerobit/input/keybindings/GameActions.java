@@ -4,32 +4,34 @@ package com.squidtopusstudios.zerobit.input.keybindings;
  * Example Game actions for key mapping and event checking. Events dispatched by {@link com.squidtopusstudios.zerobit.input.InputMapper} correspond to the actions found in this class.
  */
 public class GameActions {
-    // TODO: Docs
+    // TODO: Docs and a way to add new actions
 
     public static final int PLAYER_MOVE_NONE = -1;
     public static final int PLAYER_LEFT = 0;
     public static final int PLAYER_RIGHT = 1;
-    public static final int PLAYER_JUMP = 2;
-    public static final int PLAYER_DODGE = 3;
-    public static final int PLAYER_ATTACK_LIGHT = 4;
-    public static final int PLAYER_ATTACK_HEAVY = 5;
-    public static final int PLAYER_ATTACK_RANGED = 6;
-    public static final int PLAYER_ABILITY_1 = 7;
-    public static final int PLAYER_ABILITY_2 = 8;
-    public static final int PLAYER_ABILITY_SPECIAL = 9;
-    public static final int PLAYER_BLOCK = 10;
-    public static final int PLAYER_INTERACT = 11;
-    public static final int PLAYER_AIM = 12;
-    public static final int GAME_MENU = 13;
-    public static final int ESC_MENU = 14;
-    public static final int FAVS_LEFT = 15;
-    public static final int FAVS_UP = 16;
-    public static final int FAVS_RIGHT = 17;
-    public static final int FAVS_DOWN = 18;
-    public static final int PAN_LEFT = 19;
-    public static final int PAN_RIGHT = 20;
-    public static final int PAN_UP = 21;
-    public static final int PAN_DOWN = 22;
+    public static final int PLAYER_UP = 2;
+    public static final int PLAYER_DOWN = 3;
+    public static final int PLAYER_JUMP = 4;
+    public static final int PLAYER_DODGE = 5;
+    public static final int PLAYER_ATTACK_LIGHT = 6;
+    public static final int PLAYER_ATTACK_HEAVY = 7;
+    public static final int PLAYER_ATTACK_RANGED = 8;
+    public static final int PLAYER_ABILITY_1 = 9;
+    public static final int PLAYER_ABILITY_2 = 10;
+    public static final int PLAYER_ABILITY_SPECIAL = 11;
+    public static final int PLAYER_BLOCK = 12;
+    public static final int PLAYER_INTERACT = 13;
+    public static final int PLAYER_AIM = 14;
+    public static final int GAME_MENU = 15;
+    public static final int ESC_MENU = 16;
+    public static final int FAVS_LEFT = 17;
+    public static final int FAVS_UP = 18;
+    public static final int FAVS_RIGHT = 19;
+    public static final int FAVS_DOWN = 20;
+    public static final int PAN_LEFT = 21;
+    public static final int PAN_RIGHT = 22;
+    public static final int PAN_UP = 23;
+    public static final int PAN_DOWN = 24;
 
     public static final int DAMAGE = 30;
     public static final int HEAL = 31;

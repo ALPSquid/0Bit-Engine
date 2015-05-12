@@ -17,9 +17,9 @@ import java.util.Map;
  */
 public abstract class GameScreen extends ZBScreen implements Observer {
 
-    private InputMapper inputMapper = new InputMapper();
-    private Map<String, ZBWorld> worlds = new HashMap<String, ZBWorld>();
-    private ZBWorld currentWorld;
+    protected InputMapper inputMapper = new InputMapper();
+    protected Map<String, ZBWorld> worlds = new HashMap<String, ZBWorld>();
+    protected ZBWorld currentWorld;
 
 
     public GameScreen(ZBGame game) {
@@ -79,11 +79,14 @@ public abstract class GameScreen extends ZBScreen implements Observer {
         }
         // Clean up observers if switching from a world
         if (currentWorld != null) {
-            inputMapper.removeObserver(currentWorld.getEntities().getEngine().getSystem(InputSystem.class));
+            currentWorld.getEntities().pauseSystems(true);
             resetViews();
         }
         currentWorld = worlds.get(name);
-        if (currentWorld.isLoaded()) currentWorld.reset();
+        if (currentWorld.isLoaded()) {
+            currentWorld.reset();
+            currentWorld.getEntities().pauseSystems(false);
+        }
         currentWorld.doLoad(new Runnable() {
             @Override
             public void run() {
@@ -92,7 +95,7 @@ public abstract class GameScreen extends ZBScreen implements Observer {
                 }
             }
         });
-        inputMapper.registerObserver(currentWorld.getEntities().getEngine().getSystem(InputSystem.class));
+
     }
 
     /**

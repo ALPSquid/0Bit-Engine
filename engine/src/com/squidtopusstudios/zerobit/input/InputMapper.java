@@ -8,7 +8,7 @@ import com.squidtopusstudios.zerobit.input.keybindings.GameActions;
 
 /**
  * Input Processor for Kbd & Mouse and Controllers that translates input to mapped events
- * TODO: Provide a way to customise the behaviour of this class
+ * TODO: Provide a way to customise the behaviour of this class (simply extend and set in GameScreen?)
  */
 public class InputMapper extends ZBInput {
 
@@ -87,4 +87,19 @@ public class InputMapper extends ZBInput {
     public void connected(Controller controller) {
         controller.addListener(this);
     }
+
+    /**
+     * @return the game action mapped to the provided keyboard button
+     */
+    protected int getKeyAction(int buttonCode) {
+        return ZeroBit.keyMaps.getKeyMap().get("btn-"+buttonCode).intValue();
+    }
+
+    /**
+     * @return the game action mapped to the provided controller button
+     */
+    protected int getButtonAction(int buttonCode) {
+        return ZeroBit.keyMaps.getControllerMap().get("btn-"+buttonCode).intValue();
+    }
+    // TODO: POV and Axis action getters
 }

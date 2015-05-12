@@ -5,7 +5,8 @@ package com.squidtopusstudios.zerobit.util.observers;
  */
 public interface InputObservable {
 
-    public abstract void registerObserver(InputObserver o);
-    public abstract void removeObserver(InputObserver o);
+    void registerObserver(InputObserver o);
+    void removeObserver(InputObserver o);
+    void notifyObservers(int event);
 
 }

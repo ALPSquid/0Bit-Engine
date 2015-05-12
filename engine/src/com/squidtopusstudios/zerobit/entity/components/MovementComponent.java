@@ -12,6 +12,8 @@ public class MovementComponent extends ZBComponent {
     public boolean stop = false;
     public boolean left = false;
     public boolean right = false;
+    public boolean up = false;
+    public boolean down = false;
     public boolean jump = false;
 
     @Override
@@ -19,5 +21,7 @@ public class MovementComponent extends ZBComponent {
         stop = false;
         left = false;
         right = false;
+        up = false;
+        down = false;
     }
 }

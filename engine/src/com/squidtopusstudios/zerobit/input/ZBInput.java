@@ -20,7 +20,7 @@ public class ZBInput implements InputProcessor, ControllerListener, InputObserva
 
     @Override
     public void registerObserver(InputObserver o) {
-        observers.add(o);
+        if (!observers.contains(o)) observers.add(o);
     }
 
     @Override
@@ -28,6 +28,7 @@ public class ZBInput implements InputProcessor, ControllerListener, InputObserva
         observers.remove(o);
     }
 
+    @Override
     public void notifyObservers(int event) {
         for (InputObserver observer : observers) {
             observer.inputEvent(event);
