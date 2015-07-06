@@ -29,10 +29,12 @@ public class RenderingSystem extends SortedIteratingSystem {
     protected ComponentMapper<SpriterComponent> sprtm = ComponentMapper.getFor(SpriterComponent.class);
     protected ComponentMapper<BehaviourComponent> bvm = ComponentMapper.getFor(BehaviourComponent.class);
     protected ComponentMapper<NodeComponent> nodem = ComponentMapper.getFor(NodeComponent.class);
+    protected ComponentMapper<ParticleComponent> pm = ComponentMapper.getFor(ParticleComponent.class);
     protected VisualComponent visc;
     protected SpriterComponent sprtc;
     protected BehaviourComponent bvc;
     protected NodeComponent nodec;
+    protected ParticleComponent pc;
 
     public float[] bgColour = {0, 0, 0, 0};
     protected ArrayList<ParticleEffect> particles = new ArrayList<ParticleEffect>();
@@ -42,7 +44,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 
 
     public RenderingSystem() {
-        super(Family.all(VisualComponent.class).get(), new ZIndexComparator());
+        super(Family.one(VisualComponent.class, ParticleComponent.class).get(), new ZIndexComparator());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
     }
@@ -68,17 +70,21 @@ public class RenderingSystem extends SortedIteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        render(entity);
+        render(entity, deltaTime);
     }
 
-    private void render(Entity entity) {
+    private void render(Entity entity, float deltaTime) {
         visc = vism.get(entity);
         sprtc = sprtm.get(entity);
         nodec = nodem.get(entity);
+        pc = pm.get(entity);
+        if (pc != null) {
+            for (ParticleEffect particle : pc.getParticles()) particle.draw(batch, deltaTime);
+        }
         if (sprtc != null) {
             sprtc.player.update();
             sprtc.drawer.draw(sprtc.player, batch);
-        } else {
+        } else if (visc != null && visc.sprite.getTexture() != null) {
             if (nodec == null || ZeroBit.debugRender) visc.sprite.draw(batch);
         }
     }
@@ -102,7 +108,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     }
 
     /**
-     * Add a PartcleEffect to be rendered
+     * Add a ParticleEffect to be rendered
      * @param particleEffect ParticleEffect to add
      */
     public void addParticle(ParticleEffect particleEffect) {

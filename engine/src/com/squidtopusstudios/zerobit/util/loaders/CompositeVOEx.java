@@ -9,6 +9,11 @@ import java.util.ArrayList;
  */
 public class CompositeVOEx extends CompositeVO {
 
+    public CompositeVOEx(CompositeVO vo) {
+        if (vo == null) return;
+        update(vo);
+    }
+
     public ArrayList<MainItemVO> getAllItems(boolean unpackComposites) {
         ArrayList<MainItemVO> itemsList = new ArrayList<>();
         itemsList = getAllItemsRecursive(itemsList, this, unpackComposites);

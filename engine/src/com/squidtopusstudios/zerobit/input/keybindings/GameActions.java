@@ -1,37 +1,39 @@
 package com.squidtopusstudios.zerobit.input.keybindings;
 
+import com.squidtopusstudios.zerobit.ZeroBit;
+
 /**
  * Example Game actions for key mapping and event checking. Events dispatched by {@link com.squidtopusstudios.zerobit.input.InputMapper} correspond to the actions found in this class.
  */
 public class GameActions {
     // TODO: Docs and a way to add new actions
 
-    public static final int PLAYER_MOVE_NONE = -1;
-    public static final int PLAYER_LEFT = 0;
-    public static final int PLAYER_RIGHT = 1;
-    public static final int PLAYER_UP = 2;
-    public static final int PLAYER_DOWN = 3;
-    public static final int PLAYER_JUMP = 4;
-    public static final int PLAYER_DODGE = 5;
-    public static final int PLAYER_ATTACK_LIGHT = 6;
-    public static final int PLAYER_ATTACK_HEAVY = 7;
-    public static final int PLAYER_ATTACK_RANGED = 8;
-    public static final int PLAYER_ABILITY_1 = 9;
-    public static final int PLAYER_ABILITY_2 = 10;
-    public static final int PLAYER_ABILITY_SPECIAL = 11;
-    public static final int PLAYER_BLOCK = 12;
-    public static final int PLAYER_INTERACT = 13;
-    public static final int PLAYER_AIM = 14;
-    public static final int GAME_MENU = 15;
-    public static final int ESC_MENU = 16;
-    public static final int FAVS_LEFT = 17;
-    public static final int FAVS_UP = 18;
-    public static final int FAVS_RIGHT = 19;
-    public static final int FAVS_DOWN = 20;
-    public static final int PAN_LEFT = 21;
-    public static final int PAN_RIGHT = 22;
-    public static final int PAN_UP = 23;
-    public static final int PAN_DOWN = 24;
+    // 0 should not be used due to the way released keys are sent as the negative value
+    public static final int PLAYER_LEFT = 1;
+    public static final int PLAYER_RIGHT = 2;
+    public static final int PLAYER_UP = 3;
+    public static final int PLAYER_DOWN = 4;
+    public static final int PLAYER_JUMP = 5;
+    public static final int PLAYER_DODGE = 6;
+    public static final int PLAYER_ATTACK_LIGHT = 7;
+    public static final int PLAYER_ATTACK_HEAVY = 8;
+    public static final int PLAYER_ATTACK_RANGED = 9;
+    public static final int PLAYER_ABILITY_1 = 10;
+    public static final int PLAYER_ABILITY_2 = 11;
+    public static final int PLAYER_ABILITY_SPECIAL = 12;
+    public static final int PLAYER_BLOCK = 13;
+    public static final int PLAYER_INTERACT = 14;
+    public static final int PLAYER_AIM = 15;
+    public static final int GAME_MENU = 16;
+    public static final int ESC_MENU = 17;
+    public static final int FAVS_LEFT = 18;
+    public static final int FAVS_UP = 19;
+    public static final int FAVS_RIGHT = 20;
+    public static final int FAVS_DOWN = 21;
+    public static final int PAN_LEFT = 22;
+    public static final int PAN_RIGHT = 23;
+    public static final int PAN_UP = 24;
+    public static final int PAN_DOWN = 25;
 
     public static final int DAMAGE = 30;
     public static final int HEAL = 31;
@@ -44,9 +46,10 @@ public class GameActions {
      * Meaningful name for an action code
      */
     public static String toString(int actionCode) {
+        if (actionCode < 0) {
+            return toString(Math.abs(actionCode)) + " Released";
+        }
         switch (actionCode) {
-            case PLAYER_MOVE_NONE:
-                return "Player Stop Moving";
             case PLAYER_LEFT:
                 return "Player Left";
             case PLAYER_RIGHT:
@@ -94,7 +97,7 @@ public class GameActions {
             case PAN_DOWN:
                 return "Pan Camera Right";
             default:
-                return null;
+                return "Unmapped";
         }
     }
 }

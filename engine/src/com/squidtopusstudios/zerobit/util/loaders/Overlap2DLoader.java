@@ -26,7 +26,9 @@ import com.brashmonkey.spriter.PlayerTweener;
 import com.brashmonkey.spriter.SCMLReader;
 import com.squidtopusstudios.zerobit.ZeroBit;
 import com.squidtopusstudios.zerobit.entity.*;
+import com.squidtopusstudios.zerobit.entity.ai.controllers.NPCController;
 import com.squidtopusstudios.zerobit.entity.components.*;
+import com.squidtopusstudios.zerobit.entity.components.ai.BehaviourComponent;
 import com.squidtopusstudios.zerobit.entity.components.ai.NodeComponent;
 import com.squidtopusstudios.zerobit.entity.systems.Box2DSystem;
 import com.squidtopusstudios.zerobit.entity.systems.RenderingSystem;
@@ -35,6 +37,7 @@ import com.squidtopusstudios.zerobit.ui.actors.SpriteAnimationActor;
 import com.squidtopusstudios.zerobit.util.AssetUtils;
 import com.squidtopusstudios.zerobit.util.spriter.LibGdxDrawer;
 import com.squidtopusstudios.zerobit.util.spriter.LibGdxLoader;
+import com.squidtopusstudios.zerobit.worlds.ZBWorld;
 import com.uwsoft.editor.renderer.actor.SpriteAnimation;
 import com.uwsoft.editor.renderer.data.*;
 import com.uwsoft.editor.renderer.utils.CustomVariables;
@@ -157,7 +160,8 @@ public class Overlap2DLoader {
      * @param composite CompositeVO to add
      */
     private static void addComposite(CompositeItemVO composite, SceneType sceneType) {
-        for (MainItemVO item : ((CompositeVOEx)composite.composite).getAllItems(false)) {
+        //(CompositeVOEx)composite.composite
+        for (MainItemVO item : (new CompositeVOEx(composite.composite)).getAllItems(false)) {
             item.x += composite.x;
             item.y += composite.y;
             item.scaleX += composite.scaleX - 1f;
@@ -219,7 +223,7 @@ public class Overlap2DLoader {
         if (customVars.getStringVariable("components") != null) {
             for (String componentClass : customVars.getStringVariable("components").replaceAll("\\[|\\]", "").replace(" ", "").split(",")) {
                 try {
-                    components.add((Component) Class.forName("com.squidtopusstudios.bullethell.entity.components." + componentClass).getConstructor().newInstance());
+                    components.add((Component) Class.forName("com.squidtopusstudios.zerobit.entity.components." + componentClass).getConstructor().newInstance());
                 } catch (NoSuchMethodException | ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException ex) {
                     ZeroBit.logger.logDebug("Error loading component " + componentClass + ": " + ex.getLocalizedMessage());
                 }
@@ -234,10 +238,9 @@ public class Overlap2DLoader {
 
         String entityType = customVars.getStringVariable("entity_type");
         Entity entity;
-        // --- Box2D Mesh
         // --- Player
-        /*if (item.itemIdentifier.equals(Identifiers.PLAYER)) {
-            entity = EntityFactory.createPlayer(item.itemIdentifier, b2dSystem, WKWorld.PLAYER_WIDTH, WKWorld.PLAYER_HEIGHT, components);
+        if (item.itemIdentifier.equals(Identifiers.PLAYER) || (entityType != null && entityType.equals(Identifiers.PLAYER))) {
+            entity = EntityFactory.createPlayer(item.itemIdentifier, b2dSystem, 1f, 1f, components);
             customVars.setVariable("filter_category", "player");
             for (Fixture fixture : entity.getComponent(Box2DComponent.class).body.getFixtureList()) {
                 Filter filter = fixture.getFilterData();
@@ -246,7 +249,7 @@ public class Overlap2DLoader {
             }
         }
         // --- Enemy
-        else if (entityType != null && entityType.equals(WKWorld.ENEMY_TYPE)) {
+        else if (entityType != null && entityType.equals(Identifiers.ENEMY)) {
             float minX;
             float maxX;
             minX = entityManager.getEntity(item.itemIdentifier + "_node_" + 1).getComponent(TransformComponent.class).x;
@@ -255,8 +258,8 @@ public class Overlap2DLoader {
             customVars.setVariable("filter_category", "enemy");
         }
         // --- NPC
-        else if (entityType != null && entityType.equals(WKWorld.NPC_TYPE)) {
-            entity = EntityFactory.createNPC(item.itemIdentifier, b2dSystem, WKWorld.PLAYER_WIDTH, WKWorld.PLAYER_HEIGHT, components);
+        else if (entityType != null && entityType.equals(Identifiers.NPC)) {
+            entity = EntityFactory.createNPC(item.itemIdentifier, b2dSystem, 1f, 1f, components);
             // --- Node data
             if (customVars.getStringVariable("nodes") != null) {
                 // Boundary nodes
@@ -269,7 +272,8 @@ public class Overlap2DLoader {
             }
             customVars.setVariable("filter_category", "actor");
         }
-        else {*/
+        else {
+            // --- Box2D Mesh
             MeshData meshData = null;
             if (item.physicsBodyData != null) {
                 meshData = loadMesh(projectVO, item);
@@ -278,7 +282,7 @@ public class Overlap2DLoader {
             if (entityType != null && entityType.equals(Identifiers.NODE)) components.add(new NodeComponent());
             // Create the entity
             entity = EntityFactory.createEntity(item.itemIdentifier, b2dSystem, meshData, components);
-        //}
+        }
 
         // --- Physics Category
         if (customVars.getStringVariable("filter_category") != null) {
@@ -427,7 +431,10 @@ public class Overlap2DLoader {
 
             emitter.setPosition(item.x * ZeroBit.pixelsToMeters, item.y * ZeroBit.pixelsToMeters);
         }
-        entityManager.getEngine().getSystem(RenderingSystem.class).addParticle(particleEffect);
+        //entityManager.getEngine().getSystem(RenderingSystem.class).addParticle(particleEffect);
+        ParticleComponent pc = new ParticleComponent();
+        pc.addParticle(particleEffect);
+        addEntity(item, null, pc, new VisualComponent());
     }
 
     /**

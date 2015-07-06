@@ -56,7 +56,8 @@ public class EntityFactory {
 
         // Box
         PolygonShape poly = new PolygonShape();
-        poly.setAsBox(width/2, boxHeight/2, new Vector2(0/*width/2*/, height/2 - width/2), 0);
+        //poly.setAsBox(width/2, boxHeight/2, new Vector2(0/*width/2*/, height/2 - width/2), 0);
+        poly.setAsBox(width/2, boxHeight/2, new Vector2(0, height-boxHeight/2), 0);
         FixtureDef fixtureDefB = new FixtureDef();
         fixtureDefB.shape = poly;
         fixtureDefB.density = density;
@@ -64,9 +65,9 @@ public class EntityFactory {
         fixtureDefB.filter.maskBits = PhysicsFilters.MASK_ACTOR;
         fixtureDefB.filter.groupIndex = PhysicsFilters.GROUP_ACTORS;
 
-        Body box = box2DSystem.getB2World().createBody(bodyDef);
+        /*Body box = box2DSystem.getB2World().createBody(bodyDef);
         box.createFixture(fixtureDefB);
-        box.setFixedRotation(true);
+        box.setFixedRotation(true);*/
 
         // Wheel
         CircleShape circle = new CircleShape();
@@ -85,15 +86,17 @@ public class EntityFactory {
         ((Box2DUserData)wheel.getUserData()).stateComponent = entity.getComponent(StateComponent.class);
         wheel.createFixture(fixtureDefC);
         wheel.setFixedRotation(true);
+        // Box fixture without joint
+        wheel.createFixture(fixtureDefB);
 
-        // Joint
-        RevoluteJointDef motor = new RevoluteJointDef();
+        // Joint - Disabled since movement seems to work best without wheel rotation
+        /*RevoluteJointDef motor = new RevoluteJointDef();
         motor.bodyA = box;
         motor.bodyB = wheel;
         motor.collideConnected = false;
-        motor.localAnchorA.set(0/*width/2*/, -boxOffset/2);
+        motor.localAnchorA.set(0*//*width/2*//*, -boxOffset/2);
         motor.localAnchorB.set(circle.getPosition());
-        box2DSystem.getB2World().createJoint(motor);
+        box2DSystem.getB2World().createJoint(motor);*/
 
         // Foot Sensor
         poly.setAsBox(width/4, 0.1f, new Vector2(0/*width/2*/, 0), 0);
