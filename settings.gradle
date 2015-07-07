@@ -1,1 +1,1 @@
-include 'engine', ':engine'
+include 'engine', ':engine', ':tools/keymapper'

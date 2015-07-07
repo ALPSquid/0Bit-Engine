@@ -1,7 +1,5 @@
 package com.squidtopusstudios.zerobit.input.keybindings;
 
-import com.squidtopusstudios.zerobit.ZeroBit;
-
 /**
  * Example Game actions for key mapping and event checking. Events dispatched by {@link com.squidtopusstudios.zerobit.input.InputMapper} correspond to the actions found in this class.
  */
@@ -26,10 +24,10 @@ public class GameActions {
     public static final int PLAYER_AIM = 15;
     public static final int GAME_MENU = 16;
     public static final int ESC_MENU = 17;
-    public static final int FAVS_LEFT = 18;
-    public static final int FAVS_UP = 19;
-    public static final int FAVS_RIGHT = 20;
-    public static final int FAVS_DOWN = 21;
+    public static final int FAVES_LEFT = 18;
+    public static final int FAVES_UP = 19;
+    public static final int FAVES_RIGHT = 20;
+    public static final int FAVES_DOWN = 21;
     public static final int PAN_LEFT = 22;
     public static final int PAN_RIGHT = 23;
     public static final int PAN_UP = 24;
@@ -80,13 +78,13 @@ public class GameActions {
                 return "Game Menu";
             case ESC_MENU:
                 return "ESC/Pause Menu";
-            case FAVS_LEFT:
+            case FAVES_LEFT:
                 return "Favourites Left";
-            case FAVS_UP:
+            case FAVES_UP:
                 return "Favourites Up";
-            case FAVS_RIGHT:
+            case FAVES_RIGHT:
                 return "Favourites Right";
-            case FAVS_DOWN:
+            case FAVES_DOWN:
                 return "Favourites Down";
             case PAN_LEFT:
                 return "Pan Camera Left";

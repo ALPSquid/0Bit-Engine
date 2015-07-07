@@ -35,7 +35,7 @@ public class MovementSystem extends IteratingSystem {
         stc = stm.get(entity);
 
         if (mvc.stop) {
-            resetSpeed();
+            resetSpeed(true, false);
             mvc.stop = false;
             //stc.state = (stc.state != EntityStates.IDLE)? stc.state & EntityStates.IDLE : EntityStates.IDLE;
             stc.state = EntityStates.IDLE;

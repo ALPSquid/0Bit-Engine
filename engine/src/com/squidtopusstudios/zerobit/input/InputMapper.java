@@ -33,7 +33,7 @@ public class InputMapper extends ZBInput {
      * @param controller whether to query the controller map
      * @param flip whether to flip the sign of the mapped value (used for key releases)
      */
-    private void notify(String mapping, boolean controller, boolean flip) {
+    protected void notify(String mapping, boolean controller, boolean flip) {
         Map<String, Float> keyMap = (controller)? ZeroBit.keyMaps.getControllerMap() : ZeroBit.keyMaps.getKeyMap();
         if (keyMap.get(mapping) != null) {
             notifyObservers((flip)? -keyMap.get(mapping).intValue() : keyMap.get(mapping).intValue());
@@ -72,15 +72,14 @@ public class InputMapper extends ZBInput {
      */
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value) {
-        axisValue = controller.getAxis(axisCode);
-        ZeroBit.logger.logDebug(axisValue);
-        ZeroBit.logger.logDebug(value);
+        //axisValue = controller.getAxis(axisCode);
+        axisValue = value;
 
         axisName = "axis-" + axisCode + ((axisValue > 0)? "+" : "-");
         deadzone = ZeroBit.keyMaps.getControllerMap().get("deadzone");
         if (axisValue > deadzone || axisValue < -deadzone) {
             notify(axisName, true);
-        } else if (lastAxisValue > deadzone || lastAxisValue < -deadzone) {
+        } else if (lastAxisValue < deadzone || lastAxisValue > -deadzone) {
             // Axis returned to center
             notify(axisName, true, true);
         }

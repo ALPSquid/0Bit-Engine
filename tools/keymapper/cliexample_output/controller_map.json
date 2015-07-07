@@ -1,0 +1,26 @@
+{
+"axis-1-": {
+	"class": "java.lang.Float",
+	"value": 1
+},
+"axis-1+": {
+	"class": "java.lang.Float",
+	"value": 1
+},
+"btn-0": {
+	"class": "java.lang.Float",
+	"value": 5
+},
+"pov-4": {
+	"class": "java.lang.Float",
+	"value": 18
+},
+"pov-3": {
+	"class": "java.lang.Float",
+	"value": 20
+},
+"deadzone": {
+	"class": "java.lang.Float",
+	"value": 0.45
+}
+}

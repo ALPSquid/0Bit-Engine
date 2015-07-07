@@ -45,6 +45,15 @@ public class InputSystem extends EntitySystem implements InputObserver, Observab
     public void inputEvent(int event) {
         ZeroBit.logger.logDebug("Received event: " + GameActions.toString(event));
         if (mvc != null) {
+            // Events that can be process when paused
+            switch (event) {
+                case -GameActions.PLAYER_RIGHT:
+                case -GameActions.PLAYER_LEFT:
+                    mvc.stop = true;
+                    mvc.left = false;
+                    mvc.right = false;
+                    break;
+            }
             // Events that should only be processed when not paused
             if (checkProcessing()) {
                 switch (event) {
@@ -66,15 +75,6 @@ public class InputSystem extends EntitySystem implements InputObserver, Observab
                     case GameActions.PLAYER_INTERACT:
                         break;
                 }
-            }
-            // Events that can be process when paused
-            switch (event) {
-                case -GameActions.PLAYER_RIGHT:
-                case -GameActions.PLAYER_LEFT:
-                    mvc.stop = true;
-                    mvc.left = false;
-                    mvc.right = false;
-                    break;
             }
         }
     }
