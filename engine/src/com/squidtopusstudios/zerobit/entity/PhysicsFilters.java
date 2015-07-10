@@ -9,6 +9,7 @@ public class PhysicsFilters {
     public static final short CATEGORY_ACTOR = 0x0004;  // Actor category
     public static final short CATEGORY_ENEMY = 0x0008;  // Enemy category
     public static final short CATEGORY_ACTOR_GHOST = 0x00016;  // Anything an actor can walk through
+    public static final short CATEGORY_COLLECTIBLE = 0x00032;  // Anything an actor can collect
 
     // Groups
     public static final short GROUP_ACTORS = -2;
@@ -29,6 +30,8 @@ public class PhysicsFilters {
                 return CATEGORY_ENEMY;
             case "actor_ghost":
                 return CATEGORY_ACTOR_GHOST;
+            case "collectible":
+                return CATEGORY_COLLECTIBLE;
             default:
                 return CATEGORY_DEFAULT;
         }

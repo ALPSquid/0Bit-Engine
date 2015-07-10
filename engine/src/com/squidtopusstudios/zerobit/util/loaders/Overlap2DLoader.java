@@ -1,8 +1,6 @@
 package com.squidtopusstudios.zerobit.util.loaders;
 
-import box2dLight.ConeLight;
-import box2dLight.Light;
-import box2dLight.PointLight;
+import box2dLight.*;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -60,7 +58,7 @@ import java.util.*;
  * The way this class is structured is pretty gross, but at least it's easy to add new features and extend functionality, so that's good, right?...
  */
 public class Overlap2DLoader {
-    // TODO: Create and document example loader tutorial including linking to worlds and views
+    // TODO: Once in a fully working state, clean up and create and document example loader tutorial including linking to worlds and views
 
     public enum SceneType {
         UI, MAP
@@ -69,6 +67,7 @@ public class Overlap2DLoader {
     private static Json json = new Json();
     private static ComponentMapper<TransformComponent> transm = ComponentMapper.getFor(TransformComponent.class);
     private static ComponentMapper<VisualComponent> vism = ComponentMapper.getFor(VisualComponent.class);
+    private static List<Runnable> loadCompleteRunnables = new ArrayList<Runnable>();
 
     // Nasty time saving way of giving methods access the loadMap arguments.
     private static String projectPath;
@@ -95,6 +94,7 @@ public class Overlap2DLoader {
         spriterAnimationsPath = Overlap2DLoader.projectPath + "/orig/spriter_animations";
         particlesPath = Overlap2DLoader.projectPath + "/particles";
         customVars = new CustomVariables();
+        loadCompleteRunnables.clear();
     }
 
     /**
@@ -115,11 +115,15 @@ public class Overlap2DLoader {
         b2dSystem.ambientColour.r = sceneVO.ambientColor[0];
         b2dSystem.ambientColour.g = sceneVO.ambientColor[1];
         b2dSystem.ambientColour.b = sceneVO.ambientColor[2];
-        b2dSystem.ambientColour.a = ZeroBit.ambientAlphaDay;
-        b2dSystem.getRayHandler().setAmbientLight(b2dSystem.ambientColour);
+        b2dSystem.ambientColour.a = ZeroBit.ambientAlphaDay;  // TODO: Set alpha in the editor
+        b2dSystem.updateAmbientColour();
 
         // Add Scene
         addScene(sceneVO, SceneType.MAP);
+        // Run load complete processes
+        for (Runnable runnable : loadCompleteRunnables) {
+            runnable.run();
+        }
     }
 
     /**
@@ -140,6 +144,10 @@ public class Overlap2DLoader {
 
         // Add Scene
         addScene(sceneVO, SceneType.UI);
+        // Run load complete processes
+        for (Runnable runnable : loadCompleteRunnables) {
+            runnable.run();
+        }
     }
 
     /**
@@ -384,6 +392,33 @@ public class Overlap2DLoader {
      * @param light LightVO to add
      */
     private static void addLight(LightVO light) {
+        final PositionalLight blight = (PositionalLight)createLight(light);
+        b2dSystem.registerLight(blight);
+
+        customVars.loadFromString(light.customVars);
+        final String parentID = customVars.getStringVariable("parent");
+        if (parentID != null) {
+            loadCompleteRunnables.add(new Runnable() {
+                @Override
+                public void run() {
+                    ZeroBit.logger.logDebug("Attaching light to " + parentID);
+                    Body parentBody = entityManager.getEntity(parentID).getComponent(Box2DComponent.class).body;
+                    blight.attachToBody(parentBody, 0, parentBody.getFixtureList().get(0).getShape().getRadius() / 2);
+                    blight.setContactFilter(
+                            parentBody.getFixtureList().get(0).getFilterData().categoryBits,
+                            parentBody.getFixtureList().get(0).getFilterData().groupIndex,
+                            parentBody.getFixtureList().get(0).getFilterData().maskBits
+                    );
+                }
+            });
+        }
+    }
+
+    /**
+     * Creates a Box2D light from a LightVO
+     * @param light LightVO to create
+     */
+    private static Light createLight(LightVO light) {
         Light nlight = null;
         switch (light.type) {
             case POINT:
@@ -406,8 +441,8 @@ public class Overlap2DLoader {
             nlight.setPosition(light.x * ZeroBit.pixelsToMeters, light.y * ZeroBit.pixelsToMeters);
             //nlight.setDirection(light.directionDegree);
             nlight.setDirection(light.rotation);
-            b2dSystem.registerLight(nlight);
         }
+        return nlight;
     }
 
     /**
@@ -537,7 +572,7 @@ public class Overlap2DLoader {
     public static MeshData loadMesh(ProjectInfoVO projectVO, MainItemVO item) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.values()[item.physicsBodyData.bodyType];
-        bodyDef.allowSleep = true; //item.physicsBodyData.allowSleep;
+        bodyDef.allowSleep = true; //item.physicsBodyData.allowSleep; - Overlap2D has unreliable physics data saving at the moment
         bodyDef.gravityScale = item.physicsBodyData.gravityScale;
         bodyDef.awake = item.physicsBodyData.awake;
         bodyDef.bullet = item.physicsBodyData.bullet;

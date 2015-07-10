@@ -46,4 +46,12 @@ public abstract class B2DWorld extends ZBWorld {
         entities.getEngine().getSystem(ParallaxSystem.class).setCamera(entities.getEngine().getSystem(CameraSystem.class).getCamera());
         //entities.getEngine().getSystem(DaySystem.class).setB2dSystem(entities.getEngine().getSystem(Box2DSystem.class));
     }
+
+    public float getWorldHeight() {
+        return height;
+    }
+
+    public float getWorldWidth() {
+        return width;
+    }
 }

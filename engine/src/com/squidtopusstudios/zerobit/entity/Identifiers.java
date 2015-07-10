@@ -11,6 +11,7 @@ public class Identifiers {
     public static final String ENEMY = "enemy";
     public static final String NPC = "npc";
     public static final String NODE = "node";
+    public static final String COLLECTIBLE = "collectible";
 
     // Box2D
     /** Sensor for checking if the entity is on the ground */

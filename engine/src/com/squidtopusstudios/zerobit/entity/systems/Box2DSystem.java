@@ -89,6 +89,9 @@ public class Box2DSystem extends IteratingSystem implements ContactListener {
     public void registerLight(Light light) {
         lights.add(light);
     }
+    public void removeLight(Light light) {
+        lights.remove(light);
+    }
 
     public World getB2World() {
         return b2World;
@@ -103,6 +106,11 @@ public class Box2DSystem extends IteratingSystem implements ContactListener {
      */
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
+    }
+
+    /** Updates the ray handler ambient colour from {@link #ambientColour} */
+    public void updateAmbientColour() {
+        rayHandler.setAmbientLight(ambientColour);
     }
 
 
